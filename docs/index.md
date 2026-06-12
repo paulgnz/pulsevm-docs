@@ -52,6 +52,11 @@ features:
     details: PulseVM and its system contracts are written in Rust (pulse-cdt-rust is the canonical CDT); C++ carries the full Antelope heritage; TypeScript/AssemblyScript is a popular option for teams who prefer it.
     link: /build/get-started
     linkText: Start building
+  - icon: { src: /icons/compliance.svg, width: 28, height: 28 }
+    title: Compliance and identity built in
+    details: KYC-ready named accounts and asset-level controls — allow-listing, freeze and clawback under legal order — expressed as policy you set, not per-app code. Pairs with Metal Identity for on-chain identity verification.
+    link: https://identity.metallicus.com
+    linkText: Metal Identity
 description: "Non-EVM, Antelope-based blockchain for banks and fintechs — tokenized deposits, named accounts, native multisig, instant finality. A permissioned network you own."
 ---
 
