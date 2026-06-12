@@ -32,6 +32,8 @@ Add full Antelope smart-contract programmability on top, and PulseVM is the only
 
 ## Deeper dives
 
+- **[Native by Design](/guide/native-by-design)** — what other chains retrofit, PulseVM ships built-in
+
 - **[vs Ethereum](/compare/ethereum)** — the public world-computer
 - **[vs Permissioned EVM](/compare/permissioned-evm)** — the closest institutional alternative
 

@@ -27,6 +27,8 @@ features:
     details: PulseVM is a plugin for metalgo — any institution or consortium deploys its own chain with its own validators, and the chain's rules are system contracts you own and can change.
   - title: Keep deposits at home
     details: With institution-issued tokenized dollars on Metal Dollar rails, customers get instant programmable money while deposits stay on your balance sheet — your float, your margin, your relationship.
+  - title: Native, not bolted on
+    details: Account abstraction, multisig, batched payments, fee sponsorship, passkey keys — what other chains retrofit onto Ethereum, PulseVM has had from day one. <a href="/guide/native-by-design">See what\'s built in →</a>
   - title: Build in Rust, C++, or TypeScript
     details: PulseVM and its system contracts are written in Rust (pulse-cdt-rust is the canonical CDT); C++ carries the full Antelope heritage; TypeScript/AssemblyScript is a popular option for teams who prefer it.
 ---

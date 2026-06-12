@@ -25,6 +25,7 @@ export default defineConfig({
           text: 'Introduction',
           items: [
             { text: 'What is PulseVM?', link: '/guide/what-is-pulsevm' },
+            { text: 'Native by Design', link: '/guide/native-by-design' },
             { text: 'Accounts & Permissions', link: '/guide/accounts-permissions' },
             { text: 'Native Multisig', link: '/guide/multisig' },
             { text: 'Resources (CPU/NET/RAM)', link: '/guide/resources' },
