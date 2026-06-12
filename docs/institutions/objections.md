@@ -20,4 +20,13 @@ Confidentiality between competing participants is unsolved on *every* current ch
 
 ## "How mature is this, really?"
 
-The execution semantics are a decade old and run XPR Network in production today; core components (state database, crypto layers) are carried over directly. Where PulseVM is new (the Rust execution host, the consensus integration), hardening is **measurable, not aspirational**: differential testing against the reference implementation, ported regression suites, and an AI-accelerated find-fix-verify loop that has repeatedly turned multi-day diagnostic problems into same-week deployed fixes. Engineering-status detail is available to serious counterparties.
+Two honest parts.
+
+**The semantics are a decade old and run in production.** PulseVM implements the Antelope execution model (Leap 5.0.3) that XPR Network runs today, and carries core components — the chainbase state database, the libfc crypto/serialization layer — over directly from the reference implementation. The account model, permissions, and resource economics are not experiments.
+
+**Where PulseVM is new, correctness is measurable, not asserted.** The new surfaces are the Rust execution host and the consensus integration. Because a mature reference implementation exists and runs in production, hardening is mechanical:
+
+- **Differential testing** replays identical action streams through Leap 5.0.3 and PulseVM and diffs the results — every divergence is a found bug with ground truth attached.
+- **Ported regression suites** inherit a decade of fixed bugs as executable assertions.
+
+Active engineering items — notably the consensus-integration rework for high-concurrency workloads — are known, scoped, and on the critical path before production deployment, and pilots are sequenced accordingly. Serious counterparties get an **engineering-status register**, not adjectives.

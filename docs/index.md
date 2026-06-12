@@ -4,7 +4,7 @@ layout: home
 hero:
   name: PulseVM
   text: Financial infrastructure your institution can run on its own terms.
-  tagline: Named accounts. Native permissions & multisig. Instant finality. Open-source Antelope (ex-EOSIO) execution on Avalanche Snowman consensus — the base for A-Chain, the future of XPR Network.
+  tagline: Financial-grade primitives, finality you can settle on. Named accounts, native permissions & multisig, instant irreversible finality — open-source Antelope (ex-EOSIO) execution on Avalanche Snowman consensus, and the base for A-Chain, the future of XPR Network.
   actions:
     - theme: brand
       text: Why PulseVM
@@ -13,8 +13,8 @@ hero:
       text: For Banks & Credit Unions
       link: /institutions/banks
     - theme: alt
-      text: Build in TypeScript
-      link: /build/quickstart-typescript
+      text: Start Building
+      link: /build/get-started
 
 features:
   - title: Accounts that match how institutions work
@@ -27,8 +27,8 @@ features:
     details: PulseVM is a plugin for metalgo — any institution or consortium deploys its own chain with its own validators, and the chain's rules are system contracts you own and can change.
   - title: Keep deposits at home
     details: With institution-issued tokenized dollars on Metal Dollar rails, customers get instant programmable money while deposits stay on your balance sheet — your float, your margin, your relationship.
-  - title: Build in languages your team knows
-    details: Smart contracts in TypeScript (pulse-tsc), Rust (pulse-cdt-rust), or C++ — on an execution model with a decade of production lineage.
+  - title: Build in Rust, C++, or TypeScript
+    details: PulseVM and its system contracts are written in Rust (pulse-cdt-rust is the canonical CDT); C++ carries the full Antelope heritage; TypeScript/AssemblyScript is a popular option for teams who prefer it.
 ---
 
 <div class="brand-strip">

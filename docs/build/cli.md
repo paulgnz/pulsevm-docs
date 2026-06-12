@@ -9,21 +9,29 @@ Built from the [pulsevm repo](https://github.com/MetalBlockchain/pulsevm) (`crat
 ```bash
 # wallet management (pulse-keosd is the wallet daemon, like keosd)
 pulse wallet create
-pulse wallet open / lock / unlock
+pulse wallet open / lock / unlock / lock_all / stop
+pulse wallet list            # list wallets
 pulse wallet import          # import a private key
-pulse wallet keys
+pulse wallet create_key      # generate a key inside a wallet
+pulse wallet keys            # list keys in a wallet
+pulse wallet remove_key
 
 # accounts & keys
 pulse create key
 pulse create account <creator> <name> <owner-key> <active-key>
 
 # chain state
-pulse get ...                # accounts, blocks, tables — cleos-style
+pulse get info               # chain id, head, LIB
+pulse get account <name>     # account, permissions, resources
 
 # contracts & actions
-pulse set ...                # set contract / abi
-pulse transfer <from> <to> <quantity> <memo>
+pulse set url <endpoint>     # point at a node
+pulse set code <account> <wasm>
+pulse set abi  <account> <abi>
+pulse transfer <from> <to> <quantity> <memo>   # defaults to pulse.token
 ```
+
+> The native CLI currently implements `get info` and `get account` (not block/table reads — use the [RPC API](/build/api) for those, or pulse-cli-ts `table`).
 
 A full flag-by-flag reference is coming as the tool stabilizes; cleos documentation is a reliable guide to the conventions in the meantime.
 

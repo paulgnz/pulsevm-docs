@@ -16,7 +16,7 @@ Sub-second instant irreversible finality versus 12-second blocks and ~13 minutes
 
 ## Battle-tested liveness — Ethereum
 
-Ethereum has never stopped. That record — through forks, attacks, and client bugs — is the most underrated property in the industry, and it is earned, not designed. PulseVM's consensus integration is young and still hardening; we say so plainly, and the hardening program (differential testing against the production Antelope reference, load-test triggers, regression suites) is public engineering work, not marketing.
+Ethereum has never stopped. That record — through forks, attacks, and client bugs — is the most underrated property in the industry, and it is earned, not designed. PulseVM's consensus integration is young and still hardening; we say so plainly. The difference from a greenfield chain: a mature reference implementation (Antelope/Leap, running XPR Network in production) exists to test against, so hardening is **differential** — replay the same action streams through both and every divergence is a found bug with ground truth attached. That is measurable engineering, not a promise.
 
 ## Neutrality vs governance — depends what you need
 

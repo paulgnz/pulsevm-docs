@@ -13,9 +13,9 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
       { text: 'For Institutions', link: '/institutions/banks' },
       { text: 'Compare', link: '/compare/ethereum' },
-      { text: 'Build', link: '/build/quickstart-typescript' },
+      { text: 'Build', link: '/build/get-started' },
       { text: 'Network', link: '/network/endpoints' },
-      { text: 'Resources', link: '/resources' },
+      { text: 'Repositories', link: '/resources' },
       { text: 'Agents', link: '/agents' },
     ],
     sidebar: {
@@ -38,6 +38,7 @@ export default defineConfig({
             { text: 'Banks & Fintechs', link: '/institutions/banks' },
             { text: 'Credit Unions & Leagues', link: '/institutions/credit-unions' },
             { text: 'Government & Governance', link: '/institutions/government' },
+            { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
             { text: 'Objections, Answered', link: '/institutions/objections' },
           ],
         },
@@ -55,8 +56,10 @@ export default defineConfig({
         {
           text: 'Build on PulseVM',
           items: [
-            { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
+            { text: 'Getting Started', link: '/build/get-started' },
             { text: 'Rust Quickstart', link: '/build/quickstart-rust' },
+            { text: 'C++ Quickstart', link: '/build/quickstart-cpp' },
+            { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
             { text: 'Command-line Tools', link: '/build/cli' },
             { text: 'RPC & REST API', link: '/build/api' },
           ],
@@ -67,6 +70,7 @@ export default defineConfig({
           text: 'Network',
           items: [
             { text: 'Endpoints', link: '/network/endpoints' },
+            { text: 'Launch Your Own Network', link: '/network/launch' },
             { text: 'Run a Validator', link: '/network/validator' },
             { text: 'Repos & Resources', link: '/resources' },
           ],
