@@ -6,6 +6,7 @@ export default defineConfig({
     'The Antelope-lineage execution environment for Metal Blockchain subnets — named accounts, native permissions and multisig, instant finality.',
   lastUpdated: true,
   cleanUrls: true,
+  sitemap: { hostname: 'https://pulsevm.dev' },
   themeConfig: {
     logo: '/brand/metal-glyph-color.svg',
     nav: [
@@ -15,6 +16,7 @@ export default defineConfig({
       { text: 'Build', link: '/build/quickstart-typescript' },
       { text: 'Network', link: '/network/endpoints' },
       { text: 'Resources', link: '/resources' },
+      { text: 'Agents', link: '/agents' },
     ],
     sidebar: {
       '/guide/': [

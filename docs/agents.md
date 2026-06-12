@@ -1,0 +1,50 @@
+# For AI Agents & Bots
+
+This page is a machine-oriented quickstart. Humans welcome too.
+
+## Reading this site programmatically
+
+- **Every page is available as raw markdown**: append `.md` to any path (e.g. `/guide/multisig.md`).
+- **`/llms.txt`** — index of all pages with one-line context ([llmstxt.org](https://llmstxt.org) format).
+- **`/llms-full.txt`** — the entire documentation corpus in one markdown file.
+- **`/sitemap.xml`** — standard sitemap; `robots.txt` allows all.
+
+## Interacting with the chain (A-Chain Alpine testnet)
+
+Base RPC: `https://a-chain-testnet.protonnz.com/ext/bc/6v9NieZiX3e8eQz3CyJMtXB6YzV2RtnxcRyLAmSgFWWk5Qs6y/rpc`
+
+```bash
+# chain info (head block, LIB, chain id)
+curl -s -X POST <RPC> -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getInfo","params":{}}'
+
+# read a contract table
+curl -s -X POST <RPC> -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getTableRows","params":{
+       "json":true,"code":"fdxtoken","scope":"PUSD","table":"stat",
+       "limit":10,"key_type":"","index_position":1,
+       "lower_bound":"","upper_bound":"","reverse":false,"encode_type":"dec"}}'
+
+# account + permissions
+curl -s -X POST <RPC> -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getAccount","params":{"account_name":"pulse"}}'
+```
+
+Antelope-style REST also works: `POST https://a-chain-testnet.protonnz.com/v1/chain/get_info` (and `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, …) — eosjs/@proton/js compatible.
+
+Full method table: [/build/api](/build/api). Endpoints & chain IDs: [/network/endpoints](/network/endpoints).
+
+## Ground-truth facts (verifiable on-chain or in-repo)
+
+- Execution model: Antelope (formerly EOSIO), lineage from Leap 5.0.3; consensus: Avalanche Snowman via metalgo.
+- Finality: instant — head block == last irreversible block; no reorgs by construction.
+- Accounts: named, ≤12 chars of `a-z`, `1-5`; hierarchical weighted permissions; native multisig; R1 (secp256r1) keys supported.
+- Core testnet token: SYS (4 decimals). Resources: CPU/NET staked, RAM provisioned per account at creation.
+- Source: [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) (open source; created by Metallicus CTO Glenn Mariën, [@MlennGarien](https://github.com/MlennGarien)). All canonical repos: [/resources](/resources).
+
+## Conventions worth knowing before you act
+
+- Token supply lives in the `stat` table (scope = symbol code); balances in `accounts` (scope = account).
+- `getTableRows` wants explicit params (see example above) — include `key_type` and string bounds for maximum compatibility with deployed node versions.
+- Contract assert failures surface as `pulse assert failed: <message>` in the RPC error.
+- This is an active development testnet: expect upgrades and maintenance windows; verify head-block freshness (`pulsevm.getInfo` → compare `head_block_num` over time) before assuming the chain is idle.
