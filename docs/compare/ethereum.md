@@ -1,31 +1,31 @@
 # PulseVM vs Ethereum
 
-An honest comparison — including where Ethereum wins.
+Ethereum is the most successful smart-contract platform ever built. But it was designed for a permissionless, anonymous, neutral world — and for **regulated financial institutions**, several of its foundational choices are the wrong defaults. PulseVM is built for that institutional world from the ground up.
 
-## Account & permission model — PulseVM
+## Accounts & permissions
 
-Ethereum's one-key-one-account EOA model has spent a decade being retrofitted (smart wallets, ERC-4337, passkeys). PulseVM ships named accounts, hierarchical permissions, native multisig, key rotation, and R1/HSM keys at the protocol level. For application UX and institutional control, this is not close.
+Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, passkey signers — to approximate what institutions need. PulseVM ships it natively: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), instant key rotation, and R1/HSM keys at the protocol level. Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
 
-## Tooling & ecosystem depth — Ethereum
+## Finality & settlement
 
-Foundry, Hardhat, fork testing, mature debuggers, thousands of audited reference contracts, and every question already answered somewhere. Ecosystem depth *is* developer experience, and Ethereum's lead is enormous. PulseVM's answer is languages teams already know (TypeScript, Rust) and a smaller, knowable API surface — but no one should pretend the tooling gap away.
+PulseVM offers **sub-second, instant, irreversible finality** — versus 12-second blocks and roughly 13 minutes to economic finality on Ethereum. No reorg handling, no confirmation-count policies, no probabilistic-settlement language in your risk memos. "When is it settled?" has a one-word answer. For payments and settlement, this is decisive.
 
-## Finality & settlement — PulseVM
+## Cost model
 
-Sub-second instant irreversible finality versus 12-second blocks and ~13 minutes to economic finality. No reorg handling, no confirmation policies. For payment and settlement semantics this is decisive.
+Ethereum's gas market prices users out at peak and makes costs unforecastable. PulseVM uses **staked resources** — capacity planning, not per-transaction auctions — and lets an institution sponsor its users entirely, so customers never touch a token or a gas prompt.
 
-## Battle-tested liveness — Ethereum
+## Governance & control
 
-Ethereum has never stopped. That record — through forks, attacks, and client bugs — is the most underrated property in the industry, and it is earned, not designed. Where PulseVM differs from any greenfield chain: a mature reference implementation (Antelope/Leap, running XPR Network in production) exists to test against, so hardening is **differential** — replay the same action streams through both and every divergence is a found bug with ground truth attached. That is measurable engineering, not a promise.
+Ethereum's credible neutrality — rules nobody can change — is the right property for neutral global settlement. A regulated institution needs the opposite: governance, upgrade agility, and the ability to act under legal order. PulseVM's **elected, replaceable validators** and **owner-modifiable system contracts** put those controls where an institution requires them.
 
-## Neutrality vs governance — depends what you need
+## Privacy
 
-Ethereum's credible neutrality — rules nobody can change against users — is its deepest moat, and the right property for neutral global settlement. It is also precisely what a regulated institution does *not* want: institutions need governance, upgrade agility, and lawful intervention. PulseVM's elected, replaceable validators and owner-modifiable system contracts are the right shape for that world.
+Every Ethereum transaction is globally public; confidentiality must be added cryptographically on top. PulseVM runs on [private networks](/guide/privacy) where the ledger lives only among the member institutions — confidentiality starts at the network boundary, not as an afterthought.
 
-## Cost model — PulseVM for institutions
+## A proven execution model
 
-Gas markets price users out at peak and make costs unforecastable. Staked resources turn costs into capacity planning and let institutions sponsor their users entirely.
+PulseVM implements the **Antelope** execution model (formerly EOSIO) — the same model running XPR Network, WAX, and Telos in production, with a decade of real-world use behind its account, permission, and resource semantics — on **Avalanche Snowman** consensus. Modern, institution-shaped primitives on a foundation with production lineage.
 
-## The fair framing
+## The bottom line
 
-**Ethereum is a mature system with dated primitives; PulseVM is modern primitives on a maturing system.** Which matters more depends on whether you are deploying neutral global infrastructure or an institutional network — and on how fast the maturity gap closes versus how fast Ethereum retrofits UX.
+Ethereum is a general-purpose, permissionless world computer. PulseVM is purpose-built financial infrastructure: the primitives banks actually use, settlement they can put in an SLA, costs they can forecast, governance they control, and privacy by default. For an institutional deployment, that's the better-fitting tool.
