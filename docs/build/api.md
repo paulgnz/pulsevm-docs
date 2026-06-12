@@ -34,5 +34,5 @@ curl -s -X POST https://<endpoint>/ext/bc/<chainID>/rpc \\
 
 ## SDKs
 
-- **pulsevm-js** — native TypeScript SDK (signing, ABIs, transact)
+- **[pulsevm-js](https://github.com/MetalBlockchain/pulsevm-js)** — native TypeScript SDK (signing, ABIs, transact)
 - **eosjs / @proton/js** — work via the REST compatibility layer

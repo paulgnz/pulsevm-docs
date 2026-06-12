@@ -13,6 +13,7 @@ export default defineConfig({
       { text: 'Compare', link: '/compare/ethereum' },
       { text: 'Build', link: '/build/quickstart-typescript' },
       { text: 'Network', link: '/network/endpoints' },
+      { text: 'Resources', link: '/resources' },
     ],
     sidebar: {
       '/guide/': [
@@ -64,6 +65,7 @@ export default defineConfig({
           items: [
             { text: 'Endpoints', link: '/network/endpoints' },
             { text: 'Run a Validator', link: '/network/validator' },
+            { text: 'Repos & Resources', link: '/resources' },
           ],
         },
       ],
