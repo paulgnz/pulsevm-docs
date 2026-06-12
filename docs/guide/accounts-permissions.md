@@ -18,7 +18,7 @@ Each permission is a **threshold over weighted factors** — keys, other account
 
 ## What this replaces
 
-On EVM chains, one key equals one account; everything beyond that — multisig, spending limits, session keys, recovery — is a smart-contract wallet platform you deploy, audit, and maintain (Safe, ERC-4337 stacks). Here it is protocol configuration:
+On EVM chains, one key equals one account; everything beyond that — multisig, spending limits, session keys, recovery — is a smart-contract wallet platform you deploy, audit, and maintain (multisig contracts, ERC-4337 account-abstraction stacks). Here it is protocol configuration:
 
 - **Key rotation**: one `updateauth` action. Assets never move; the account persists.
 - **Recovery**: `owner` rotates a lost `active` key. Delegated owner = institutional recovery.

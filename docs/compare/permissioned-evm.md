@@ -8,7 +8,7 @@ With a permissioned EVM you control **consensus**, but you inherit **primitives 
 |---|---|---|
 | Institutional identity | Hex addresses + off-chain mapping | Named accounts |
 | Authorization matrix | Smart-wallet platform (deploy, audit, maintain) | Native permissions |
-| Dual control | Safe-class contracts per account | Threshold on any permission |
+| Dual control | Smart-contract wallet per account | Threshold on any permission |
 | Key rotation | Move assets / wallet framework | `updateauth`, assets never move |
 | Sponsored users | Paymasters + relayers | Staked resources, native |
 | HSM keys | secp256k1 workarounds | R1 native |
