@@ -17,37 +17,37 @@ hero:
       link: /build/get-started
 
 features:
-  - icon: 🔑
+  - icon: { src: /icons/accounts.svg, width: 28, height: 28 }
     title: Accounts that match how institutions work
     details: Human-readable named accounts, hierarchical permissions, key rotation, and weighted multisig — your authorization matrix is a configuration, not a wallet platform you build and audit.
     link: /guide/accounts-permissions
     linkText: Accounts & permissions
-  - icon: ⚡
+  - icon: { src: /icons/settlement.svg, width: 28, height: 28 }
     title: Settlement you can put in an SLA
     details: Sub-second blocks with instant, irreversible finality. No reorgs by construction, no confirmation-count policies — a transfer is rejected immediately or settled permanently.
     link: /guide/finality
     linkText: Finality & settlement
-  - icon: 💸
+  - icon: { src: /icons/nogas.svg, width: 28, height: 28 }
     title: No gas for your customers
     details: The institution stakes compute and bandwidth and provisions storage. Users see an app, never a token purchase. Costs are capacity planning, not per-transaction tolls.
     link: /guide/resources
     linkText: Resource model
-  - icon: 🛠️
+  - icon: { src: /icons/network.svg, width: 28, height: 28 }
     title: Your network, your rules
     details: PulseVM is a plugin for metalgo — any institution or consortium deploys its own chain with its own validators, and the chain's rules are system contracts you own and can change.
     link: /network/launch
     linkText: Launch your own network
-  - icon: 🏦
+  - icon: { src: /icons/deposits.svg, width: 28, height: 28 }
     title: Keep deposits at home
     details: With institution-issued tokenized dollars on Metal Dollar rails, customers get instant programmable money while deposits stay on your balance sheet — your float, your margin, your relationship.
     link: /institutions/banks
     linkText: For banks & fintechs
-  - icon: 🧩
+  - icon: { src: /icons/native.svg, width: 28, height: 28 }
     title: Native, not bolted on
     details: Account abstraction, multisig, batched payments, fee sponsorship, passkey keys — what other chains retrofit onto Ethereum, PulseVM has had from day one.
     link: /guide/native-by-design
     linkText: See what's built in
-  - icon: 💻
+  - icon: { src: /icons/build.svg, width: 28, height: 28 }
     title: Build in Rust, C++, or TypeScript
     details: PulseVM and its system contracts are written in Rust (pulse-cdt-rust is the canonical CDT); C++ carries the full Antelope heritage; TypeScript/AssemblyScript is a popular option for teams who prefer it.
     link: /build/get-started
