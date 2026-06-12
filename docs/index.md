@@ -30,3 +30,22 @@ features:
   - title: Build in languages your team knows
     details: Smart contracts in TypeScript (pulse-tsc), Rust (pulse-cdt-rust), or C++ — on an execution model with a decade of production lineage.
 ---
+
+<div class="brand-strip">
+  <a href="https://metalblockchain.org" target="_blank" rel="noopener">
+    <img class="light-only" src="/brand/metal-blockchain-black.svg" alt="Metal Blockchain" height="34" />
+    <img class="dark-only" src="/brand/metal-blockchain-white.svg" alt="Metal Blockchain" height="34" />
+  </a>
+  <a href="https://metallicus.com" target="_blank" rel="noopener">
+    <img class="light-only" src="/brand/metallicus-black.svg" alt="Metallicus" height="30" />
+    <img class="dark-only" src="/brand/metallicus-white.svg" alt="Metallicus" height="30" />
+  </a>
+</div>
+
+<style>
+.brand-strip { display:flex; gap:48px; align-items:center; justify-content:center; margin:56px 0 16px; opacity:.85; }
+.brand-strip img { height:32px; width:auto; }
+.dark-only { display:none; }
+.dark .dark-only { display:inline; }
+.dark .light-only { display:none; }
+</style>

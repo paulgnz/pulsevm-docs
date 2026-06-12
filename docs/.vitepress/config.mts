@@ -7,6 +7,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   themeConfig: {
+    logo: '/brand/metal-glyph-color.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
       { text: 'For Institutions', link: '/institutions/banks' },
@@ -74,7 +75,10 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/MetalBlockchain/pulsevm' },
     ],
     footer: {
-      message: 'PulseVM is open source. This site: paulgnz/pulsevm-docs.',
+      message:
+        'A <a href="https://metallicus.com" target="_blank" rel="noopener">Metallicus</a> technology on <a href="https://metalblockchain.org" target="_blank" rel="noopener">Metal Blockchain</a> · PulseVM is <a href="https://github.com/MetalBlockchain/pulsevm" target="_blank" rel="noopener">open source</a>',
+      copyright:
+        'Site by <a href="https://paulgrey.nz" target="_blank" rel="noopener">Paul Grey</a> · <a href="https://github.com/paulgnz/pulsevm-docs" target="_blank" rel="noopener">contribute</a>',
     },
     search: { provider: 'local' },
   },
