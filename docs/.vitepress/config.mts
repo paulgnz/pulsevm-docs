@@ -13,7 +13,7 @@ export default defineConfig({
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
       { text: 'For Institutions', link: '/institutions/banks' },
       { text: 'Industries', link: '/industries/' },
-      { text: 'Compare', link: '/compare/ethereum' },
+      { text: 'Compare', link: '/compare/' },
       { text: 'Build', link: '/build/get-started' },
       { text: 'Network', link: '/network/endpoints' },
       { text: 'Repositories', link: '/resources' },
@@ -63,6 +63,7 @@ export default defineConfig({
         {
           text: 'Comparisons',
           items: [
+            { text: 'Overview', link: '/compare/' },
             { text: 'vs Ethereum', link: '/compare/ethereum' },
             { text: 'vs Permissioned EVM', link: '/compare/permissioned-evm' },
           ],
