@@ -1,3 +1,7 @@
+---
+description: "PulseVM for technical evaluators — architecture, integration, operations, security posture and the failure model for a sovereign institutional blockchain."
+---
+
 # For Technical Evaluators
 
 CTO-to-CTO. The value proposition is elsewhere on this site; this page answers the question a technical decision-maker actually asks: *can I operate this, integrate it, and stand behind it?*

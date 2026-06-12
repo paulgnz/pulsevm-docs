@@ -1,3 +1,7 @@
+---
+description: "Native multisig on PulseVM — weighted, threshold approvals on any account as a protocol primitive, not a smart-contract wallet you deploy and audit."
+---
+
 # Native Multisig
 
 On-chain multisig in PulseVM is not a smart-contract product — it is a protocol citizen, and arguably the most institution-shaped feature in the stack.

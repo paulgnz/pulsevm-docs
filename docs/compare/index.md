@@ -1,3 +1,7 @@
+---
+description: "Non-EVM blockchain and EVM alternative for financial institutions — how PulseVM compares to Ethereum, XRP and Stellar on accounts, finality, privacy and sovereignty."
+---
+
 # How PulseVM Compares
 
 Most chains pitched at finance are **public networks you join** — you rent space on someone else's shared ledger, under their rules, their fees, and their public visibility. PulseVM is a network **you own**: your validators, your rules, your privacy boundary.

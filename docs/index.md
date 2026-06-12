@@ -52,6 +52,7 @@ features:
     details: PulseVM and its system contracts are written in Rust (pulse-cdt-rust is the canonical CDT); C++ carries the full Antelope heritage; TypeScript/AssemblyScript is a popular option for teams who prefer it.
     link: /build/get-started
     linkText: Start building
+description: "Non-EVM, Antelope-based blockchain for banks and fintechs — tokenized deposits, named accounts, native multisig, instant finality. A permissioned network you own."
 ---
 
 <div class="brand-strip">

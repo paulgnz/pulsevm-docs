@@ -1,3 +1,7 @@
+---
+description: "Build on PulseVM — deploy smart contracts in Rust, C++, or TypeScript on the A-Chain testnet. Accounts, keys, endpoints and first-deploy guide."
+---
+
 # Getting Started on A-Chain Alpine
 
 Before you can deploy a contract you need three things on the testnet: an **account**, its **keys**, and a little **SYS** to stake for resources. Alpine is a permissioned network, so accounts are created by an authority rather than self-minted — here's the path.

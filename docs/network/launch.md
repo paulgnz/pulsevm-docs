@@ -1,3 +1,7 @@
+---
+description: "Launch your own blockchain — deploy a sovereign PulseVM network on metalgo with your own validators, genesis and system-contract rules."
+---
+
 # Launch Your Own Network
 
 PulseVM is a virtual machine plugin for **metalgo** (Metal Blockchain's node). Standing up your own network — sovereign, with your own validators and your own rules — is a provisioning exercise, not a research project. This is the path that makes PulseVM "your network, your rules" rather than "a chain you join."

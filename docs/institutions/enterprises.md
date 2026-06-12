@@ -1,3 +1,7 @@
+---
+description: "Consortium blockchain for enterprises — private per-relationship networks for supply chain, settlement and B2B with rules you control."
+---
+
 # For Enterprises & Consortia
 
 Supply-chain provenance, loyalty and rewards, inter-company settlement, B2B invoicing — wherever multiple organizations need a shared, authoritative record with rules they agree on, the per-consortium model fits.

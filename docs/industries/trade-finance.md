@@ -1,3 +1,7 @@
+---
+description: "Blockchain for trade finance and supply chain — private consortium ledgers, provenance and instant settlement without exposing competitors' books."
+---
+
 # Trade Finance & Supply Chain
 
 Letters of credit, invoice factoring, and provenance tracking are classic consortium problems — many parties, shared state, and a hard requirement that competitors on the same network not see each other's books.

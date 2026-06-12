@@ -1,3 +1,7 @@
+---
+description: "Private blockchain for financial institutions — network-boundary confidentiality, per-relationship isolation, and auditor access on PulseVM."
+---
+
 # Privacy & Confidentiality
 
 Privacy on PulseVM is delivered through **architecture** — and the most powerful lever is one public chains don't have: the network boundary itself. How private a deployment is, is a deliberate design choice, not a fixed property.

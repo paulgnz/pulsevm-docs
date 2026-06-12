@@ -1,3 +1,7 @@
+---
+description: "Blockchain use cases for finance — banking, insurance, title & escrow, trade finance, healthcare, capital markets and loyalty on PulseVM."
+---
+
 # Industries
 
 The same primitives — named accounts, native permissions and multisig, instant irreversible finality, private networks with rules you set — apply across any industry where multiple parties need one authoritative record and real settlement. A few where the fit is strongest:

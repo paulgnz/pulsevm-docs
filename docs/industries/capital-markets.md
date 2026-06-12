@@ -1,3 +1,7 @@
+---
+description: "Tokenized securities and capital-markets infrastructure — issuance with native controls, atomic DvP and instant finality on PulseVM."
+---
+
 # Capital Markets
 
 The tokenized-deposit logic extends directly to tokenized instruments: private securities, fund shares, money-market instruments, and the cap-table and fund-admin plumbing around them.

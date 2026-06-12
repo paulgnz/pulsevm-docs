@@ -1,3 +1,7 @@
+---
+description: "Blockchain for government and governance networks — named entities, irreversible records, sovereign deployment, and free public audit access."
+---
+
 # For Government & Governance Networks
 
 Registries, disbursements, inter-agency settlement, and procurement audit trails want exactly what this environment provides:

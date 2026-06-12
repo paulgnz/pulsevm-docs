@@ -3,10 +3,34 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'PulseVM',
   description:
-    'The Antelope-lineage execution environment for Metal Blockchain subnets — named accounts, native permissions and multisig, instant finality.',
+    'PulseVM is a non-EVM, Antelope-based blockchain for banks and fintechs: tokenized deposits, named accounts, native multisig, instant finality — a permissioned network you own.',
   lastUpdated: true,
+  head: [
+    ['meta', { name: 'theme-color', content: '#1d4ed8' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'PulseVM' }],
+    ['meta', { property: 'og:image', content: 'https://pulsevm.dev/brand/og.png' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://pulsevm.dev/brand/og.png' }],
+    ['meta', { name: 'keywords', content: 'non-EVM blockchain, EVM alternative, tokenized deposits, permissioned blockchain for banks, stablecoin issuance, Antelope blockchain, named accounts, native multisig, instant finality, blockchain for fintech, private blockchain for financial institutions' }],
+  ],
   cleanUrls: true,
   sitemap: { hostname: 'https://pulsevm.dev' },
+  transformPageData(pageData, { siteConfig }) {
+    const desc = pageData.description || pageData.frontmatter.description || siteConfig.site.description
+    const title = pageData.title ? `${pageData.title} | PulseVM` : 'PulseVM — blockchain for banks & fintechs'
+    const path = pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '')
+    const url = `https://pulsevm.dev/${path}`
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: desc }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: desc }],
+      ['link', { rel: 'canonical', href: url }],
+    )
+  },
   themeConfig: {
     logo: '/brand/metal-glyph-color.svg',
     nav: [

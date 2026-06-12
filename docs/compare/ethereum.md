@@ -1,3 +1,7 @@
+---
+description: "PulseVM vs Ethereum — a non-EVM alternative built for regulated institutions: named accounts, native multisig, instant finality, no gas, and a network you own."
+---
+
 # PulseVM vs Ethereum
 
 Ethereum is the most successful smart-contract platform ever built. But it was designed for a permissionless, anonymous, neutral world — and for **regulated financial institutions**, several of its foundational choices are the wrong defaults. PulseVM is built for that institutional world from the ground up.

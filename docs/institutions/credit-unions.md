@@ -1,3 +1,7 @@
+---
+description: "Blockchain for credit unions and leagues — member-to-member settlement, enterprise-grade custody, and deposits that stay at home."
+---
+
 # For Credit Unions & Leagues
 
 The consortium model fits the movement's structure natively:

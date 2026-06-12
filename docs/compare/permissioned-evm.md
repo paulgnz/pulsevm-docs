@@ -1,3 +1,7 @@
+---
+description: "Permissioned EVM alternative — PulseVM vs Besu/Quorum-style chains for banks: native accounts, multisig and compliance instead of bolted-on infrastructure."
+---
+
 # PulseVM vs Permissioned EVM (Besu / Quorum)
 
 The closest real-world alternative for institutional deployments — and the comparison where PulseVM's case is strongest.

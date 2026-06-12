@@ -1,3 +1,7 @@
+---
+description: "Blockchain for insurance — claims settlement, reinsurance and parametric payouts on a private network with named participants and instant finality."
+---
+
 # Insurance
 
 Claims settlement, reinsurance treaties, and parametric products are multi-party processes that today run on reconciliation between separate systems of record. PulseVM gives every party one authoritative ledger with instant, final settlement.

@@ -1,3 +1,7 @@
+---
+description: "Native account abstraction, multisig, batched payments and passkey keys — built into PulseVM, not retrofitted onto Ethereum like EVM chains."
+---
+
 # Native by Design
 
 Account abstraction has been the EVM world's decade-long retrofit project — smart-contract wallets, bundlers, paymasters, signature precompiles, each a layer bolted on to approximate what financial applications need. Newer payments chains are now *enshrining* those same features one by one.

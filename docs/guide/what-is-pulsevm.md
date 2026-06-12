@@ -1,3 +1,7 @@
+---
+description: "What is PulseVM — an open-source, non-EVM, Antelope-based blockchain on Avalanche Snowman consensus: named accounts, native permissions, instant finality."
+---
+
 # What is PulseVM?
 
 PulseVM is an execution environment for [Metal Blockchain](https://metalblockchain.org) delivered as a plugin for its node software (metalgo). It implements the **Antelope execution model** — the account, permission, and resource system proven over years of production on XPR Network (Antelope 5.0.3) — and runs it as a subnet with modern consensus: sub-second blocks and instant, irreversible finality.

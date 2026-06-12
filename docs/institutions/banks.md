@@ -1,3 +1,7 @@
+---
+description: "Tokenized deposits and stablecoin issuance for banks and fintechs — keep deposits on your balance sheet on a permissioned blockchain you own."
+---
+
 # For Banks & Fintechs
 
 ## The economic argument first: keep deposits — and the technology — at home
