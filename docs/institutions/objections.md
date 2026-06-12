@@ -16,7 +16,7 @@ True today, and normal for institutional software (banks run on FIS, Temenos, Fi
 
 ## "Where's the privacy?"
 
-Confidentiality between competing participants is unsolved on *every* current chain, permissioned EVM included. Honest answers today: per-consortium network boundaries, application-layer encryption, and selective-disclosure work on the roadmap. We name this rather than hand-wave it.
+The most important privacy lever is one public chains lack: the **network boundary**. On a private subnet the ledger exists only among the member institutions — no public mempool, no public explorer, nothing on the public internet. Finer-grained confidentiality between members is an architecture choice (per-relationship subnets, application-layer encryption). See [Privacy & Confidentiality](/guide/privacy).
 
 ## "How mature is this, really?"
 
@@ -29,4 +29,4 @@ Two honest parts.
 - **Differential testing** replays identical action streams through Leap 5.0.3 and PulseVM and diffs the results — every divergence is a found bug with ground truth attached.
 - **Ported regression suites** inherit a decade of fixed bugs as executable assertions.
 
-Active engineering items — notably the consensus-integration rework for high-concurrency workloads — are known, scoped, and on the critical path before production deployment, and pilots are sequenced accordingly. Serious counterparties get an **engineering-status register**, not adjectives.
+Engineering is tracked openly and rigorously — serious counterparties get an **engineering-status register**, not adjectives. The combination of a decade-old execution model and differential testing against a production reference is what lets an institution move from evaluation to deployment with confidence.

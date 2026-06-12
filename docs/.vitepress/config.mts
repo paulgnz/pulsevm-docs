@@ -28,6 +28,7 @@ export default defineConfig({
             { text: 'Native Multisig', link: '/guide/multisig' },
             { text: 'Resources (CPU/NET/RAM)', link: '/guide/resources' },
             { text: 'Finality & Settlement', link: '/guide/finality' },
+            { text: 'Privacy & Confidentiality', link: '/guide/privacy' },
           ],
         },
       ],
@@ -85,6 +86,10 @@ export default defineConfig({
         'A <a href="https://metallicus.com" target="_blank" rel="noopener">Metallicus</a> technology on <a href="https://metalblockchain.org" target="_blank" rel="noopener">Metal Blockchain</a> · PulseVM is <a href="https://github.com/MetalBlockchain/pulsevm" target="_blank" rel="noopener">open source</a>, created by <a href="https://github.com/MlennGarien" target="_blank" rel="noopener">Glenn Mariën</a>',
       copyright:
         'Site by <a href="https://paulgrey.nz" target="_blank" rel="noopener">Paul Grey</a> · <a href="https://github.com/paulgnz/pulsevm-docs" target="_blank" rel="noopener">contribute</a>',
+    },
+    editLink: {
+      pattern: 'https://github.com/paulgnz/pulsevm-docs/blob/main/docs/:path',
+      text: 'View or edit this page on GitHub',
     },
     search: { provider: 'local' },
   },

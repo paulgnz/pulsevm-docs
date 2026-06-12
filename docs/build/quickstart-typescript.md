@@ -40,9 +40,7 @@ pulse-ts push-action myacct greet '{"account":"myacct","text":"hi"}' --actor mya
 
 `check(cond, "message")` failures abort the transaction with your message; table rows name an explicit RAM payer.
 
-## Status & limits
+## Good to know
 
-pulse-tsc is early — proton-tsc contracts already largely run on PulseVM (the oracle serving Alpine's price feeds is one). Two things to know:
-
-- **Node 16** for the current toolchain (lifting this is on the [work plan](https://github.com/paulgnz/pulse-tsc/blob/main/PULSE-TSC-SCOPE.md)).
-- Contracts needing `recover_key`/`sha1`/`ripemd160`, float/256-bit secondary indexes, or transaction introspection depend on intrinsics still landing chain-side — the toolchain flags these at compile time. See the [scope doc](https://github.com/paulgnz/pulse-tsc/blob/main/PULSE-TSC-SCOPE.md) for the full audit.
+- The toolchain currently runs on **Node 16**.
+- The [pulse-tsc scope doc](https://github.com/paulgnz/pulse-tsc/blob/main/PULSE-TSC-SCOPE.md) lists the host-function coverage if you're building something that needs advanced cryptography or transaction introspection — the toolchain flags anything unsupported at compile time, so you'll never get a surprise at runtime.

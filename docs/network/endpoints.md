@@ -12,5 +12,5 @@
 | Explorer | A-Chain Testnet on the Metallicus explorer |
 
 ::: tip Testnet
-Alpine is an active development network: expect upgrades, occasional resets, and coordinated maintenance windows. Core token is SYS (4 decimals).
+Alpine is the public test network for A-Chain. Core token is SYS (4 decimals).
 :::

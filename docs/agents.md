@@ -47,4 +47,4 @@ Full method table: [/build/api](/build/api). Endpoints & chain IDs: [/network/en
 - Token supply lives in the `stat` table (scope = symbol code); balances in `accounts` (scope = account).
 - `getTableRows` wants explicit params (see example above) — include `key_type` and string bounds for maximum compatibility with deployed node versions.
 - Contract assert failures surface as `pulse assert failed: <message>` in the RPC error.
-- This is an active development testnet: expect upgrades and maintenance windows; verify head-block freshness (`pulsevm.getInfo` → compare `head_block_num` over time) before assuming the chain is idle.
+- To distinguish an idle chain from a busy one, compare `head_block_num` from `pulsevm.getInfo` over time — blocks are produced when there are transactions to include.

@@ -47,6 +47,6 @@ pulse-ts set-abi  myacct ./hello.abi
 pulse-ts push-action myacct greet '{"account":"myacct","text":"hi"}' --actor myacct
 ```
 
-## Compatibility notes
+## Compatibility
 
-PulseVM implements the Antelope intrinsic set with ongoing additions. A few host functions (some float/256-bit secondary-index variants, parts of transaction introspection, and some crypto primitives) are still landing — a contract that imports a not-yet-served intrinsic will fail to load. The common cases (tables, inline actions, `check()`, asserts, name/asset/symbol, sha256/512) all work today.
+PulseVM implements the Antelope intrinsic set: tables and secondary indexes, inline actions, `check()` and asserts, name/asset/symbol types, and the SHA family all work as you'd expect from Antelope/EOSIO. If a contract needs a host function the VM doesn't yet expose, it's caught at deploy time rather than failing silently.

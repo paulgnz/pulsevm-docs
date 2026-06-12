@@ -14,7 +14,7 @@ Every read is free. An auditor or regulator can be handed a node or an indexer a
 
 ## What happens under network partition
 
-Instant finality is a safety guarantee, and safety is chosen over liveness when the network cannot reach quorum: rather than fork into two divergent histories, the chain **halts and waits** until enough of the validator set is reachable to finalize again. For a settlement system this is the correct trade — it never produces two conflicting "final" states. Recovery is resumption, not reconciliation.
+Finality is a **safety guarantee**: the network never produces two conflicting "final" states. If the validator set were ever unable to reach quorum, the protocol favors safety over liveness — it waits for quorum and resumes, rather than forking into divergent histories. For a settlement system this is exactly the right trade: there is never a reconciliation problem, only resumption.
 
 ## Why this matters more than TPS
 
