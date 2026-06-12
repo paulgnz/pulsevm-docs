@@ -1,4 +1,33 @@
-# CLI: pulse-cli-ts
+# Command-line Tools
+
+PulseVM has two CLIs: the **native `pulse` CLI** (ships with the node, follows cleos conventions) and **pulse-cli-ts** (community TypeScript CLI with conveniences for day-to-day contract work).
+
+## Native CLI: `pulse` + `pulse-keosd`
+
+Built from the [pulsevm repo](https://github.com/MetalBlockchain/pulsevm) (`crates/pulse`) and shipped as release artifacts (`pulse`, `pulse-keosd`). If you know **cleos**, you know this tool — it is a deliberate port of the Antelope CLI conventions:
+
+```bash
+# wallet management (pulse-keosd is the wallet daemon, like keosd)
+pulse wallet create
+pulse wallet open / lock / unlock
+pulse wallet import          # import a private key
+pulse wallet keys
+
+# accounts & keys
+pulse create key
+pulse create account <creator> <name> <owner-key> <active-key>
+
+# chain state
+pulse get ...                # accounts, blocks, tables — cleos-style
+
+# contracts & actions
+pulse set ...                # set contract / abi
+pulse transfer <from> <to> <quantity> <memo>
+```
+
+A full flag-by-flag reference is coming as the tool stabilizes; cleos documentation is a reliable guide to the conventions in the meantime.
+
+## Community CLI: pulse-cli-ts
 
 [pulse-cli-ts](https://github.com/paulgnz/pulse-cli-ts) (`pulse-ts`) is the working CLI for PulseVM chains.
 

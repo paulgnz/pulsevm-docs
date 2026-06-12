@@ -55,7 +55,7 @@ export default defineConfig({
           items: [
             { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
             { text: 'Rust Quickstart', link: '/build/quickstart-rust' },
-            { text: 'CLI (pulse-cli-ts)', link: '/build/cli' },
+            { text: 'Command-line Tools', link: '/build/cli' },
             { text: 'RPC & REST API', link: '/build/api' },
           ],
         },

@@ -17,7 +17,12 @@ Think of PulseVM as an operating environment, not "a blockchain you join":
 
 ## Where it comes from
 
-The execution semantics are a direct lineage from Antelope (EOSIO) — the model behind XPR Network, WAX, Telos, and EOS — including core components (the chainbase state database, the libfc crypto/serialization layer) carried over directly. The consensus layer is Metal Blockchain's Snowman, giving small, accountable validator sets fast metastable finality.
+PulseVM stands on two proven foundations, named plainly:
+
+- **Execution: Antelope (formerly EOSIO).** The account, permission, contract, and resource semantics are a direct lineage from the Antelope protocol — the model behind XPR Network, WAX, Telos, and EOS — including core components (the chainbase state database, the libfc crypto/serialization layer) carried over directly from the reference implementation.
+- **Consensus: Avalanche's Snowman protocol**, as implemented by Metal Blockchain (metalgo). Repeated randomized sampling of the validator set yields fast, metastable, instantly-final agreement — equally suited to small accountable consortium sets and larger public ones.
+
+PulseVM is **open source** ([MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm)), created by Metallicus CTO **Glenn Mariën** ([@MlennGarien](https://github.com/MlennGarien)).
 
 ## Where to go next
 

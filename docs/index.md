@@ -4,7 +4,7 @@ layout: home
 hero:
   name: PulseVM
   text: Financial infrastructure your institution can run on its own terms.
-  tagline: Named accounts. Native permissions & multisig. Instant, irreversible finality. The Antelope-lineage execution environment for Metal Blockchain subnets — and the base for A-Chain, the future of XPR Network.
+  tagline: Named accounts. Native permissions & multisig. Instant finality. Open-source Antelope (ex-EOSIO) execution on Avalanche Snowman consensus — the base for A-Chain, the future of XPR Network.
   actions:
     - theme: brand
       text: Why PulseVM
