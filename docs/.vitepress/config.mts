@@ -12,6 +12,7 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
       { text: 'For Institutions', link: '/institutions/banks' },
+      { text: 'Industries', link: '/industries/' },
       { text: 'Compare', link: '/compare/ethereum' },
       { text: 'Build', link: '/build/get-started' },
       { text: 'Network', link: '/network/endpoints' },
@@ -41,6 +42,20 @@ export default defineConfig({
             { text: 'Government & Governance', link: '/institutions/government' },
             { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
             { text: 'Objections, Answered', link: '/institutions/objections' },
+          ],
+        },
+      ],
+      '/industries/': [
+        {
+          text: 'Industries',
+          items: [
+            { text: 'Overview', link: '/industries/' },
+            { text: 'Insurance', link: '/industries/insurance' },
+            { text: 'Title & Escrow', link: '/industries/title-escrow' },
+            { text: 'Trade Finance & Supply Chain', link: '/industries/trade-finance' },
+            { text: 'Healthcare', link: '/industries/healthcare' },
+            { text: 'Capital Markets', link: '/industries/capital-markets' },
+            { text: 'Loyalty & Rewards', link: '/industries/loyalty' },
           ],
         },
       ],
