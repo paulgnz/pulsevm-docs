@@ -8,3 +8,5 @@ The consortium model fits the movement's structure natively:
 - **Deposits stay home**: league- or CU-issued tokenized dollars on Metal Dollar rails give members modern money movement while the funding stays on member balance sheets.
 
 The economics and primitives are the same as the [banks case](/institutions/banks) — the governance shape (league as operator, members as participants) is what makes it especially natural here.
+
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**

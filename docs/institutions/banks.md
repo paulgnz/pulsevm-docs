@@ -39,3 +39,5 @@ A deployment starts with working products, not a toolkit: the **WebAuth wallet**
 ## Talk to us
 
 The pilot shape we recommend: a consortium runs a small validator network, issues a tokenized test-deposit asset, and moves intra-member settlement on it for 90 days — small, sovereign, measurable.
+
+**[Contact Metallicus →](https://metallicus.com/contact-us)**
