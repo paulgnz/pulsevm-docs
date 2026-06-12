@@ -41,6 +41,7 @@ export default defineConfig({
             { text: 'Credit Unions & Leagues', link: '/institutions/credit-unions' },
             { text: 'Government & Governance', link: '/institutions/government' },
             { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
+            { text: 'For Technical Evaluators', link: '/institutions/technical-evaluators' },
             { text: 'Objections, Answered', link: '/institutions/objections' },
           ],
         },
