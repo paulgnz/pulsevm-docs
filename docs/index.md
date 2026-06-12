@@ -4,7 +4,7 @@ layout: home
 hero:
   name: PulseVM
   text: Financial infrastructure your institution can run on its own terms.
-  tagline: Financial-grade primitives, finality you can settle on. Named accounts, native permissions & multisig, instant irreversible finality — open-source Antelope (ex-EOSIO) execution on Avalanche Snowman consensus, and the base for A-Chain, the future of XPR Network.
+  tagline: Named accounts, native multisig, and instant, irreversible finality — on a private network you own, not one you join. The open-source execution layer behind A-Chain, the future of XPR Network.
   actions:
     - theme: brand
       text: Why PulseVM
