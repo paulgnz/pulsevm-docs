@@ -12,7 +12,7 @@ In a public-chain context, a real critique. In a consortium of legally-bound, na
 
 ## "Single implementation / vendor risk"
 
-True today, and normal for institutional software (banks run on FIS, Temenos, Fiserv). Mitigations are contractual (support, SLAs, escrow) plus open repositories and a reference implementation (Antelope/Leap) that anchors the semantics independently of any one codebase.
+Normal for institutional software — mission-critical systems are routinely run on vendor relationships with commercial support. Mitigations here are contractual (support, SLAs, escrow) plus open repositories and a reference implementation (Antelope/Leap) that anchors the semantics independently of any one codebase.
 
 ## "Where's the privacy?"
 
