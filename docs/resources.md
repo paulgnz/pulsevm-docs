@@ -15,7 +15,7 @@ The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/M
 | Repo | What it is |
 |---|---|
 | [pulse-cdt](https://github.com/MetalBlockchain/pulse-cdt) | C++ Contract Development Kit |
-| [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust) | Rust Contract Development Kit (system contracts live here) |
+| [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust) | Rust CDT — and the chain's **open, auditable system contracts** ([`contracts/`](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts): system, token, msig, bios) |
 | [pulse-tsc](https://github.com/paulgnz/pulse-tsc) | TypeScript/AssemblyScript contracts (community) |
 
 ## SDKs & tooling
