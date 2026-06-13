@@ -14,7 +14,7 @@ pulse-ts create-key      # prints a PUB_K1_… / PVT_K1_… pair — save the pr
 
 ## 2. Request a testnet account
 
-Account creation requires a creator authority (the `pulse` system account on Alpine). Request an account + starter resources through the community channel or [contact Metallicus](https://metallicus.com/contact-us), providing your public key. You'll get back a named account (e.g. `yourname1`) with its `owner`/`active` set to your key and starter CPU/NET/RAM.
+Account creation requires a creator authority (the `pulse` system account on Alpine). Request an account + starter resources through the community channel or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs), providing your public key. You'll get back a named account (e.g. `yourname1`) with its `owner`/`active` set to your key and starter CPU/NET/RAM.
 
 > Why not self-serve? On a permissioned chain, account creation is an authorized action — this is a feature (named, accountable identities), not a limitation. For a network you operate yourself, you hold the creator authority and mint accounts freely.
 

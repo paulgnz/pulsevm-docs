@@ -12,4 +12,4 @@ Registries, disbursements, inter-agency settlement, and procurement audit trails
 - **Accountable validators** — DPoS's "named, elected, replaceable operators" is how public institutions already work
 - **Sovereignty** — the network, its data residency, and its rule-set are domestically operated; no dependency on a foreign public chain's governance
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

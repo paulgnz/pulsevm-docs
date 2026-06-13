@@ -35,7 +35,7 @@ Because the chain's behavior lives in **system contracts you control**, this is 
 
 - Coordinate plugin upgrades across the validator set rather than node-by-node — consensus-affecting changes should roll out in a planned window.
 - Back up each node's staking keys before any maintenance.
-- Detailed runbooks, provisioning scripts, and monitoring exist from operating live networks — [contact Metallicus](https://metallicus.com/contact-us) for deployment support, or ask in the community channels.
+- Detailed runbooks, provisioning scripts, and monitoring exist from operating live networks — [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) for deployment support, or ask in the community channels.
 
 ## Why run your own
 

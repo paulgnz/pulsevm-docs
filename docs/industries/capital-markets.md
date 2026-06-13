@@ -17,4 +17,4 @@ The tokenized-deposit logic extends directly to tokenized instruments: private s
 
 An issuer or market-infrastructure operator runs a network; investors and intermediaries are named accounts; tokenized cash (e.g. a Metal Dollar-style settlement asset) enables on-chain DvP.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

@@ -3,10 +3,10 @@
 PulseVM's most underrated property: **the head block is the last irreversible block.**
 
 - Blocks finalize in well under a second.
-- There is **no reorg case** — not "unlikely", structurally absent. A transaction is either rejected immediately or settled permanently.
+- **Finalized blocks do not reorganize** — there is no probabilistic-finality window. A transaction is either rejected immediately or, once finalized, settled with no reorg to design around.
 - No confirmation-count policies, no "wait N blocks" memos for your risk committee, no probabilistic language in your SLA.
 
-"When is this transfer settled?" has a one-word answer: *now*.
+"When is this transfer settled?" has a one-word answer: *now*. (And if the validator set ever can't reach quorum, the network pauses and resumes rather than forking — see below.)
 
 ## Reads are free, for anyone
 

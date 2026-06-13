@@ -13,4 +13,4 @@ Real-estate settlement is multi-party, dual-control, audit-everything, and painf
 
 A title/escrow network operated by an industry group or a large title insurer, with lenders and agents as participants and funds moving as tokenized settlement balances.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

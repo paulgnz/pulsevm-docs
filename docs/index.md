@@ -24,7 +24,7 @@ features:
     linkText: Accounts & permissions
   - icon: { src: /icons/settlement.svg, width: 28, height: 28 }
     title: Settlement you can put in an SLA
-    details: Sub-second blocks with instant, irreversible finality. No reorgs by construction, no confirmation-count policies — a transfer is rejected immediately or settled permanently.
+    details: Sub-second blocks with instant finality. Finalized blocks don't reorganize and there are no confirmation-count policies — a transfer is rejected immediately or finalized.
     link: /guide/finality
     linkText: Finality & settlement
   - icon: { src: /icons/nogas.svg, width: 28, height: 28 }

@@ -17,4 +17,4 @@ Claims settlement, reinsurance treaties, and parametric products are multi-party
 
 A carrier consortium or a single insurer-plus-partners network: named participants, claims and treaty logic in system/contract code the consortium controls, regulator read-access on demand.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

@@ -9,6 +9,6 @@ Payer-provider claims settlement needs three things at once that are hard to get
 - **[Instant finality](/guide/finality)** for adjudicated-claim settlement; **free reads** give regulators and auditors complete visibility into the network they oversee without exposing it publicly.
 - **Multisig** for high-value or exception approvals.
 
-> Confidentiality patterns and the specific compliance posture (e.g. handling of protected data) are part of a deployment design — [talk to us](https://metallicus.com/contact-us) about your requirements.
+> Confidentiality patterns and the specific compliance posture (e.g. handling of protected data) are part of a deployment design — [talk to us](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) about your requirements.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

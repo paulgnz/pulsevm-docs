@@ -14,4 +14,4 @@ Supply-chain provenance, loyalty and rewards, inter-company settlement, B2B invo
 
 The same primitives that make this work for banks — named accounts, native permissions, deterministic settlement, owner-defined rules — apply directly to any multi-party enterprise process.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

@@ -17,4 +17,4 @@ Letters of credit, invoice factoring, and provenance tracking are classic consor
 
 A trade consortium (banks + corporates + logistics) runs a network with rules matching the trade agreements; bridges connect to other networks only where the business requires.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

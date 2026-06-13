@@ -32,7 +32,7 @@ Finality is a **safety guarantee**: the network never produces two conflicting f
 - **Open source.** The VM ([pulsevm](https://github.com/MetalBlockchain/pulsevm)) and CDTs are public and reviewable — no closed-box trust required.
 - **Proven execution model.** PulseVM implements the Antelope model (formerly EOSIO) running XPR Network, WAX, and Telos in production, and carries core components — the chainbase state database and the libfc crypto/serialization layer — directly from the reference implementation. The semantics are not new.
 - **Differential testing against a production reference.** Because a mature reference implementation exists, correctness is *measured*: identical action streams are replayed through the reference and through PulseVM and the results diffed — every divergence is a concrete bug with ground truth attached, rather than a judgment call. The system is hardened through real-world operation, not adjectives.
-- **Responsible disclosure.** Security concerns can be raised privately — [contact Metallicus](https://metallicus.com/contact-us).
+- **Responsible disclosure.** Security concerns can be raised privately — [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs).
 
 ## Continuity & support
 
@@ -45,4 +45,4 @@ PulseVM is built and maintained by **Metallicus**, with commercial support, SLAs
 3. **Pilot** a small sovereign network: a handful of validators, a tokenized test asset, real settlement flow for a defined period — small, isolated, measurable.
 4. **Engineering-status register** and deployment runbooks are available to counterparties under NDA.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

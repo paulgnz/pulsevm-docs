@@ -13,4 +13,4 @@ The consortium model fits the movement's structure natively:
 
 The economics and primitives are the same as the [banks case](/institutions/banks) — the governance shape (league as operator, members as participants) is what makes it especially natural here.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us)**
+**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
