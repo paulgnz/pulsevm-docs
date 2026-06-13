@@ -119,7 +119,8 @@ onMounted(async () => {
     atom.rotation.y += 0.0016
     atom.rotation.x = Math.sin(t * 0.0009) * 0.18
     nucleus.rotation.y += 0.004; nucleusWire.rotation.x -= 0.006
-    const flare = Math.pow(1 - (performance.now() % 500) / 500, 4) // gentle 500ms beat
+    const PERIOD = 1600 // slow, calm pulse (~1.6s) — relaxed, not anxious
+    const flare = Math.pow(1 - (performance.now() % PERIOD) / PERIOD, 5)
     nucleus.scale.setScalar(1 + flare * 0.04)
     glow.scale.set(2.6 * (1 + flare * 0.05), 2.6 * (1 + flare * 0.05), 1)
     glow.material.opacity = glowBase + flare * 0.04
