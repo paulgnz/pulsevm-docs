@@ -61,6 +61,8 @@
     const ENDPOINT = "https://rpc.a-chain-testnet.protonnz.com"
     const CHAIN_ID = "0d6f033e887fae475d641104b6e87762b6c869e87a101afeeb64d608ab376618"
     const TOKEN_CONTRACT = "pulse.token"
+    // Deployed relay → seamless, no-second-tab flow. Empty = browser-callback fallback.
+    const RELAY = "https://relay.pulsevm.dev"
 
     // Resolve the wallet's pulsevm:// redirect. The wallet opens this URL in a
     // NEW tab, which writes the result to localStorage; the ORIGINAL tab's
@@ -106,7 +108,7 @@
 
     async function connect(restoreSession) {
       const { session: s } = await ProtonWebSDK({
-        linkOptions: { endpoints: [ENDPOINT], chainId: CHAIN_ID, usePulseVM: true, restoreSession },
+        linkOptions: { endpoints: [ENDPOINT], chainId: CHAIN_ID, usePulseVM: true, restoreSession, pulsevmRelay: RELAY || undefined },
         transportOptions: { requestAccount: "" },
         selectorOptions: {
           // Show WebAuth (mobile/browser over achain) AND the native desktop wallet.
