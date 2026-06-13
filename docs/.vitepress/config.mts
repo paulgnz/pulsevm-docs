@@ -109,6 +109,7 @@ export default withMermaid(defineConfig({
             { text: 'C++ Quickstart', link: '/build/quickstart-cpp' },
             { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
             { text: 'System Contracts', link: '/build/system-contracts' },
+            { text: 'Host Functions (Intrinsics)', link: '/build/intrinsics' },
             { text: 'Command-line Tools', link: '/build/cli' },
             { text: 'RPC & REST API', link: '/build/api' },
           ],
