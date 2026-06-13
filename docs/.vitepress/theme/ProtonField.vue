@@ -112,8 +112,13 @@ onMounted(async () => {
     atom.rotation.y += 0.0016
     atom.rotation.x = Math.sin(t * 0.0009) * 0.18
     nucleus.rotation.y += 0.004; nucleusWire.rotation.x -= 0.006
-    const pulse = 1 + Math.sin(t * 0.03) * 0.06
-    nucleus.scale.setScalar(pulse); glow.scale.set(3.2 * pulse, 3.2 * pulse, 1)
+    // pulsing proton — one beat every 500ms, sharp attack + smooth decay
+    const beat = (performance.now() % 500) / 500
+    const flare = Math.pow(1 - beat, 4)
+    nucleus.scale.setScalar(1 + flare * 0.34)
+    nucleusWire.scale.setScalar(1 + flare * 0.2)
+    glow.scale.set(3.2 * (1 + flare * 0.55), 3.2 * (1 + flare * 0.55), 1)
+    glow.material.opacity = 0.8 + flare * 0.2
     halo.rotation.y -= 0.0006
     for (const e of electrons) { e.pivot.rotation.z += e.speed; e.ring.rotation.z += e.tumble }
     render()
