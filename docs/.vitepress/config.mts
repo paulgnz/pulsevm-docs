@@ -39,8 +39,33 @@ export default withMermaid(defineConfig({
     logo: '/brand/metal-glyph-color.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
-      { text: 'Institutions', link: '/institutions/banks' },
-      { text: 'Industries', link: '/industries/' },
+      {
+        text: 'Solutions',
+        items: [
+          {
+            text: 'By institution',
+            items: [
+              { text: 'Banks & Fintechs', link: '/institutions/banks' },
+              { text: 'Credit Unions & Leagues', link: '/institutions/credit-unions' },
+              { text: 'Government & Governance', link: '/institutions/government' },
+              { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
+              { text: 'For Technical Evaluators', link: '/institutions/technical-evaluators' },
+            ],
+          },
+          {
+            text: 'By industry',
+            items: [
+              { text: 'Overview', link: '/industries/' },
+              { text: 'Insurance', link: '/industries/insurance' },
+              { text: 'Title & Escrow', link: '/industries/title-escrow' },
+              { text: 'Trade Finance', link: '/industries/trade-finance' },
+              { text: 'Healthcare', link: '/industries/healthcare' },
+              { text: 'Capital Markets', link: '/industries/capital-markets' },
+              { text: 'Loyalty & Rewards', link: '/industries/loyalty' },
+            ],
+          },
+        ],
+      },
       { text: 'Compare', link: '/compare/' },
       {
         text: 'Build',
