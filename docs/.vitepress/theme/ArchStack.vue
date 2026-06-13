@@ -43,7 +43,7 @@
 }
 .arch-kicker, .arch-label {
   display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--vp-c-text-3); font-weight: 600; margin-bottom: 0.5rem;
+  color: var(--vp-c-text-2); font-weight: 700; margin-bottom: 0.5rem;
 }
 .arch-label--brand { color: var(--vp-c-brand-1); }
 .arch strong { display: block; font-size: 0.95rem; color: var(--vp-c-text-1); }
@@ -64,14 +64,17 @@
 }
 
 .arch-node {
-  flex: 1 1 auto; min-width: 0; padding: 1.6rem 1.25rem 1.25rem;
+  flex: 1 1 auto; min-width: 0; padding: 1.5rem 1.25rem 1.25rem;
   border: 1px solid var(--vp-c-divider); border-radius: 16px;
   background:
     radial-gradient(120% 80% at 80% 0%, var(--vp-c-brand-softer), transparent 60%),
     var(--vp-c-bg-soft);
   position: relative;
 }
-.arch-node > .arch-label { position: absolute; top: 0.7rem; left: 1.25rem; }
+.arch-node > .arch-label {
+  position: absolute; top: 0; left: 1.25rem; transform: translateY(-50%);
+  margin: 0; padding: 0 0.5rem; background: var(--vp-c-bg-soft);
+}
 
 .arch-consensus {
   padding: 0.9rem 1.1rem; border-radius: 11px; margin-bottom: 0.9rem;
@@ -80,11 +83,14 @@
 }
 
 .arch-plugin {
-  padding: 1.5rem 1rem 1rem; border-radius: 13px; position: relative;
+  padding: 1.4rem 1rem 1rem; border-radius: 13px; position: relative;
   border: 1.5px solid color-mix(in srgb, var(--vp-c-brand-1) 45%, transparent);
   background: var(--vp-c-bg);
 }
-.arch-plugin > .arch-label { position: absolute; top: 0.55rem; left: 1rem; }
+.arch-plugin > .arch-label {
+  position: absolute; top: 0; left: 1rem; transform: translateY(-50%);
+  margin: 0; padding: 0 0.5rem; background: var(--vp-c-bg);
+}
 
 .arch-exec, .arch-sys {
   padding: 0.85rem 1rem; border-radius: 10px;
