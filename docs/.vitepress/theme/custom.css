@@ -37,3 +37,14 @@
 .q { color: var(--vp-c-text-2); font-size: 0.82em; margin-left: 0.4rem; }
 /* let the matrix breathe a little */
 .vp-doc table :is(td, th) { padding: 0.6em 0.8em; }
+
+/* highlight the PulseVM column in the comparison matrix only (scoped via :has) */
+.vp-doc table:has(.ck) th:nth-child(2),
+.vp-doc table:has(.ck) td:nth-child(2) {
+  background: color-mix(in srgb, var(--vp-c-brand-1) 9%, transparent);
+}
+.vp-doc table:has(.ck) th:nth-child(2) {
+  color: var(--vp-c-brand-1);
+}
+/* badges shouldn't wrap away from their qualifier */
+.ck { flex: none; }

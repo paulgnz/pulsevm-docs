@@ -11,7 +11,7 @@ The institutional primitives — named accounts, native multisig, instant finali
 ## At a glance
 
 | | **PulseVM** | Ethereum | XRP Ledger | Stellar | Public L1 (general) |
-|---|:---:|:---:|:---:|:---:|:---:|
+|:---|:---|:---|:---|:---|:---|
 | **A network you own & operate** | <span class="ck y"></span> | <span class="ck n"></span><span class="q">tenant</span> | <span class="ck n"></span><span class="q">tenant</span> | <span class="ck n"></span><span class="q">tenant</span> | <span class="ck n"></span><span class="q">tenant</span> |
 | **Privacy at the network boundary** | <span class="ck y"></span> | <span class="ck n"></span><span class="q">public</span> | <span class="ck n"></span><span class="q">public</span> | <span class="ck n"></span><span class="q">public</span> | <span class="ck n"></span><span class="q">public</span> |
 | **Named accounts** | <span class="ck y"></span> | <span class="ck n"></span><span class="q">hex</span> | <span class="ck n"></span><span class="q">address</span> | <span class="ck n"></span><span class="q">address</span> | <span class="ck n"></span><span class="q">mostly</span> |
