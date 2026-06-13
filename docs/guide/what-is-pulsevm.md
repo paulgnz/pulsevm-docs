@@ -10,7 +10,19 @@ It is the base layer for **A-Chain**, the future of XPR Network — and equally 
 
 ## How it fits together
 
-<ArchStack />
+```mermaid
+flowchart TB
+  subgraph metalgo["metalgo node — Metal Blockchain"]
+    snow["Avalanche Snowman consensus<br/>instant, irreversible finality"]
+    subgraph pulsevm["PulseVM plugin"]
+      exec["Antelope execution<br/>WASM: Rust / C++ / TypeScript"]
+      sys["System contracts<br/>token · system · msig · bios"]
+    end
+  end
+  apps["Your contracts & apps"] --> exec
+  exec --> sys
+  snow --- pulsevm
+```
 
 ## The mental model
 
