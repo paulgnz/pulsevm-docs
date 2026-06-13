@@ -39,14 +39,40 @@ export default withMermaid(defineConfig({
     logo: '/brand/metal-glyph-color.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
-      { text: 'Concepts', link: '/concepts/' },
-      { text: 'For Institutions', link: '/institutions/banks' },
+      { text: 'Institutions', link: '/institutions/banks' },
       { text: 'Industries', link: '/industries/' },
       { text: 'Compare', link: '/compare/' },
-      { text: 'Build', link: '/build/get-started' },
+      {
+        text: 'Build',
+        items: [
+          {
+            text: 'Start',
+            items: [
+              { text: 'Getting Started', link: '/build/get-started' },
+              { text: 'Concepts', link: '/concepts/' },
+            ],
+          },
+          {
+            text: 'Languages',
+            items: [
+              { text: 'Rust', link: '/build/quickstart-rust' },
+              { text: 'C++', link: '/build/quickstart-cpp' },
+              { text: 'TypeScript', link: '/build/quickstart-typescript' },
+            ],
+          },
+          {
+            text: 'Reference',
+            items: [
+              { text: 'System Contracts', link: '/build/system-contracts' },
+              { text: 'Host Functions', link: '/build/intrinsics' },
+              { text: 'Command-line Tools', link: '/build/cli' },
+              { text: 'RPC & REST API', link: '/build/api' },
+              { text: 'Repositories', link: '/resources' },
+            ],
+          },
+        ],
+      },
       { text: 'Network', link: '/network/endpoints' },
-      { text: 'Repositories', link: '/resources' },
-      { text: 'Agents', link: '/agents' },
     ],
     sidebar: {
       '/guide/': [
