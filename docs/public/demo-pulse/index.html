@@ -62,21 +62,32 @@
     const CHAIN_ID = "0d6f033e887fae475d641104b6e87762b6c869e87a101afeeb64d608ab376618"
     const TOKEN_CONTRACT = "pulse.token"
 
-    // Resolve the wallet's pulsevm:// redirect if this page is the callback.
-    // (Inlined so the demo doesn't depend on the bundle's named-export surface.)
-    ;(function handlePulseVMCallback() {
+    // Resolve the wallet's pulsevm:// redirect. The wallet opens this URL in a
+    // NEW tab, which writes the result to localStorage; the ORIGINAL tab's
+    // pending request resolves via a storage event. So when this is a callback
+    // tab, just show a "close me" message — don't render the connect UI.
+    const wasCallback = (function handlePulseVMCallback() {
       const p = new URLSearchParams(location.search)
       if (p.get("account")) {
         localStorage.setItem("pulse.cb.login", JSON.stringify({
           account: p.get("account") || "", permission: p.get("permission") || "active", key: p.get("key") || "",
         }))
-        history.replaceState(null, "", location.pathname)
-      } else if (p.get("signature")) {
+        return true
+      }
+      if (p.get("signature")) {
         localStorage.setItem("pulse.cb.sign." + (p.get("rid") || "default"),
           JSON.stringify({ signature: p.get("signature") || "" }))
-        history.replaceState(null, "", location.pathname)
+        return true
       }
+      return false
     })()
+
+    if (wasCallback) {
+      document.body.innerHTML =
+        '<div style="max-width:560px;margin:0 auto;padding:120px 20px;text-align:center">' +
+        '<div style="font-size:46px">✓</div><h1>Connected</h1>' +
+        '<p class="sub">You can close this tab and return to the app.</p></div>'
+    } else {
 
     let session
 
@@ -128,6 +139,7 @@
 
     // Restore a previous session if one exists.
     connect(true).catch(() => {})
+    } // end: not a wallet callback
   </script>
 </body>
 </html>
