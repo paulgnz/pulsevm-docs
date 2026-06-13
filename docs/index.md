@@ -60,6 +60,18 @@ features:
 description: "Non-EVM, Antelope-based blockchain for banks and fintechs — tokenized deposits, named accounts, native multisig, instant finality. A permissioned network you own."
 ---
 
+<div class="usecases">
+  <h2 class="usecases-title">Built for regulated finance</h2>
+  <div class="usecases-grid">
+    <a class="uc" href="/institutions/banks"><strong>Banking &amp; Credit Unions</strong><span>Issue tokenized deposits; keep deposits and the customer at home.</span><em>Explore →</em></a>
+    <a class="uc" href="/industries/insurance"><strong>Insurance</strong><span>Claims, reinsurance, and parametric payouts on a shared, final ledger.</span><em>Explore →</em></a>
+    <a class="uc" href="/industries/trade-finance"><strong>Trade Finance &amp; Supply Chain</strong><span>Consortium ledgers and provenance without exposing competitors.</span><em>Explore →</em></a>
+    <a class="uc" href="/industries/capital-markets"><strong>Capital Markets</strong><span>Tokenized instruments with native controls and atomic settlement.</span><em>Explore →</em></a>
+    <a class="uc" href="/industries/healthcare"><strong>Healthcare</strong><span>Payer-provider settlement with confidentiality and oversight.</span><em>Explore →</em></a>
+    <a class="uc" href="/institutions/government"><strong>Government &amp; Governance</strong><span>Registries, disbursement, and settlement on sovereign infrastructure.</span><em>Explore →</em></a>
+  </div>
+</div>
+
 <div class="brand-strip">
   <a href="https://metalblockchain.org" target="_blank" rel="noopener">
     <img class="light-only" src="/brand/metal-blockchain-black.svg" alt="Metal Blockchain" height="34" />

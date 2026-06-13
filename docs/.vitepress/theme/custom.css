@@ -70,3 +70,23 @@
 
 /* stack the qualifier label beneath the badge (uniform cell shape, no mid-phrase wrap) */
 .q { display: block; margin: 0.35rem 0 0 0; line-height: 1.3; }
+
+/* ===== homepage "Built for" use-cases grid ===== */
+.usecases { max-width: 1152px; margin: 64px auto 8px; padding: 0 24px; }
+.usecases-title { font-size: 1.6rem; font-weight: 700; text-align: center; margin: 0 0 28px; border: 0; }
+.usecases-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+}
+@media (max-width: 900px) { .usecases-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .usecases-grid { grid-template-columns: 1fr; } }
+.uc {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 20px; border: 1px solid var(--vp-c-divider); border-radius: 14px;
+  background: var(--vp-c-bg-soft); text-decoration: none !important;
+  transition: border-color .2s, transform .2s, background .2s;
+}
+.uc:hover { border-color: var(--vp-c-brand-1); transform: translateY(-2px); background: var(--vp-c-bg-soft); }
+.uc strong { color: var(--vp-c-text-1); font-size: 1.02rem; }
+.uc span { color: var(--vp-c-text-2); font-size: .9rem; line-height: 1.5; }
+.uc em { color: var(--vp-c-brand-1); font-style: normal; font-weight: 600; font-size: .85rem; margin-top: 4px; }
