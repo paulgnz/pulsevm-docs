@@ -12,6 +12,7 @@ onMounted(async () => {
   if (typeof window === 'undefined' || !host.value) return
   if (window.matchMedia?.('(max-width: 768px)').matches) return // skip on mobile
   const THREE = await import('three')
+  const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls.js')
   const el = host.value
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
@@ -26,10 +27,23 @@ onMounted(async () => {
 
   const scene = new THREE.Scene()
   const camera = new THREE.PerspectiveCamera(42, w / h, 0.1, 100)
-  camera.position.set(0, 1.6, 6.2)
+  camera.position.set(0, 3.4, 6.0)
   camera.lookAt(0, 0, 0)
 
-  const world = new THREE.Group(); world.rotation.x = -0.35; scene.add(world)
+  const world = new THREE.Group(); scene.add(world)
+
+  // drag-to-rotate (auto-rotates when idle); zoom/pan off so page scroll works
+  const controls = new OrbitControls(camera, renderer.domElement)
+  controls.target.set(0, 0, 0)
+  controls.enableZoom = false
+  controls.enablePan = false
+  controls.minPolarAngle = 0.5
+  controls.maxPolarAngle = 1.45
+  controls.autoRotate = !reduceMotion
+  controls.autoRotateSpeed = 0.7
+  controls.enableDamping = !reduceMotion
+  controls.dampingFactor = 0.08
+  controls.update()
 
   const dark = () => document.documentElement.classList.contains('dark')
   const NODE = 0x4f7cff, LEDGER = 0x8b95ff, LINK = 0x6366f1
@@ -82,7 +96,7 @@ onMounted(async () => {
   const tick = () => {
     if (!running) return
     t += 1
-    world.rotation.y += 0.0022
+    controls.update()
     core.rotation.y += 0.005; coreWire.rotation.x -= 0.006
     for (const p of pulses) {
       p.t += 0.006; if (p.t > 1) p.t -= 1
@@ -102,13 +116,13 @@ onMounted(async () => {
   io.observe(el)
   const ro = new ResizeObserver(() => { const s = size(); w = s.w; h = s.h; camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h, false); render() })
   ro.observe(el)
-  if (reduceMotion) render(); else update()
+  if (reduceMotion) { controls.addEventListener('change', render); render() } else update()
 
   dispose = () => {
     running = false; cancelAnimationFrame(raf)
     document.removeEventListener('visibilitychange', update); themeObs.disconnect(); io.disconnect(); ro.disconnect()
     scene.traverse((o) => { o.geometry?.dispose?.(); o.material?.dispose?.() })
-    renderer.dispose(); el.contains(renderer.domElement) && el.removeChild(renderer.domElement)
+    controls.dispose(); renderer.dispose(); el.contains(renderer.domElement) && el.removeChild(renderer.domElement)
   }
 })
 onBeforeUnmount(() => dispose())
@@ -129,7 +143,9 @@ onBeforeUnmount(() => dispose())
   border: 1px solid var(--vp-c-divider);
   border-radius: 12px;
   background: linear-gradient(180deg, color-mix(in srgb, var(--vp-c-brand-1) 5%, transparent), transparent);
+  cursor: grab;
 }
+.network-canvas:active { cursor: grabbing; }
 .network-scene figcaption {
   margin-top: 0.6rem; font-size: 0.85rem; color: var(--vp-c-text-2); text-align: center;
 }
