@@ -39,6 +39,7 @@ export default withMermaid(defineConfig({
     logo: '/brand/metal-glyph-color.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
+      { text: 'Concepts', link: '/concepts/' },
       { text: 'For Institutions', link: '/institutions/banks' },
       { text: 'Industries', link: '/industries/' },
       { text: 'Compare', link: '/compare/' },
@@ -60,6 +61,18 @@ export default withMermaid(defineConfig({
             { text: 'Finality & Settlement', link: '/guide/finality' },
             { text: 'Privacy & Confidentiality', link: '/guide/privacy' },
             { text: 'Glossary', link: '/guide/glossary' },
+          ],
+        },
+      ],
+      '/concepts/': [
+        {
+          text: 'Development Concepts',
+          items: [
+            { text: 'Overview', link: '/concepts/' },
+            { text: 'Accounts & Actions', link: '/concepts/accounts-and-actions' },
+            { text: 'State & Tables', link: '/concepts/state-and-tables' },
+            { text: 'ABIs', link: '/concepts/abi' },
+            { text: 'Authorization & Inline Actions', link: '/concepts/authorization' },
           ],
         },
       ],
