@@ -6,6 +6,9 @@ let dispose = () => {}
 
 onMounted(async () => {
   if (typeof window === 'undefined' || !host.value) return
+  // Skip entirely on small screens: it crowds the text and isn't worth the
+  // Three.js download / GPU cost on phones. Hero falls back to clean text.
+  if (window.matchMedia?.('(max-width: 768px)').matches) return
   const THREE = await import('three')
   const el = host.value
   const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
@@ -175,6 +178,10 @@ onBeforeUnmount(() => dispose())
   inset: 0;
   z-index: 0;
   pointer-events: none;
+}
+/* hidden on mobile — see the early-return in the component too */
+@media (max-width: 768px) {
+  .proton-field { display: none; }
 }
 /* Dissolve the scene into the site background at the edges (no hard cutoff),
    keep the text side legible. Uses var(--vp-c-bg) so it blends in both themes. */
