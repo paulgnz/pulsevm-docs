@@ -8,6 +8,22 @@ PulseVM is an execution environment for [Metal Blockchain](https://metalblockcha
 
 It is the base layer for **A-Chain**, the future of XPR Network — and equally a kit for any institution or consortium to deploy **its own network** with its own validators and its own rules.
 
+## How it fits together
+
+```mermaid
+flowchart TB
+  subgraph metalgo["metalgo node (Metal Blockchain)"]
+    snow["Avalanche Snowman consensus<br/>— instant, irreversible finality"]
+    subgraph pulsevm["PulseVM plugin"]
+      exec["Antelope execution<br/>(WASM: Rust / C++ / TypeScript)"]
+      sys["System contracts<br/>token · system · msig · bios"]
+    end
+  end
+  apps["Your contracts & apps"] --> exec
+  exec --> sys
+  snow --- pulsevm
+```
+
 ## The mental model
 
 Think of PulseVM as an operating environment, not "a blockchain you join":

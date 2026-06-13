@@ -8,6 +8,8 @@ PulseVM is a virtual machine plugin for **metalgo** (Metal Blockchain's node). S
 
 > For **local development**, the fastest path is [metal-network-runner](https://github.com/MetalBlockchain/metal-network-runner), which spins up a throwaway multi-node network on your machine. The steps below describe a real, persistent deployment.
 
+<NetworkScene :nodes="5" />
+
 ## The pieces
 
 | Component | Role |

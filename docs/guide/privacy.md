@@ -12,6 +12,20 @@ A PulseVM network is a subnet with its own validator set. When you run a **priva
 
 This is fundamentally different from a public L1, where every transaction is globally visible and confidentiality must be bolted on cryptographically. Here, confidentiality begins at the boundary: **only the people running the network see it.** (A public-facing network — like a testnet — simply chooses to expose RPC and an explorer; that exposure is a deployment decision you control.)
 
+## The network boundary
+
+```mermaid
+flowchart TB
+  subgraph net["Your private network — members only"]
+    direction LR
+    a["Member A<br/>validator"] --- L["shared ledger"]
+    b["Member B<br/>validator"] --- L
+    c["Member C<br/>validator"] --- L
+  end
+  pub["Public internet / non-members"] -. no visibility .-> net
+  reg["Regulator — granted a read node"] --> L
+```
+
 ## The trust boundary is the validator set
 
 It's worth being precise about who "sees" the data. On-chain data is held in plaintext by the validators. So the confidentiality boundary is the **validator set**: in a closed consortium where the members are the validators, the data is private from the outside world, and shared among the members — which is usually the point of a shared ledger.

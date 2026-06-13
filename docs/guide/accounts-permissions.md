@@ -16,6 +16,16 @@ Every account has a tree of permissions. By default: `owner` (root, recovery) an
 
 Each permission is a **threshold over weighted factors** — keys, other accounts' permissions, and time waits. Authority can be *delegated across accounts*: `subsidiary@owner` can be satisfied by `parent@active`.
 
+## The permission tree
+
+```mermaid
+flowchart TD
+  owner["owner — root key, recovery"] --> active["active — day-to-day"]
+  active --> trading["trading<br/>key limited to exchange actions"]
+  active --> treasury["treasury<br/>2-of-3 named officers"]
+  active --> code["account@pulse.code<br/>contract acts as itself"]
+```
+
 ## What this replaces
 
 On EVM chains, one key equals one account; everything beyond that — multisig, spending limits, session keys, recovery — is a smart-contract wallet platform you deploy, audit, and maintain (multisig contracts, ERC-4337 account-abstraction stacks). Here it is protocol configuration:

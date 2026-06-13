@@ -15,6 +15,22 @@ On-chain multisig in PulseVM is not a smart-contract product — it is a protoco
 
 Every proposal, approval, revocation, and execution lands permanently on the audit trail **with named identities attached**.
 
+## The flow
+
+```mermaid
+sequenceDiagram
+  participant O as Officer (proposer)
+  participant M as pulse.msig
+  participant A1 as Officer 2
+  participant A2 as Officer 3
+  O->>M: propose(transaction)
+  A1->>M: approve()
+  A2->>M: approve()
+  Note over M: weighted threshold met
+  O->>M: exec()
+  M-->>O: transaction executes — permanently recorded
+```
+
 ## What institutions do with it
 
 - Wire-release requiring 2-of-3 treasury officers

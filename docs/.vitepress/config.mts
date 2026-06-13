@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'PulseVM',
   description:
     'PulseVM is a non-EVM, Antelope-based blockchain for banks and fintechs: tokenized deposits, named accounts, native multisig, instant finality — a permissioned network you own.',
@@ -58,6 +59,7 @@ export default defineConfig({
             { text: 'Resources (CPU/NET/RAM)', link: '/guide/resources' },
             { text: 'Finality & Settlement', link: '/guide/finality' },
             { text: 'Privacy & Confidentiality', link: '/guide/privacy' },
+            { text: 'Glossary', link: '/guide/glossary' },
           ],
         },
       ],
@@ -139,4 +141,4 @@ export default defineConfig({
     },
     search: { provider: 'local' },
   },
-})
+}), { mermaid: { /* theme handled automatically light/dark */ } })

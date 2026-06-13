@@ -8,6 +8,16 @@ PulseVM's most underrated property: **the head block is the last irreversible bl
 
 "When is this transfer settled?" has a one-word answer: *now*. (And if the validator set ever can't reach quorum, the network pauses and resumes rather than forking — see below.)
 
+## The lifecycle
+
+```mermaid
+flowchart LR
+  s["Submit"] --> v{"Valid?"}
+  v -- no --> r["Rejected immediately"]
+  v -- yes --> f["Finalized — sub-second"]
+  f --> d["Settled · no reorg to handle"]
+```
+
 ## Reads are free, for anyone
 
 Every read is free. An auditor or regulator can be handed a node or an indexer and get complete, real-time visibility into the chain's state — no per-query cost, no privileged access tier. Verifiability is a property of the network, not a paid feature.
