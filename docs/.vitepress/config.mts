@@ -88,6 +88,7 @@ export default withMermaid(defineConfig({
           {
             text: 'Reference',
             items: [
+              { text: 'Connect Wallet (Web SDK)', link: '/build/connect-wallet' },
               { text: 'System Contracts', link: '/build/system-contracts' },
               { text: 'Host Functions', link: '/build/intrinsics' },
               { text: 'Command-line Tools', link: '/build/cli' },
@@ -178,6 +179,7 @@ export default withMermaid(defineConfig({
             { text: 'Rust Quickstart', link: '/build/quickstart-rust' },
             { text: 'C++ Quickstart', link: '/build/quickstart-cpp' },
             { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
+            { text: 'Connect Wallet (Web SDK)', link: '/build/connect-wallet' },
             { text: 'System Contracts', link: '/build/system-contracts' },
             { text: 'Host Functions (Intrinsics)', link: '/build/intrinsics' },
             { text: 'Command-line Tools', link: '/build/cli' },
