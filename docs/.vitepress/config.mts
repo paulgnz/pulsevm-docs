@@ -106,6 +106,7 @@ export default defineConfig({
             { text: 'Rust Quickstart', link: '/build/quickstart-rust' },
             { text: 'C++ Quickstart', link: '/build/quickstart-cpp' },
             { text: 'TypeScript Quickstart', link: '/build/quickstart-typescript' },
+            { text: 'System Contracts', link: '/build/system-contracts' },
             { text: 'Command-line Tools', link: '/build/cli' },
             { text: 'RPC & REST API', link: '/build/api' },
           ],

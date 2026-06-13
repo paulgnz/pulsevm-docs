@@ -23,3 +23,7 @@ Every proposal, approval, revocation, and execution lands permanently on the aud
 - Board-level governance with time-delayed (wait-weighted) execution
 
 All the same primitive. No separate smart-contract multisig platform to deploy, audit, and maintain — and no calldata-blob signing ceremonies.
+
+---
+
+The on-chain mechanism is the open-source **`pulse.msig`** system contract — see [System Contracts](/build/system-contracts#pulse-msig-on-chain-multisig).
