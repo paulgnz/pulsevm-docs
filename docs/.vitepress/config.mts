@@ -68,7 +68,7 @@ export default withMermaid(defineConfig({
       },
       { text: 'Compare', link: '/compare/' },
       {
-        text: 'Build',
+        text: 'Developers',
         items: [
           {
             text: 'Start',
@@ -93,6 +93,12 @@ export default withMermaid(defineConfig({
               { text: 'Command-line Tools', link: '/build/cli' },
               { text: 'RPC & REST API', link: '/build/api' },
               { text: 'Repositories', link: '/resources' },
+            ],
+          },
+          {
+            text: 'Tools',
+            items: [
+              { text: 'GitHub', link: 'https://github.com/MetalBlockchain' },
             ],
           },
         ],
