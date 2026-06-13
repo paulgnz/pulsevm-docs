@@ -13,10 +13,10 @@ It is the base layer for **A-Chain**, the future of XPR Network — and equally 
 ```mermaid
 flowchart TB
   subgraph metalgo["metalgo node — Metal Blockchain"]
-    snow["Avalanche Snowman consensus<br/>instant, irreversible finality"]
+    snow["Avalanche Snowman consensus — instant, irreversible finality"]
     subgraph pulsevm["PulseVM plugin"]
-      exec["Antelope execution<br/>WASM: Rust / C++ / TypeScript"]
-      sys["System contracts<br/>token · system · msig · bios"]
+      exec["Antelope execution — WASM: Rust, C++, TypeScript"]
+      sys["System contracts: token, system, msig, bios"]
     end
   end
   apps["Your contracts & apps"] --> exec
