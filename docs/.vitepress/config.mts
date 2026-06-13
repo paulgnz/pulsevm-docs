@@ -141,4 +141,9 @@ export default withMermaid(defineConfig({
     },
     search: { provider: 'local' },
   },
-}), { mermaid: { /* theme handled automatically light/dark */ } })
+}), {
+  mermaid: {
+    flowchart: { htmlLabels: true, useMaxWidth: true, curve: 'basis', padding: 14 },
+    themeVariables: { fontFamily: 'inherit', fontSize: '15px' },
+  },
+})

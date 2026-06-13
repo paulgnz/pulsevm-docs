@@ -1,3 +1,22 @@
+/* ===== PulseVM brand: navy accent (overrides stock VitePress indigo) ===== */
+:root {
+  --vp-c-brand-1: #1e40af;
+  --vp-c-brand-2: #1d4ed8;
+  --vp-c-brand-3: #2563eb;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
+  --vp-c-brand-softer: rgba(37, 99, 235, 0.08);
+  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+}
+.dark {
+  --vp-c-brand-1: #8aa6ff;
+  --vp-c-brand-2: #a5bbff;
+  --vp-c-brand-3: #2f54d8;
+  --vp-c-brand-soft: rgba(120, 150, 255, 0.16);
+  --vp-c-brand-softer: rgba(120, 150, 255, 0.09);
+}
+
 /* Full-bleed hero: the proton canvas covers the whole hero section,
    text/actions sit on top. */
 .VPHome .VPHero {
