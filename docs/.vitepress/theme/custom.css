@@ -48,3 +48,6 @@
 }
 /* badges shouldn't wrap away from their qualifier */
 .ck { flex: none; }
+
+/* stack the qualifier label beneath the badge (uniform cell shape, no mid-phrase wrap) */
+.q { display: block; margin: 0.35rem 0 0 0; line-height: 1.3; }
