@@ -10,9 +10,16 @@ Keys never touch the browser. The app hands an unsigned transaction to the walle
 
 ## Install
 
+The SDK isn't published to npm yet — build it from source for now:
+
 ```bash
-npm install @pulsevm/pulse-web-sdk
+git clone https://github.com/paulgnz/pulse-web-sdk
+cd pulse-web-sdk && npm install && npm run build
+# then import from the built dist/, or `npm link` it into your app
 ```
+
+> Once published, this becomes `npm install @pulsevm/pulse-web-sdk`. The
+> [live demo](/demo/) inlines the same transport, so it needs no install.
 
 ## Connect
 
