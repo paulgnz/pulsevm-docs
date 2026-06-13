@@ -111,11 +111,11 @@ onMounted(async () => {
     if (!running) return
     t += 1
     // ease pointer → gravity tug (lateral pull + parallax tilt)
-    px += (tx - px) * 0.045; py += (ty - py) * 0.045
-    world.position.x = baseX + px * 0.7
-    world.position.y = -py * 0.45
-    world.rotation.y = px * 0.28
-    world.rotation.x = py * 0.22
+    px += (tx - px) * 0.035; py += (ty - py) * 0.035
+    world.position.x = baseX + px * 0.32
+    world.position.y = -py * 0.2
+    world.rotation.y = px * 0.13
+    world.rotation.x = py * 0.1
     atom.rotation.y += 0.0016
     atom.rotation.x = Math.sin(t * 0.0009) * 0.18
     nucleus.rotation.y += 0.004; nucleusWire.rotation.x -= 0.006
