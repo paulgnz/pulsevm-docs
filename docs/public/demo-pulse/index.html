@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>proton-web-sdk Pulse Edition — demo</title>
+  <style>
+    :root { color-scheme: dark; --navy:#0B1437; --accent:#4F7CFF; --glow:#8B95FF; --ok:#3DD68C; --warn:#F5A524; }
+    body { margin:0; font:15px/1.5 -apple-system,system-ui,sans-serif; color:#e8ecff;
+           background:radial-gradient(1200px 600px at 50% -10%, #16224f, var(--navy)); min-height:100vh; }
+    .wrap { max-width:680px; margin:0 auto; padding:44px 20px 80px; }
+    h1 { font-size:24px; margin:0 0 4px; } .sub { color:#9fb0e0; margin:0 0 22px; }
+    .card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.10);
+            border-radius:16px; padding:20px; margin:14px 0; }
+    label { font-size:12px; color:#9fb0e0; display:block; margin:10px 0 4px; }
+    input { width:100%; box-sizing:border-box; background:rgba(0,0,0,.25); border:1px solid rgba(255,255,255,.12);
+            border-radius:10px; color:#e8ecff; padding:10px; font:13px ui-monospace,monospace; }
+    button { background:linear-gradient(135deg,var(--accent),var(--glow)); color:#fff; border:0;
+             border-radius:12px; padding:11px 18px; font-weight:600; cursor:pointer; }
+    button.ghost { background:rgba(255,255,255,.08); } button:disabled{ opacity:.5; cursor:default; }
+    .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:space-between; }
+    .mono { font:12px ui-monospace,monospace; color:#9fb0e0; word-break:break-all; }
+    .ok{color:var(--ok)} .grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    code{background:rgba(0,0,0,.3);padding:2px 6px;border-radius:6px}
+  </style>
+
+  <!-- The Pulse Edition bundle (built from this monorepo). Exposes window.ProtonWebSDK. -->
+  <script src="./proton-web-sdk.bundle.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <h1>⚡ proton-web-sdk — Pulse Edition</h1>
+    <p class="sub">The full selector (WebAuth / Anchor over <code>achain</code>) <strong>plus</strong> the native
+      <strong>PulseVM Wallet (Desktop)</strong> over <code>pulsevm://</code>. Pick "PulseVM Wallet" in the modal to sign
+      in the native macOS app with Touch ID.</p>
+
+    <div class="card">
+      <div class="row">
+        <strong>1. Connect</strong>
+        <button id="connectBtn">Connect Wallet</button>
+      </div>
+      <div id="acct" class="mono" style="margin-top:10px">Not connected.</div>
+    </div>
+
+    <div class="card">
+      <strong>2. Transfer</strong>
+      <div class="grid">
+        <div><label>To</label><input id="to" value="pulse" /></div>
+        <div><label>Quantity</label><input id="qty" value="0.0001 XPR" /></div>
+      </div>
+      <label>Memo</label><input id="memo" value="pulse-edition demo" />
+      <div style="margin-top:12px"><button id="sendBtn" disabled>Sign &amp; broadcast</button></div>
+      <div id="txout" class="mono" style="margin-top:10px"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    const $ = id => document.getElementById(id)
+    const ProtonWebSDK = window.ProtonWebSDK?.default || window.ProtonWebSDK
+
+    const ENDPOINT = "https://rpc.a-chain-testnet.protonnz.com"
+    const CHAIN_ID = "0d6f033e887fae475d641104b6e87762b6c869e87a101afeeb64d608ab376618"
+    const TOKEN_CONTRACT = "pulse.token"
+
+    // Resolve the wallet's pulsevm:// redirect if this page is the callback.
+    // (Inlined so the demo doesn't depend on the bundle's named-export surface.)
+    ;(function handlePulseVMCallback() {
+      const p = new URLSearchParams(location.search)
+      if (p.get("account")) {
+        localStorage.setItem("pulse.cb.login", JSON.stringify({
+          account: p.get("account") || "", permission: p.get("permission") || "active", key: p.get("key") || "",
+        }))
+        history.replaceState(null, "", location.pathname)
+      } else if (p.get("signature")) {
+        localStorage.setItem("pulse.cb.sign." + (p.get("rid") || "default"),
+          JSON.stringify({ signature: p.get("signature") || "" }))
+        history.replaceState(null, "", location.pathname)
+      }
+    })()
+
+    let session
+
+    function render() {
+      if (session && session.auth) {
+        const actor = String(session.auth.actor), perm = String(session.auth.permission)
+        $("acct").innerHTML = `<span class="ok">Connected:</span> ${actor}@${perm}`
+        $("connectBtn").textContent = "Logout"
+        $("sendBtn").disabled = false
+      } else {
+        $("acct").textContent = "Not connected."
+        $("connectBtn").textContent = "Connect Wallet"
+        $("sendBtn").disabled = true
+      }
+    }
+
+    async function connect(restoreSession) {
+      const { session: s } = await ProtonWebSDK({
+        linkOptions: { endpoints: [ENDPOINT], chainId: CHAIN_ID, usePulseVM: true, restoreSession },
+        transportOptions: { requestAccount: "" },
+        selectorOptions: {
+          // Show WebAuth (mobile/browser over achain) AND the native desktop wallet.
+          enabledWalletTypes: ["proton", "webauth", "anchor", "pulsevm"],
+        },
+        uiOptions: { appInfo: { name: "PulseVM Pulse Edition Demo" } },
+      })
+      session = s
+      render()
+    }
+
+    $("connectBtn").onclick = async () => {
+      if (session) { try { session.logout?.() } catch {} session = undefined; render(); return }
+      try { await connect(false) } catch (e) { $("acct").textContent = "Error: " + e.message }
+    }
+
+    $("sendBtn").onclick = async () => {
+      $("txout").textContent = "Awaiting signature in the wallet…"
+      try {
+        const res = await session.transact({
+          actions: [{
+            account: TOKEN_CONTRACT, name: "transfer",
+            authorization: [{ actor: String(session.auth.actor), permission: String(session.auth.permission) }],
+            data: { from: String(session.auth.actor), to: $("to").value, quantity: $("qty").value, memo: $("memo").value },
+          }],
+        })
+        $("txout").innerHTML = `<span class="ok">Broadcast:</span> ${res.transactionId || res.signature}`
+      } catch (e) { $("txout").textContent = "Error: " + e.message }
+    }
+
+    // Restore a previous session if one exists.
+    connect(true).catch(() => {})
+  </script>
+</body>
+</html>

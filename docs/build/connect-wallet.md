@@ -4,9 +4,19 @@ The **Pulse Web SDK** lets a web app connect to the **PulseVM desktop wallet**, 
 
 Keys never touch the browser. The app hands an unsigned transaction to the wallet over the `pulsevm://` URL scheme; the wallet decodes it, signs with a Secure Enclave / imported key behind Touch ID, and returns the signature.
 
-<a href="/demo/" target="_blank" rel="noopener" style="display:inline-block;margin:8px 0 4px;padding:11px 20px;border-radius:12px;font-weight:600;color:#fff;background:linear-gradient(135deg,#4F7CFF,#8B95FF);text-decoration:none;">▶ Open the live demo</a>
+<a href="/demo/" target="_blank" rel="noopener" style="display:inline-block;margin:8px 8px 4px 0;padding:11px 20px;border-radius:12px;font-weight:600;color:#fff;background:linear-gradient(135deg,#4F7CFF,#8B95FF);text-decoration:none;">▶ Simple demo</a>
+<a href="/demo-pulse/" target="_blank" rel="noopener" style="display:inline-block;margin:8px 0 4px;padding:11px 20px;border-radius:12px;font-weight:600;color:#fff;background:rgba(127,127,127,.18);border:1px solid rgba(127,127,127,.35);text-decoration:none;">▶ Pulse Edition demo (full selector)</a>
 
-> The demo needs the **PulseVM desktop wallet** installed and launched once (so macOS registers the `pulsevm://` scheme). It defaults to the A‑Chain testnet endpoint.
+> Both demos need the **PulseVM desktop wallet** installed and launched once (so macOS registers the `pulsevm://` scheme) and default to the A‑Chain testnet.
+
+## Two SDKs
+
+| | When to use |
+|---|---|
+| **pulse-web-sdk** (simple) | A tiny, zero-dependency, **desktop-only** connector. Drops into a plain `.html` page — what the [simple demo](/demo/) uses. |
+| **proton-web-sdk Pulse Edition** | A fork of [proton-web-sdk](https://github.com/paulgnz/proton-web-sdk-pulse) with the **full wallet selector**: WebAuth / Anchor (mobile QR + browser, over `achain`) **plus** a native **PulseVM Wallet (Desktop)** option over `pulsevm://`. Use when you want the familiar multi-wallet modal — see the [Pulse Edition demo](/demo-pulse/). |
+
+The rest of this page covers the **simple** SDK. For the Pulse Edition, see its [README](https://github.com/paulgnz/proton-web-sdk-pulse/blob/master/PULSE-EDITION.md).
 
 ## Install
 
