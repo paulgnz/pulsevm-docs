@@ -1,0 +1,16 @@
+/* Full-bleed hero: the proton canvas covers the whole hero section,
+   text/actions sit on top. */
+.VPHome .VPHero {
+  position: relative;
+  overflow: hidden;
+}
+.VPHome .VPHero .container {
+  position: relative;
+  z-index: 1;
+}
+/* the injected canvas host (home-hero-before slot) is absolutely positioned
+   to fill the hero; keep it behind the content */
+.VPHome .VPHero > .proton-field,
+.VPHome .VPHero .proton-field {
+  z-index: 0;
+}
