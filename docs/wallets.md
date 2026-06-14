@@ -22,7 +22,7 @@ A native **macOS desktop** wallet for institution-grade, **hardware-backed** cus
 
 - **Download:** [GitHub Releases](https://github.com/paulgnz/pulse-wallet/releases/latest) — signed + notarized; open the `.dmg`, drag **PulseVM** to Applications.
 - **Source:** [github.com/paulgnz/pulse-wallet](https://github.com/paulgnz/pulse-wallet) (open source, MIT).
-- **Connect a dapp:** see [Connect Wallet (Web SDK)](/build/connect-wallet) and the live [demo](/demo-pulse).
+- **Connect a dapp:** see [Connect Wallet (Web SDK)](/build/connect-wallet) and the live <a href="/demo-pulse/">demo</a>.
 
 > Currently a beta on the A‑Chain testnet.
 
