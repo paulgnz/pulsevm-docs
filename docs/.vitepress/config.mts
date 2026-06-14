@@ -39,6 +39,7 @@ export default withMermaid(defineConfig({
     logo: '/brand/metal-glyph-color.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
+      { text: 'Wallets', link: '/wallets' },
       {
         text: 'Solutions',
         items: [
