@@ -1,36 +1,39 @@
 ---
-description: "PulseVM host functions (intrinsics) reference — the Antelope intrinsic set supported today (action, database, crypto, console, memory, inline actions) and what's landing next."
+description: "PulseVM host functions (intrinsics) reference — the Antelope intrinsic set supported as of v0.5.0 (action, database, all secondary indexes, crypto, transaction introspection, permissions, context-free actions, console, math builtins) and the few advanced families still landing."
 ---
 
 # Host Functions (Intrinsics)
 
 Intrinsics are the functions the VM exposes to a contract's WebAssembly — how a contract reads its input, touches state, checks authorization, does crypto, and emits actions. PulseVM implements the **Antelope** intrinsic set; for the precise semantics of each function, the [Antelope C++ CDT reference](https://docs.antelope.io) is the canonical source.
 
-This page lists what PulseVM serves **today** and what's **not yet available**, so you know before you build. The CDTs ([Rust](https://github.com/MetalBlockchain/pulse-cdt-rust), C++, [TypeScript/AS](https://github.com/paulgnz/pulse-tsc)) wrap these — you rarely call them directly, but if a contract imports one that isn't served, it won't load, so the supported set is what matters.
+This page lists what PulseVM serves **today** and the few families still landing, so you know before you build. The CDTs ([Rust](https://github.com/MetalBlockchain/pulse-cdt-rust), C++, [TypeScript/AS](https://github.com/paulgnz/pulse-tsc)) wrap these — you rarely call them directly, but if a contract imports one that isn't served, it won't load, so the supported set is what matters.
 
-::: tip The set is expanding
-The list below reflects the current build. Additional intrinsics (see "Not yet available") are being added; toolchains like pulse-tsc flag an unsupported import at **compile time**, not at deploy time.
+::: tip Expanded in v0.5.0
+As of **v0.5.0**, PulseVM serves the full classic Antelope host-function surface — all secondary-index key types, the standard crypto suite, transaction/TAPoS introspection, permission checks, context-free actions, and the int128/float128 compiler builtins. The vast majority of XPR Network, EOS and WAX contracts run unchanged. See [Antelope Compatibility](/compare/antelope) for the migration view.
 :::
 
 ## Supported today
 
 **Action & context** — read the current action and execution context.
-`read_action_data` · `action_data_size` · `current_receiver` · `current_time` · `set_action_return_value`
+`read_action_data` · `action_data_size` · `current_receiver` · `current_time` · `publication_time` · `set_action_return_value` · `get_action`
 
-**Authorization** — enforce and query permissions.
-`require_auth` · `require_auth2` · `require_recipient` · `has_auth` · `is_account` · `check_transaction_authorization`
+**Authorization & permissions** — enforce and query permissions.
+`require_auth` · `require_auth2` · `require_recipient` · `has_auth` · `is_account` · `check_transaction_authorization` · `check_permission_authorization` · `get_permission_last_used` · `get_account_creation_time`
 
-**Inline actions** — a contract sending further actions.
-`send_inline`
+**Inline & context-free actions** — a contract sending further actions.
+`send_inline` · `send_context_free_inline` · context-free action execution · `get_context_free_data`
+
+**Transaction & TAPoS introspection**
+`read_transaction` · `transaction_size` · `expiration` · `tapos_block_num` · `tapos_block_prefix`
 
 **Database — primary index (i64)**
 `db_store_i64` · `db_update_i64` · `db_remove_i64` · `db_get_i64` · `db_find_i64` · `db_lowerbound_i64` · `db_upperbound_i64` · `db_next_i64` · `db_previous_i64` · `db_end_i64`
 
-**Database — secondary indexes** (64-bit and 128-bit)
-`db_idx64_*` and `db_idx128_*` — full set: `store` · `update` · `remove` · `find_primary` · `find_secondary` · `lowerbound` · `upperbound` · `next` · `previous` · `end`
+**Database — secondary indexes** (all key types)
+`db_idx64_*` · `db_idx128_*` · `db_idx256_*` · `db_idx_double_*` · `db_idx_long_double_*` — each with the full set: `store` · `update` · `remove` · `find_primary` · `find_secondary` · `lowerbound` · `upperbound` · `next` · `previous` · `end`
 
-**Cryptographic hashing**
-`sha224` · `sha256` · `sha512` (and the asserting variants `assert_sha224` · `assert_sha256` · `assert_sha512`)
+**Cryptography**
+`sha1` · `sha256` · `sha512` · `ripemd160` · `recover_key` — and the asserting variants `assert_sha1` · `assert_sha256` · `assert_sha512` · `assert_ripemd160` · `assert_recover_key`
 
 **Asserts & control flow**
 `pulse_assert` · `pulse_assert_message` · `pulse_assert_code` · `eosio_assert` · `eosio_assert_message` · `eosio_assert_code` · `pulse_exit` · `eosio_exit` · `abort`
@@ -41,22 +44,20 @@ The list below reflects the current build. Additional intrinsics (see "Not yet a
 **Memory**
 `memcpy` · `memmove` · `memset` · `memcmp`
 
-**Privileged & resources** (system contracts)
-`is_privileged` · `set_privileged` · `get_resource_limits` · `set_resource_limits`
+**Privileged, resources & chain params** (system contracts)
+`is_privileged` · `set_privileged` · `get_resource_limits` · `set_resource_limits` · `set_blockchain_parameters_packed`
 
-**128-bit math builtins** (compiler support)
-`__ashlti3` · `__ashrti3` · `__divti3` · `__floatuntidf` · `__lshlti3` · `__lshrti3` · `__modti3` · `__multi3` · `__udivti3` · `__umodti3`
+**Math builtins** (compiler support)
+Full **int128** (`__*ti3` shifts, `__multi3`, `__divti3`, `__modti3`, `__udivti3`, `__umodti3`, conversions) and **float128 / `long double`** (`__addtf3`, `__subtf3`, `__multf3`, `__divtf3`, comparisons, conversions) surface.
 
-## Not yet available
+## Still landing
 
-These Antelope intrinsics are not served by the current build. A contract that needs them won't load yet:
+A handful of advanced families aren't served yet. They're uncommon outside zk / EVM-bridge and specialized cryptographic contracts — a contract that imports one won't load until it's added:
 
 | Family | Functions | Note |
 |---|---|---|
-| **Key recovery & extra hashes** | `recover_key`, `assert_recover_key`, `sha1`, `assert_sha1`, `ripemd160`, `assert_ripemd160` | needed for on-chain signature verification |
-| **Float & 256-bit secondary indexes** | `db_idx256_*`, `db_idx_double_*`, `db_idx_long_double_*` | `idx64`/`idx128` are available today |
-| **Transaction introspection** | `read_transaction`, `transaction_size`, `expiration`, `tapos_block_num`, `tapos_block_prefix`, `get_action`, `get_context_free_data`, `publication_time` | |
-| **Misc** | `get_sender`, `printqf` | |
-| **Deferred transactions** | `send_deferred`, `cancel_deferred` | deprecated in Antelope 5.x — use inline actions |
+| **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases |
+| **Protocol-feature framework** | `is_feature_activated` · `preactivate_feature` | feature-gating |
+| **Deferred transactions** | `send_deferred` · `cancel_deferred` | deprecated in Antelope 5.x — use inline actions |
 
 If your design depends on something here, [get in touch](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) — intrinsic coverage is actively expanding.
