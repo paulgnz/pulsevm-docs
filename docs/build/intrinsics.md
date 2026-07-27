@@ -8,8 +8,8 @@ Intrinsics are the functions the VM exposes to a contract's WebAssembly — how 
 
 This page lists what PulseVM serves **today** and the few families still landing, so you know before you build. The CDTs ([Rust](https://github.com/MetalBlockchain/pulse-cdt-rust), C++, [TypeScript/AS](https://github.com/paulgnz/pulse-tsc)) wrap these — you rarely call them directly, but if a contract imports one that isn't served, it won't load, so the supported set is what matters.
 
-::: tip Expanded in v0.5.0
-As of **v0.5.0**, PulseVM serves the full classic Antelope host-function surface — all secondary-index key types, the standard crypto suite, transaction/TAPoS introspection, permission checks, context-free actions, and the int128/float128 compiler builtins. The vast majority of XPR Network, EOS and WAX contracts run unchanged. See [Antelope Compatibility](/compare/antelope) for the migration view.
+::: tip Expanded in v0.5.0 · hardened in v0.5.1
+As of **v0.5.0** (tagged 2026-07-22), PulseVM serves the full classic Antelope host-function surface — all secondary-index key types, the standard crypto suite, transaction/TAPoS introspection, permission checks, context-free actions, and the int128/float128 compiler builtins. The vast majority of XPR Network, EOS and WAX contracts run unchanged. **v0.5.1** further aligns semantics with the Antelope reference: `eosio_assert`/`pulse_assert` now fail only on `condition == 0` (any non-zero value is truthy, matching nodeos), CPU billing is fully deterministic across producers and verifiers, and asset (de)serialization matches nodeos bounds. See [Antelope Compatibility](/compare/antelope) for the migration view.
 :::
 
 ## Supported today

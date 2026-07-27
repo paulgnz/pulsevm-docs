@@ -11,7 +11,9 @@ This page is a machine-oriented quickstart. Humans welcome too.
 
 ## Interacting with the chain (A-Chain Alpine testnet)
 
-Base RPC: `https://a-chain-testnet.protonnz.com/ext/bc/6v9NieZiX3e8eQz3CyJMtXB6YzV2RtnxcRyLAmSgFWWk5Qs6y/rpc`
+Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/dbmApAUgd9jbQRmcWLXkg1jxoGbdVsY7gtZGLk59JcoXvbF8S/rpc`
+
+> Alpine was rebooted with a fresh genesis on 2026-07-27 (chain id `531a7002…`). If you cached the previous endpoint or chain id, discard it.
 
 ```bash
 # chain info (head block, LIB, chain id)
@@ -30,7 +32,7 @@ curl -s -X POST <RPC> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getAccount","params":{"account_name":"pulse"}}'
 ```
 
-Antelope-style REST also works: `POST https://a-chain-testnet.protonnz.com/v1/chain/get_info` (and `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, …) — eosjs/@proton/js compatible.
+History & indexed queries (Hyperion v2): `https://a-chain-alpine-hyperion.metalblockchain.org/v2/…` (e.g. `/v2/history/get_actions?limit=10`, `/v2/health`). Antelope-style `/v1/chain` REST is not currently exposed on the rebooted testnet — use the native JSON-RPC methods above.
 
 Full method table: [/build/api](/build/api). Endpoints & chain IDs: [/network/endpoints](/network/endpoints).
 

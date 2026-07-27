@@ -21,7 +21,7 @@ Account creation requires a creator authority (the `pulse` system account on Alp
 ## 3. Point your tooling at Alpine
 
 ```bash
-pulse-ts endpoint:set https://a-chain-testnet.protonnz.com/ext/bc/6v9NieZiX3e8eQz3CyJMtXB6YzV2RtnxcRyLAmSgFWWk5Qs6y/rpc
+pulse-ts endpoint:set https://a-chain-alpine.metalblockchain.org/ext/bc/dbmApAUgd9jbQRmcWLXkg1jxoGbdVsY7gtZGLk59JcoXvbF8S/rpc
 ```
 
 ## 4. Build & deploy
