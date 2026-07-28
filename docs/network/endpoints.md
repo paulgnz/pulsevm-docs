@@ -12,7 +12,7 @@ Alpine was relaunched with a fresh genesis on 2026-07-27 (PulseVM v0.5.1). Endpo
 | History (Hyperion v2) | `https://a-chain-alpine-hyperion.metalblockchain.org` |
 | Blockchain ID | `dbmApAUgd9jbQRmcWLXkg1jxoGbdVsY7gtZGLk59JcoXvbF8S` |
 | Chain ID | `531a7002b4a4b67987f8706c01b965c76ffc3ad301608ac61a1f738cba6c3a9a` |
-| Node version | PulseVM `v0.5.1` |
+| Node version | PulseVM `v0.5.1`-series (validator build not yet published — syncing a node from the `v0.5.1` tag currently fails on early blocks; use the public RPC above, or watch [releases](https://github.com/MetalBlockchain/pulsevm/releases) for the validator binary) |
 | Indexer | [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) — Metallicus's native Rust Hyperion |
 
 ::: tip Testnet
