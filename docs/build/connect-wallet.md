@@ -38,8 +38,8 @@ import { ConnectWallet } from "@pulsevm/pulse-web-sdk"
 
 const { session } = await ConnectWallet({
   appName: "My PulseVM dapp",
-  chainId: "531a7002b4a4…",                         // your network's chain id
-  rpcEndpoint: "https://a-chain-alpine.metalblockchain.org/ext/bc/dbmApAUgd9jbQRmcWLXkg1jxoGbdVsY7gtZGLk59JcoXvbF8S/rpc",
+  chainId: "193526980f52…",                         // your network's chain id
+  rpcEndpoint: "https://a-chain-alpine.metalblockchain.org/ext/bc/C6tuBzT2M3TZHyWc5Ro6L3cJyoxRAPy9avJeNh3FPzkBswXgX/rpc",
 })
 
 console.log(session.actor, session.permission)      // e.g. "protonnz" "active"

@@ -11,9 +11,9 @@ This page is a machine-oriented quickstart. Humans welcome too.
 
 ## Interacting with the chain (A-Chain Alpine testnet)
 
-Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/dbmApAUgd9jbQRmcWLXkg1jxoGbdVsY7gtZGLk59JcoXvbF8S/rpc`
+Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/C6tuBzT2M3TZHyWc5Ro6L3cJyoxRAPy9avJeNh3FPzkBswXgX/rpc`
 
-> Alpine was rebooted with a fresh genesis on 2026-07-27 (chain id `531a7002…`). If you cached the previous endpoint or chain id, discard it.
+> Alpine resets frequently during consensus hardening — most recently 2026-08-05 (chain id `19352698…`). If a cached endpoint or chain id stops working, re-read this page (or `/network/endpoints.md`) for the current values.
 
 ```bash
 # chain info (head block, LIB, chain id)
