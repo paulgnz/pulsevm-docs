@@ -7,14 +7,14 @@ hero:
   tagline: Named accounts, native multisig, and instant, irreversible finality — on a private network you own, not one you join. The open-source execution layer behind A-Chain, the future of XPR Network.
   actions:
     - theme: brand
-      text: Why PulseVM
-      link: /guide/what-is-pulsevm
-    - theme: alt
       text: For Banks & Credit Unions
       link: /institutions/banks
     - theme: alt
       text: Start Building
       link: /build/get-started
+    - theme: alt
+      text: Why PulseVM →
+      link: /guide/what-is-pulsevm
 
 features:
   - icon: { src: /icons/accounts.svg, width: 28, height: 28 }
@@ -72,6 +72,7 @@ description: "Non-EVM, Antelope-based blockchain for banks and fintechs — toke
   </div>
 </div>
 
+<p class="brand-strip-eyebrow">Built on proven foundations</p>
 <div class="brand-strip">
   <a href="https://xprnetwork.org" target="_blank" rel="noopener">
     <img class="light-only" src="/brand/xpr-network-black.svg" alt="XPR Network" height="30" />
@@ -88,8 +89,8 @@ description: "Non-EVM, Antelope-based blockchain for banks and fintechs — toke
 </div>
 
 <style>
-.brand-strip { display:flex; gap:48px; align-items:center; justify-content:center; margin:56px 0 16px; opacity:.85; }
-.brand-strip img { height:32px; width:auto; }
+/* strip styling lives in .vitepress/theme/custom.css; only the theme-swap
+   helpers stay here */
 .dark-only { display:none; }
 .dark .dark-only { display:inline; }
 .dark .light-only { display:none; }

@@ -1,0 +1,254 @@
+<svg class="pvm-atom" viewBox="0 0 480 480" width="480" height="480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="pvmTitle">
+  <title id="pvmTitle">PulseVM — proton atom mark</title>
+  <style>
+    /* ============================================================
+       PulseVM proton atom — pure SVG + CSS, transform/opacity only.
+       Nucleus beats (lub-dub) and emits hairline pulse rings;
+       three electrons ride tilted elliptical orbits with real
+       depth (they pass behind the nucleus); the whole orbital
+       plane precesses slowly. ~10 KB, no JS, no external assets.
+       ============================================================ */
+    .pvm-atom {
+      --c1: #4F7CFF;          /* brand gradient start */
+      --c2: #8B95FF;          /* brand gradient end   */
+      --warm: #F7A356;        /* single warm accent   */
+      --B: 3.4s;              /* heartbeat period     */
+      /* light-mode intensities (defaults) */
+      --field: .5;
+      --halo: .55;
+      --ring: .34;
+      --arc: .62;
+      --tick: .5;
+    }
+    /* dark surfaces: additive glow reads stronger */
+    @media (prefers-color-scheme: dark) {
+      .pvm-atom { --field: .8; --halo: .95; --ring: .42; --arc: .72; --tick: .65; }
+    }
+    /* when inlined in VitePress, follow the site toggle (beats the media query) */
+    .dark .pvm-atom { --field: .8; --halo: .95; --ring: .42; --arc: .72; --tick: .65; }
+    html:not(.dark) .pvm-atom { --field: .5; --halo: .55; --ring: .34; --arc: .62; --tick: .5; }
+
+    .pvm-atom .fld  { opacity: var(--field); }
+    .pvm-atom .dial { opacity: var(--tick); }
+    .pvm-atom .halo { opacity: var(--halo); }
+    .pvm-atom .ring { opacity: var(--ring); }
+    .pvm-atom .arc  { opacity: var(--arc); }
+
+    .pvm-atom :is(g, circle, path) {
+      transform-box: view-box;
+      transform-origin: 240px 240px;
+    }
+
+    /* ---- orbital planes (tilt + foreshortening; o2 mirrored = counter-rotation) */
+    .pvm-atom .t1 { transform: rotate(-16deg) scale(1, .4); }
+    .pvm-atom .t2 { transform: rotate(26deg)  scale(1, -.32); }
+    .pvm-atom .t3 { transform: rotate(99deg)  scale(1, .5); }
+
+    /* per-orbit period / phase */
+    .pvm-atom .o1 { --T: 12s; --d: -2.5s; }
+    .pvm-atom .o2 { --T: 18s; --d: -11s; }
+    .pvm-atom .o3 { --T: 26s; --d: -19s; }
+
+    /* orbit radius (arm) + counter-squash so electrons stay perfect circles */
+    .pvm-atom .o1 .arm { transform: translateX(132px); }
+    .pvm-atom .o2 .arm { transform: translateX(176px); }
+    .pvm-atom .o3 .arm { transform: translateX(200px); }
+    .pvm-atom .o1 .squash { transform: scale(1, 2.5); }
+    .pvm-atom .o2 .squash { transform: scale(1, -3.125); }
+    .pvm-atom .o3 .squash { transform: scale(1, 2); }
+
+    /* static resting pose (used when animations are off) */
+    .pvm-atom .o1 .spin { transform: rotate(35deg); }  .pvm-atom .o1 .cspin { transform: rotate(-35deg); }
+    .pvm-atom .o2 .spin { transform: rotate(150deg); } .pvm-atom .o2 .cspin { transform: rotate(-150deg); }
+    .pvm-atom .o3 .spin { transform: rotate(250deg); } .pvm-atom .o3 .cspin { transform: rotate(-250deg); }
+    .pvm-atom .ef { opacity: 1; }
+    .pvm-atom .eb { opacity: 0; }
+    .pvm-atom .pulse { opacity: 0; }
+
+    /* ---- motion ---- */
+    .pvm-atom .spin, .pvm-atom .cspin, .pvm-atom .depth, .pvm-atom .ef, .pvm-atom .eb {
+      animation-duration: var(--T);
+      animation-delay: var(--d);
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+    }
+    .pvm-atom .spin  { animation-name: pvm-spin; }
+    .pvm-atom .cspin { animation-name: pvm-cspin; }
+    .pvm-atom .depth { animation-name: pvm-depth; }
+    .pvm-atom .ef { animation-name: pvm-show-front; animation-timing-function: step-end; }
+    .pvm-atom .eb { animation-name: pvm-show-back;  animation-timing-function: step-end; }
+
+    .pvm-atom .precess { animation: pvm-spin 150s linear infinite; }
+    .pvm-atom .dial    { animation: pvm-spin 240s linear infinite reverse; }
+
+    .pvm-atom .beat  { animation: pvm-beat var(--B) ease-out infinite; }
+    .pvm-atom .pulse { animation: pvm-pulse var(--B) cubic-bezier(.2, .6, .35, 1) infinite; }
+    .pvm-atom .p1 { --pk: .5; }
+    .pvm-atom .p2 { --pk: .26; animation-delay: .38s; }
+
+    @keyframes pvm-spin  { from { transform: rotate(0deg); }  to { transform: rotate(360deg); } }
+    @keyframes pvm-cspin { from { transform: rotate(0deg); }  to { transform: rotate(-360deg); } }
+    /* near at 25% of the cycle (front half), far at 75% (behind the nucleus) */
+    @keyframes pvm-depth {
+      0%   { transform: scale(1);    opacity: .92; }
+      25%  { transform: scale(1.16); opacity: 1; }
+      50%  { transform: scale(1);    opacity: .92; }
+      75%  { transform: scale(.82);  opacity: .6; }
+      100% { transform: scale(1);    opacity: .92; }
+    }
+    /* hand-off between front/back copies happens at the orbit's far edges,
+       where the electron can never overlap the nucleus — the swap is invisible */
+    @keyframes pvm-show-front { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes pvm-show-back  { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+    /* lub-dub */
+    @keyframes pvm-beat {
+      0% { transform: scale(1); } 5% { transform: scale(1.05); } 10% { transform: scale(1); }
+      14% { transform: scale(1.028); } 20% { transform: scale(1); } 100% { transform: scale(1); }
+    }
+    @keyframes pvm-pulse {
+      0%  { transform: scale(.9); opacity: 0; }
+      4%  { opacity: var(--pk); }
+      55% { transform: scale(5); opacity: 0; }
+      100% { transform: scale(5); opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pvm-atom * { animation: none !important; }
+      .pvm-atom .pulse { display: none; }
+    }
+  </style>
+
+  <defs>
+    <!-- ambient field -->
+    <radialGradient id="pvmField" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#7288FF" stop-opacity=".10"/>
+      <stop offset="55%" stop-color="#7288FF" stop-opacity=".04"/>
+      <stop offset="100%" stop-color="#7288FF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- nucleus -->
+    <radialGradient id="pvmHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"  stop-color="#6F87FF" stop-opacity=".34"/>
+      <stop offset="45%" stop-color="#6F87FF" stop-opacity=".12"/>
+      <stop offset="100%" stop-color="#6F87FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pvmCore" cx="50%" cy="50%" r="60%" fx="40%" fy="34%">
+      <stop offset="0%"  stop-color="#F2F5FF"/>
+      <stop offset="35%" stop-color="#C6D3FF"/>
+      <stop offset="72%" stop-color="#7D97FF"/>
+      <stop offset="100%" stop-color="#4F7CFF"/>
+    </radialGradient>
+    <!-- electrons -->
+    <radialGradient id="pvmEBlue" cx="50%" cy="50%" r="55%" fx="38%" fy="34%">
+      <stop offset="0%" stop-color="#EFF4FF"/><stop offset="45%" stop-color="#9FB6FF"/><stop offset="100%" stop-color="#4F7CFF"/>
+    </radialGradient>
+    <radialGradient id="pvmEViolet" cx="50%" cy="50%" r="55%" fx="38%" fy="34%">
+      <stop offset="0%" stop-color="#F3F1FF"/><stop offset="45%" stop-color="#C0B8FF"/><stop offset="100%" stop-color="#8B95FF"/>
+    </radialGradient>
+    <radialGradient id="pvmEWarm" cx="50%" cy="50%" r="55%" fx="38%" fy="34%">
+      <stop offset="0%" stop-color="#FFF6EA"/><stop offset="42%" stop-color="#FFD9A3"/><stop offset="100%" stop-color="#F59E4C"/>
+    </radialGradient>
+    <radialGradient id="pvmGBlue" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#5F82FF" stop-opacity=".5"/><stop offset="100%" stop-color="#5F82FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pvmGViolet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B95FF" stop-opacity=".5"/><stop offset="100%" stop-color="#8B95FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="pvmGWarm" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFAE5C" stop-opacity=".48"/><stop offset="100%" stop-color="#FFAE5C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ambient field -->
+  <circle class="fld" cx="240" cy="240" r="236" fill="url(#pvmField)"/>
+
+  <!-- engraved dial: tick ring, guides, satellite specks (drifts very slowly) -->
+  <g class="dial">
+    <circle cx="240" cy="240" r="206" fill="none" stroke="#8B95FF" stroke-opacity=".26" stroke-width="2.4"
+            stroke-dasharray="1.7 9.086"/>
+    <circle cx="240" cy="240" r="224" fill="none" stroke="#8B95FF" stroke-opacity=".12" stroke-width=".6"/>
+    <circle cx="240" cy="240" r="64" fill="none" stroke="#8B95FF" stroke-opacity=".2" stroke-width=".7" stroke-dasharray="3 6"/>
+    <circle cx="330" cy="96"  r="1.4" fill="#8B95FF" fill-opacity=".5"/>
+    <circle cx="120" cy="120" r="1.1" fill="#8B95FF" fill-opacity=".4"/>
+    <circle cx="392" cy="300" r="1.2" fill="#8B95FF" fill-opacity=".45"/>
+    <circle cx="96"  cy="330" r="1.5" fill="#F7A356" fill-opacity=".45"/>
+    <circle cx="240" cy="36"  r="1"   fill="#8B95FF" fill-opacity=".4"/>
+    <circle cx="60"  cy="190" r="1"   fill="#8B95FF" fill-opacity=".35"/>
+    <circle cx="410" cy="150" r="1.1" fill="#8B95FF" fill-opacity=".4"/>
+    <circle cx="180" cy="420" r="1.3" fill="#8B95FF" fill-opacity=".4"/>
+  </g>
+
+  <!-- ================= BACK: full orbit rings + electrons behind the nucleus -->
+  <g class="precess">
+    <g class="t1">
+      <circle class="ring" cx="240" cy="240" r="132" fill="none" stroke="#6D86FF" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o1 eb">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="20" fill="url(#pvmGBlue)"/>
+          <circle cx="240" cy="240" r="6"  fill="url(#pvmEBlue)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+    <g class="t2">
+      <circle class="ring" cx="240" cy="240" r="176" fill="none" stroke="#8B95FF" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o2 eb">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="22" fill="url(#pvmGWarm)"/>
+          <circle cx="240" cy="240" r="6.5" fill="url(#pvmEWarm)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+    <g class="t3">
+      <circle class="ring" cx="240" cy="240" r="200" fill="none" stroke="#7F8BF7" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o3 eb">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="18" fill="url(#pvmGViolet)"/>
+          <circle cx="240" cy="240" r="5.5" fill="url(#pvmEViolet)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+  </g>
+
+  <!-- ================= NUCLEUS (beats on the pulse) -->
+  <g class="beat">
+    <circle class="halo" cx="240" cy="240" r="84" fill="url(#pvmHalo)"/>
+    <circle cx="240" cy="240" r="17" fill="url(#pvmCore)"/>
+    <circle cx="240" cy="240" r="17.4" fill="none" stroke="#4066E0" stroke-opacity=".35" stroke-width=".8"/>
+    <circle cx="240" cy="240" r="17.8" fill="none" stroke="#CBD5FF" stroke-opacity=".5" stroke-width=".5"/>
+    <circle cx="240" cy="240" r="27" fill="none" stroke="#8B95FF" stroke-opacity=".28" stroke-width=".75"/>
+  </g>
+
+  <!-- pulse wavefronts: hairline rings emitted on the heartbeat -->
+  <circle class="pulse p1" cx="240" cy="240" r="26" fill="none" stroke="#7C92FF" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+  <circle class="pulse p2" cx="240" cy="240" r="26" fill="none" stroke="#7C92FF" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+
+  <!-- ================= FRONT: near half of each orbit + electrons in front -->
+  <g class="precess">
+    <g class="t1">
+      <path class="arc" d="M 108 240 A 132 132 0 0 0 372 240" fill="none" stroke="#6D86FF" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o1 ef">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="20" fill="url(#pvmGBlue)"/>
+          <circle cx="240" cy="240" r="6"  fill="url(#pvmEBlue)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+    <g class="t2">
+      <path class="arc" d="M 64 240 A 176 176 0 0 0 416 240" fill="none" stroke="#8B95FF" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o2 ef">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="22" fill="url(#pvmGWarm)"/>
+          <circle cx="240" cy="240" r="6.5" fill="url(#pvmEWarm)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+    <g class="t3">
+      <path class="arc" d="M 40 240 A 200 200 0 0 0 440 240" fill="none" stroke="#7F8BF7" stroke-width="1" vector-effect="non-scaling-stroke"/>
+      <g class="e o3 ef">
+        <g class="spin"><g class="arm"><g class="cspin"><g class="squash"><g class="depth">
+          <circle cx="240" cy="240" r="18" fill="url(#pvmGViolet)"/>
+          <circle cx="240" cy="240" r="5.5" fill="url(#pvmEViolet)"/>
+        </g></g></g></g></g>
+      </g>
+    </g>
+  </g>
+</svg>

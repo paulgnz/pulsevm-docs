@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PulseVM">
+  <!-- PulseVM proton mark — static sibling of proton-atom.svg, tuned to stay
+       crisp at 16-32 px (nav logo + favicon). Two crossed orbits, nucleus on
+       the brand ramp, single warm electron. -->
+  <defs>
+    <radialGradient id="pmN" cx="42%" cy="36%" r="75%">
+      <stop offset="0%" stop-color="#DCE4FF"/>
+      <stop offset="45%" stop-color="#8B95FF"/>
+      <stop offset="100%" stop-color="#4F7CFF"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="#4F7CFF" stroke-width="3" transform="rotate(-24 32 32)"/>
+  <ellipse cx="32" cy="32" rx="26" ry="11" fill="none" stroke="#8B95FF" stroke-width="3" transform="rotate(56 32 32)"/>
+  <circle cx="32" cy="32" r="8.5" fill="url(#pmN)"/>
+  <circle cx="8.2" cy="42.6" r="4" fill="#F7A356"/>
+  <circle cx="42.5" cy="54.3" r="3.4" fill="#8B95FF"/>
+</svg>

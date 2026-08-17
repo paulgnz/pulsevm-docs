@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PulseVM proton atom — preview</title>
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  body {
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #101014; color: #e6e8f0; padding: 40px 24px 64px;
+  }
+  h1 { font-size: 20px; font-weight: 600; letter-spacing: -.01em; }
+  p.sub { color: #9ba0b0; font-size: 13.5px; margin-top: 6px; max-width: 68ch; line-height: 1.55; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px;
+         background: rgba(139,149,255,.12); padding: 1px 6px; border-radius: 5px; color: #b8c2ff; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px; max-width: 1200px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .panel { border-radius: 16px; padding: 28px 20px 18px; display: flex; flex-direction: column;
+           align-items: center; gap: 10px; border: 1px solid rgba(139,149,255,.18); }
+  .panel.light { background: #ffffff; }
+  .panel.dark  { background: #1b1b1f; }
+  .panel img.hero { width: min(440px, 100%); height: auto; display: block; }
+  .cap { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+  .panel.light .cap { color: #6b7280; }
+  .panel.dark  .cap { color: #8b90a0; }
+  .row { display: flex; align-items: flex-end; gap: 28px; margin-top: 34px; flex-wrap: wrap; max-width: 1200px; }
+  .chip { border-radius: 14px; border: 1px solid rgba(139,149,255,.18); padding: 16px;
+          display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .chip.light { background: #fff; } .chip.dark { background: #1b1b1f; }
+  .chip span { font-size: 11px; color: #9ba0b0; }
+  .notes { margin-top: 34px; max-width: 76ch; color: #9ba0b0; font-size: 13.5px; line-height: 1.65; }
+  .notes li { margin: 6px 0 6px 18px; }
+  .notes strong { color: #d6d9e6; font-weight: 600; }
+</style>
+</head>
+<body>
+  <h1>PulseVM proton atom — hero mark preview</h1>
+  <p class="sub">
+    Pure SVG + CSS (no JS, no external assets, ~13&nbsp;KB). Nucleus beats a slow
+    <em>lub-dub</em> and emits hairline pulse rings; three electrons ride tilted elliptical
+    orbits with real depth — they pass <em>behind</em> the nucleus and return in front,
+    growing and brightening as they near the viewer. The whole orbital plane precesses
+    slowly; the middle (warm) electron runs counter-rotation. Palette is keyed to the site
+    accent gradient <code>#4F7CFF → #8B95FF</code> with a single warm accent.
+  </p>
+
+  <div class="grid">
+    <div class="panel light">
+      <img class="hero" src="./proton-atom.svg" alt="Proton atom on light background">
+      <div class="cap">Light — VitePress bg #ffffff</div>
+    </div>
+    <div class="panel dark">
+      <img class="hero" src="./proton-atom.svg" alt="Proton atom on dark background">
+      <div class="cap">Dark — VitePress bg #1b1b1f</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="chip light"><img src="./proton-atom.svg" width="200" height="200" alt=""><span>200 px</span></div>
+    <div class="chip dark"><img src="./proton-atom.svg" width="200" height="200" alt=""><span>200 px</span></div>
+    <div class="chip light"><img src="./proton-atom.svg" width="96" height="96" alt=""><span>96 px</span></div>
+    <div class="chip dark"><img src="./proton-atom.svg" width="96" height="96" alt=""><span>96 px</span></div>
+  </div>
+
+  <ul class="notes">
+    <li><strong>Motion:</strong> transform/opacity only — cheap to composite. Orbit periods 12 s / 18 s / 26 s, heartbeat 3.4 s, precession 150 s.</li>
+    <li><strong>Reduced motion:</strong> with <code>prefers-reduced-motion: reduce</code> the mark renders as a clean static atom (electrons parked at 35°/150°/250°, pulse rings hidden).</li>
+    <li><strong>Theming:</strong> loaded via <code>&lt;img&gt;</code> it adapts to OS <code>prefers-color-scheme</code>; inlined into the page it follows the VitePress <code>.dark</code> toggle exactly (the stylesheet targets both). The art is deliberately legible on either background, so a mismatch is never jarring.</li>
+    <li><strong>Tuning:</strong> everything is a CSS variable at the top of the SVG — brand hues, heartbeat period <code>--B</code>, and per-theme intensities (<code>--halo</code>, <code>--ring</code>, <code>--arc</code>, <code>--tick</code>, <code>--field</code>).</li>
+  </ul>
+</body>
+</html>

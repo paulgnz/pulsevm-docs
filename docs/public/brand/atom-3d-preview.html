@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PulseVM proton atom — Three.js preview</title>
+<!-- Standalone demo of docs/public/brand/proton-atom-scene.js (the same module
+     the ProtonAtom.vue hero component bundles). three is import-mapped from a
+     CDN here only; the site bundles its local three dependency. -->
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.171.0/build/three.module.js" } }
+</script>
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  :root { --bg: #ffffff; --fg: #213547; --fg2: #5a6472; --card: rgba(60,80,224,.06); }
+  html.dark { --bg: #1b1b1f; --fg: #dfdfe3; --fg2: #98989f; --card: rgba(139,149,255,.08); }
+  html, body { height: 100%; }
+  body {
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg); color: var(--fg);
+    transition: background .3s, color .3s;
+    overflow: hidden;
+  }
+  #stage { position: fixed; inset: 0; }
+  /* mock hero copy to judge composition + legibility against the scene */
+  .hero {
+    position: fixed; z-index: 2; left: max(6vw, 32px); top: 50%;
+    transform: translateY(-50%); max-width: 560px; pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 4.6vw, 56px); line-height: 1.08; letter-spacing: -.02em;
+    background: linear-gradient(120deg, #4F7CFF 20%, #8B95FF); -webkit-background-clip: text;
+    background-clip: text; color: transparent; width: fit-content;
+  }
+  .hero p { margin-top: 18px; font-size: 15.5px; line-height: 1.6; color: var(--fg2); max-width: 46ch; }
+  .ui {
+    position: fixed; z-index: 3; right: 18px; top: 16px; display: flex; gap: 8px; align-items: center;
+    font-size: 12.5px;
+  }
+  .ui button {
+    font: inherit; color: var(--fg); background: var(--card);
+    border: 1px solid rgba(139,149,255,.35); border-radius: 8px;
+    padding: 6px 12px; cursor: pointer;
+  }
+  #fps {
+    color: var(--fg2); font-variant-numeric: tabular-nums; background: var(--card);
+    border-radius: 8px; padding: 6px 10px; min-width: 74px; text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div id="stage"></div>
+
+  <div class="hero">
+    <h1>PulseVM</h1>
+    <p>Financial infrastructure your institution can run on its own terms.
+       Named accounts, native multisig, and instant, irreversible finality —
+       on a private network you own, not one you join.</p>
+  </div>
+
+  <div class="ui">
+    <span id="fps">— fps</span>
+    <button id="theme">dark / light</button>
+    <button id="pause">pause</button>
+  </div>
+
+  <script type="module">
+    import { mountProtonAtom } from './proton-atom-scene.js'
+
+    const root = document.documentElement
+    const startDark = !location.search.includes('light')
+    if (startDark) root.classList.add('dark') // default dark — the money shot
+
+    const scene = mountProtonAtom(document.getElementById('stage'), {
+      dark: startDark, interactive: true, offsetRight: true,
+    })
+
+    document.getElementById('theme').onclick = () => {
+      const dark = root.classList.toggle('dark')
+      scene.setTheme(dark)
+    }
+    document.getElementById('pause').onclick = (e) => {
+      if (scene.running) { scene.pause(); e.target.textContent = 'resume' }
+      else { scene.resume(); e.target.textContent = 'pause' }
+    }
+
+    /* fps meter (rolling 30-frame average) */
+    const el = document.getElementById('fps')
+    let frames = 0, t0 = performance.now()
+    const tick = (now) => {
+      frames++
+      if (now - t0 >= 500) {
+        el.textContent = `${Math.round((frames * 1000) / (now - t0))} fps`
+        frames = 0; t0 = now
+      }
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  </script>
+</body>
+</html>

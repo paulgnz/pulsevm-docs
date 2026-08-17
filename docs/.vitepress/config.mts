@@ -7,7 +7,10 @@ export default withMermaid(defineConfig({
     'PulseVM is a non-EVM, Antelope-based blockchain for banks and fintechs: tokenized deposits, named accounts, native multisig, instant finality — a permissioned network you own.',
   lastUpdated: true,
   head: [
-    ['meta', { name: 'theme-color', content: '#1d4ed8' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
+    ['meta', { name: 'theme-color', content: '#4F7CFF' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'PulseVM' }],
     ['meta', { property: 'og:image', content: 'https://pulsevm.dev/brand/og.png' }],
@@ -36,7 +39,7 @@ export default withMermaid(defineConfig({
     )
   },
   themeConfig: {
-    logo: '/brand/metal-glyph-color.svg',
+    logo: '/brand/proton-mark.svg',
     nav: [
       { text: 'Guide', link: '/guide/what-is-pulsevm' },
       { text: 'Wallets', link: '/wallets' },
@@ -216,9 +219,25 @@ export default withMermaid(defineConfig({
     },
     search: { provider: 'local' },
   },
-}), {
+  // vitepress-plugin-mermaid reads `mermaid` from the main config object
+  // (a second withMermaid argument is ignored).
+  // Brand-ramp diagram theming: periwinkle nodes/edges instead of stock
+  // pastels ('base' theme is required for themeVariables to apply).
   mermaid: {
     flowchart: { htmlLabels: true, useMaxWidth: true, curve: 'basis', padding: 14 },
-    themeVariables: { fontFamily: 'inherit', fontSize: '15px' },
+    theme: 'base',
+    themeVariables: {
+      fontFamily: 'inherit',
+      fontSize: '15px',
+      primaryColor: '#4f7cff',
+      primaryTextColor: '#ffffff',
+      primaryBorderColor: '#8b95ff',
+      lineColor: '#7c92ff',
+      secondaryColor: '#eef1ff',
+      tertiaryColor: '#f5f6ff',
+      clusterBkg: 'rgba(79, 124, 255, 0.06)',
+      clusterBorder: '#8b95ff',
+      edgeLabelBackground: 'transparent',
+    },
   },
-})
+} as any))

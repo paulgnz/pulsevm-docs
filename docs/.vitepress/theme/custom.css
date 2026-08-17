@@ -1,23 +1,62 @@
-/* ===== PulseVM brand: navy accent (overrides stock VitePress indigo) ===== */
+/* ===== PulseVM brand: periwinkle ramp (#4F7CFF -> #8B95FF), one system
+   across links, buttons, matrix highlight and the hero art ===== */
 :root {
-  --vp-c-brand-1: #1e40af;
-  --vp-c-brand-2: #1d4ed8;
-  --vp-c-brand-3: #2563eb;
-  --vp-c-brand-soft: rgba(37, 99, 235, 0.14);
-  --vp-c-brand-softer: rgba(37, 99, 235, 0.08);
+  --pvm-grad-a: #4F7CFF;
+  --pvm-grad-b: #8B95FF;
+  --vp-c-brand-1: #3b62e6;                    /* link/text accent — AA on white */
+  --vp-c-brand-2: #3d66f0;                    /* hover */
+  --vp-c-brand-3: #4f7cff;                    /* solid fills / buttons */
+  --vp-c-brand-soft: rgba(79, 124, 255, 0.14);
+  --vp-c-brand-softer: rgba(79, 124, 255, 0.08);
   --vp-button-brand-bg: var(--vp-c-brand-3);
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
-  --vp-button-brand-active-bg: var(--vp-c-brand-1);
+  --vp-button-brand-active-bg: #3558d4;
+  /* hero name carries the brand gradient */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, var(--pvm-grad-a) 20%, var(--pvm-grad-b));
 }
 .dark {
-  --vp-c-brand-1: #8aa6ff;
-  --vp-c-brand-2: #a5bbff;
-  --vp-c-brand-3: #2f54d8;
-  --vp-c-brand-soft: rgba(120, 150, 255, 0.16);
-  --vp-c-brand-softer: rgba(120, 150, 255, 0.09);
+  --vp-c-brand-1: #8b95ff;                    /* link/text accent — AA on the navy bg */
+  --vp-c-brand-2: #a0aaff;
+  --vp-c-brand-3: #5b72e8;                    /* button fill: lifted from muddy #2f54d8 */
+  --vp-c-brand-soft: rgba(139, 149, 255, 0.16);
+  --vp-c-brand-softer: rgba(139, 149, 255, 0.09);
+  --vp-button-brand-active-bg: #4a5fd6;
+  /* deep-space navy: the whole dark theme sits in the brand's hue family so the
+     hero's bloom has darkness to glow against and docs pages match seamlessly */
+  --vp-c-bg: #0b101f;
+  --vp-c-bg-alt: #070b16;                     /* navbar / sidebar / code blocks */
+  --vp-c-bg-elv: #131a2e;                     /* elevated: menus, dialogs */
+  --vp-c-bg-soft: #10172a;                    /* cards, custom blocks */
+  --vp-c-divider: #1d2540;
+  --vp-c-gutter: #070b16;
 }
 
-/* Full-bleed hero: the proton canvas covers the whole hero section,
+/* ===== typography: Sora (OFL, self-hosted latin subset) for display/headings;
+   body stays on the default stack ===== */
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 100 800;               /* variable file, 25 KB latin subset */
+  font-display: swap;
+  src: url('/fonts/sora-latin-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+:root {
+  --pvm-font-display: 'Sora', var(--vp-font-family-base);
+}
+.VPHero .name,
+.VPHero .text,
+.VPNavBarTitle .title span,
+.vp-doc h1,
+.vp-doc h2,
+.usecases-title {
+  font-family: var(--pvm-font-display);
+  letter-spacing: -0.015em;
+}
+.VPHero .name { letter-spacing: -0.02em; }
+
+/* Full-bleed hero: the proton scene covers the whole hero section,
    text/actions sit on top. */
 .VPHome .VPHero {
   position: relative;
@@ -27,11 +66,53 @@
   position: relative;
   z-index: 1;
 }
-/* the injected canvas host (home-hero-before slot) is absolutely positioned
-   to fill the hero; keep it behind the content */
-.VPHome .VPHero > .proton-field,
-.VPHome .VPHero .proton-field {
+/* the injected scene host (home-hero-before slot) sits behind the hero */
+.VPHome .proton-atom {
   z-index: 0;
+}
+/* backdrop field under the WebGL canvas (z:-1 stays inside the host's stacking
+   context). Light: a pale periwinkle wash so the atom has something to glow
+   against on white. Dark: a deep-space vignette — darker than the page bg at
+   the atom, falling off to transparent so scrolling stays seamless. */
+.VPHome .proton-atom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 78% at 67% 47%,
+    rgba(79, 124, 255, 0.10),
+    rgba(79, 124, 255, 0.05) 45%,
+    transparent 72%
+  );
+}
+.dark .VPHome .proton-atom::before {
+  background: radial-gradient(
+    60% 82% at 67% 47%,
+    #050810,
+    rgba(5, 8, 16, 0.55) 48%,
+    transparent 78%
+  );
+}
+@media (max-width: 960px) {
+  /* atom centers behind the text on small screens — recentre the field */
+  .VPHome .proton-atom::before {
+    background: radial-gradient(
+      70% 60% at 50% 50%,
+      rgba(79, 124, 255, 0.08),
+      rgba(79, 124, 255, 0.04) 45%,
+      transparent 72%
+    );
+  }
+  .dark .VPHome .proton-atom::before {
+    background: radial-gradient(
+      72% 64% at 50% 50%,
+      #050810,
+      rgba(5, 8, 16, 0.55) 48%,
+      transparent 78%
+    );
+  }
 }
 
 /* ---- comparison matrix status badges (replaces emoji) ---- */
@@ -81,12 +162,51 @@
 @media (max-width: 900px) { .usecases-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) { .usecases-grid { grid-template-columns: 1fr; } }
 .uc {
+  position: relative; overflow: hidden;
   display: flex; flex-direction: column; gap: 6px;
   padding: 20px; border: 1px solid var(--vp-c-divider); border-radius: 14px;
   background: var(--vp-c-bg-soft); text-decoration: none !important;
   transition: border-color .2s, transform .2s, background .2s;
 }
+/* gradient hairline sweeps in along the top edge on hover */
+.uc::before {
+  content: '';
+  position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--pvm-grad-a), var(--pvm-grad-b));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s ease;
+}
 .uc:hover { border-color: var(--vp-c-brand-1); transform: translateY(-2px); background: var(--vp-c-bg-soft); }
+.uc:hover::before { transform: scaleX(1); }
 .uc strong { color: var(--vp-c-text-1); font-size: 1.02rem; }
 .uc span { color: var(--vp-c-text-2); font-size: .9rem; line-height: 1.5; }
-.uc em { color: var(--vp-c-brand-1); font-style: normal; font-weight: 600; font-size: .85rem; margin-top: 4px; }
+.uc em {
+  color: var(--vp-c-brand-1); font-style: normal; font-weight: 600; font-size: .85rem;
+  margin-top: 4px; align-self: flex-start; transition: transform .25s ease;
+}
+.uc:hover em { transform: translateX(4px); }
+
+/* ===== homepage brand strip: eyebrow + optically-equalized, grayscale-until-
+   hover lineage logos (markup in index.md) ===== */
+.brand-strip-eyebrow {
+  text-align: center;
+  margin: 56px 0 18px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+.brand-strip {
+  display: flex; gap: 48px; align-items: center; justify-content: center;
+  margin: 0 0 16px; flex-wrap: wrap;
+}
+.brand-strip img {
+  display: block; width: auto;
+  filter: grayscale(1); opacity: .55;
+  transition: filter .25s ease, opacity .25s ease;
+}
+.brand-strip a:hover img { filter: none; opacity: 1; }
+/* optical equalization: height attrs in the markup encode intent (30/34/30) */
+.brand-strip img[height="30"] { height: 30px; }
+.brand-strip img[height="34"] { height: 34px; }
