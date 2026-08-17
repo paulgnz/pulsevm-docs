@@ -11,7 +11,7 @@ CTO-to-CTO. The value proposition is elsewhere on this site; this page answers t
 PulseVM is a settlement and record layer, not a replacement for your systems of record — it sits alongside them.
 
 - **Integration surface**: a native JSON-RPC API plus an Antelope-compatible REST layer, so standard tooling (eosjs, @proton/js, indexers) works against it. See the [API reference](/build/api).
-- **System-of-record bridge**: [Hyperion](https://github.com/MetalBlockchain/pulsevm-hyperion) provides full, queryable history — the natural integration point for reconciliation, reporting, and feeding your existing ledger/GL. Reads are free, so analytics and audit impose no cost or rate pressure.
+- **System-of-record bridge**: [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) provides full, queryable history — the natural integration point for reconciliation, reporting, and feeding your existing ledger/GL. Reads are free, so analytics and audit impose no cost or rate pressure.
 - **Contracts as your business logic**: rules live in [Rust](/build/quickstart-rust), C++, or [TypeScript](/build/quickstart-typescript) contracts you write and own — versioned, reviewed, and deployed on your schedule.
 
 ## Operating a network
