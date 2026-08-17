@@ -13,7 +13,7 @@ This page is a machine-oriented quickstart. Humans welcome too.
 
 Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/C6tuBzT2M3TZHyWc5Ro6L3cJyoxRAPy9avJeNh3FPzkBswXgX/rpc`
 
-> Alpine resets frequently during consensus hardening — most recently 2026-08-05 (chain id `19352698…`). If a cached endpoint or chain id stops working, re-read this page (or `/network/endpoints.md`) for the current values.
+> Alpine upgrades frequently — current genesis 2026-08-05 (chain id `19352698…`). If a cached endpoint or chain id stops working, re-read this page (or `/network/endpoints.md`) for the current values.
 
 ```bash
 # chain info (head block, LIB, chain id)

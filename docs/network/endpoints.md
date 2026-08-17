@@ -2,8 +2,8 @@
 
 ## A-Chain Alpine (testnet)
 
-::: warning Testnet resets frequently during hardening
-Alpine was most recently relaunched with a fresh genesis on **2026-08-05** (PulseVM v0.6.x era). Each reset changes the blockchain ID and chain ID, and state does not carry over — expect further resets while consensus hardening lands, and re-check this page if a cached endpoint stops responding.
+::: tip Fast-moving testnet
+Alpine upgrades frequently as development ships — most recent genesis **2026-08-05** (v0.6.x era). Endpoints and chain IDs on this page are kept current; if a cached value stops working, re-check here or see [Updates](/network/updates).
 :::
 
 | | |
@@ -12,7 +12,7 @@ Alpine was most recently relaunched with a fresh genesis on **2026-08-05** (Puls
 | History (Hyperion v2) | `https://a-chain-alpine-hyperion.metalblockchain.org` |
 | Blockchain ID | `C6tuBzT2M3TZHyWc5Ro6L3cJyoxRAPy9avJeNh3FPzkBswXgX` |
 | Chain ID | `193526980f523c07a567dda80f5f543e2356518ce1475cf3e03d98ca740b3f67` |
-| Node version | PulseVM `v0.6.x`-series (third-party node sync is not yet supported on this reset — use the public RPC above, or watch [releases](https://github.com/MetalBlockchain/pulsevm/releases)) |
+| Node version | PulseVM `v0.6.x`-series — connect via the public RPC above; validator releases at [GitHub](https://github.com/MetalBlockchain/pulsevm/releases) |
 | Indexer | [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) — Metallicus's native Rust Hyperion |
 
 ::: tip Testnet

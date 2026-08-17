@@ -4,11 +4,7 @@ description: "PulseVM development and network updates — releases, Alpine testn
 
 # Updates
 
-Development moves quickly — new [releases](https://github.com/MetalBlockchain/pulsevm/releases) land weekly and the Alpine testnet resets during consensus hardening. Newest first; current endpoints always live at [Network Endpoints](/network/endpoints).
-
-::: tip Testnet resets
-Each Alpine reset changes the blockchain ID and chain ID, and state does not carry over. If a cached endpoint stops responding, check [Network Endpoints](/network/endpoints) for the current values.
-:::
+Development moves fast — new [releases](https://github.com/MetalBlockchain/pulsevm/releases) land weekly. Newest first; current testnet endpoints always live at [Network Endpoints](/network/endpoints).
 
 ## August 2026
 
@@ -18,7 +14,7 @@ Each Alpine reset changes the blockchain ID and chain ID, and state does not car
 
 **2026-08-12 — v0.6.2.** A major merge wave: functional producer-election loop (contracts can now read and update the active producer schedule — the on-chain half of vote-driven validation), Leap-style subjective execution deadlines, per-intrinsic CPU metering fairness, RAM-limit validation, gossip-transaction validation, block-id parity enforcement, and `eosio_exit` semantics.
 
-**2026-08-05 — Alpine testnet reset (current chain).** Fresh genesis on the v0.6.x era; new blockchain/chain IDs (see [endpoints](/network/endpoints)). Core token is XPR.
+**2026-08-05 — Alpine testnet upgraded (current chain).** Relaunched on the v0.6.x era with a fresh genesis — new blockchain/chain IDs at [endpoints](/network/endpoints). Core token is XPR.
 
 **2026-08-04 — v0.6.0.** Native Rust "arena" state store lands (differentially validated against chainbase), executed-state reuse across build/verify/accept, warm WASM store pooling, end-to-end test suite, NET limit enforcement, `pulse::onblock`, producer-schedule block signing, and WASM determinism hardening (NaN canonicalization, pinned feature set).
 
@@ -26,7 +22,7 @@ Each Alpine reset changes the blockchain ID and chain ID, and state does not car
 
 **2026-07-28 — v0.5.2 + hyperion-rs.** Leap-aligned authority checking (multi-signer fix + re-entrant permission semantics) — and [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs), a native Rust rewrite of the Hyperion full-history indexer.
 
-**2026-07-27 — Alpine testnet relaunch.** Fresh genesis with an expanded validator fleet; first demo dapps deployed within a day.
+**2026-07-27 — Alpine testnet relaunched.** Expanded validator fleet; first demo dapps live within a day.
 
 **2026-07-22 — v0.5.0 / v0.5.1: the Antelope-compatibility milestone.** The full classic Antelope host-function surface: every secondary-index type, the standard crypto suite, transaction/TAPoS introspection, context-free actions, permission checks, and int128/float128 builtins — plus deterministic CPU billing and nodeos-exact assert semantics. The vast majority of XPR Network, EOS, and WAX contracts run unchanged from this release onward. See [Host Functions](/build/intrinsics).
 
