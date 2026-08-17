@@ -1,6 +1,6 @@
 # RPC & REST API
 
-PulseVM nodes expose a native JSON-RPC API, and deployments typically add an Antelope-compatible REST layer so existing tooling (eosjs, @proton/js, [Hyperion](https://github.com/MetalBlockchain/pulsevm-hyperion)) works unchanged.
+PulseVM nodes expose a native JSON-RPC API, and deployments typically add an Antelope-compatible REST layer so existing tooling (eosjs, @proton/js, [Hyperion](https://github.com/MetalBlockchain/hyperion-rs)) works unchanged.
 
 ## Native JSON-RPC
 
@@ -41,10 +41,10 @@ curl -s -X POST https://<endpoint>/ext/bc/<chainID>/rpc \\
 
 A few Antelope REST behaviors clients sometimes assume are **not** present on a PulseVM node:
 
-- **No `/v1/history/*`** on the node — use the [Hyperion](https://github.com/MetalBlockchain/pulsevm-hyperion) full-history API for history/actions.
+- **No `/v1/history/*`** on the node — use the [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) full-history API for history/actions.
 - **No `abi_json_to_bin`** — serialize client-side ([pulsevm-js](https://github.com/MetalBlockchain/pulsevm-js) does this).
 - **No `get_scheduled_transactions`** — deferred transactions are deprecated in Antelope 5.x.
-- **`issueTx` / `push_transaction` returns the transaction id, not a full execution trace.** Read traces back from [Hyperion](https://github.com/MetalBlockchain/pulsevm-hyperion) if you need them — the biggest single difference from nodeos DX.
+- **`issueTx` / `push_transaction` returns the transaction id, not a full execution trace.** Read traces back from [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) if you need them — the biggest single difference from nodeos DX.
 - **`getTableRows` is strict about parameters** — include `key_type` and string-form bounds for maximum compatibility across node versions.
 
 ## SDKs

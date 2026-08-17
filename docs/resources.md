@@ -24,7 +24,7 @@ The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/M
 |---|---|
 | [pulsevm-js](https://github.com/MetalBlockchain/pulsevm-js) | TypeScript SDK — signing, ABIs, transact |
 | [pulse-cli-ts](https://github.com/paulgnz/pulse-cli-ts) | Working CLI for accounts, contracts, actions, permissions (community) |
-| [pulsevm-hyperion](https://github.com/MetalBlockchain/pulsevm-hyperion) | Full-history API / indexer for PulseVM chains |
+| [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) | Full-history API / indexer for PulseVM chains — native Rust rewrite (supersedes pulsevm-hyperion) |
 | [metal-network-runner](https://github.com/MetalBlockchain/metal-network-runner) | Run a local Metal network for development |
 | [metal-monitoring](https://github.com/MetalBlockchain/metal-monitoring) | Node monitoring tooling |
 
