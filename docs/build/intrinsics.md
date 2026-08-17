@@ -15,7 +15,7 @@ As of **v0.5.0** (tagged 2026-07-22), PulseVM serves the full classic Antelope h
 ## Supported today
 
 **Action & context** — read the current action and execution context.
-`read_action_data` · `action_data_size` · `current_receiver` · `current_time` · `publication_time` · `set_action_return_value` · `get_action`
+`read_action_data` · `action_data_size` · `current_receiver` · `current_time` · `set_action_return_value` · `get_action`
 
 **Authorization & permissions** — enforce and query permissions.
 `require_auth` · `require_auth2` · `require_recipient` · `has_auth` · `is_account` · `check_transaction_authorization` · `check_permission_authorization` · `get_permission_last_used` · `get_account_creation_time`
@@ -56,6 +56,7 @@ A handful of advanced families aren't served yet. They're uncommon outside zk / 
 
 | Family | Functions | Note |
 |---|---|---|
+| **Context accessors** | `get_sender` · `publication_time` | inline-action sender / trx publication timestamp |
 | **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases |
 | **Protocol-feature framework** | `is_feature_activated` · `preactivate_feature` | feature-gating |
 | **Deferred transactions** | `send_deferred` · `cancel_deferred` | deprecated in Antelope 5.x — use inline actions |
