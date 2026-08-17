@@ -33,6 +33,7 @@ The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/M
 
 | Repo | What it is |
 |---|---|
+| [pulse-explorer](https://github.com/paulgnz/pulse-explorer) | Block explorer for PulseVM chains — accounts, contracts, tokens, producers, wallet (community) |
 | [explorer](https://github.com/MetalBlockchain/explorer) | Metal Blockchain explorer |
 | [metal-wallet](https://github.com/MetalBlockchain/metal-wallet) | Web wallet |
 | [metal-docs](https://github.com/MetalBlockchain/metal-docs) | Metal Blockchain documentation |
