@@ -1,5 +1,5 @@
 ---
-description: "PulseVM development and network updates — releases, Alpine testnet resets, and ecosystem changes, newest first. The quickest way to see that PulseVM ships weekly."
+description: "PulseVM development and network updates — releases, testnet milestones, and ecosystem changes, newest first. The quickest way to see that PulseVM ships weekly."
 ---
 
 # Updates

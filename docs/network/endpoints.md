@@ -19,4 +19,4 @@ Alpine upgrades frequently as development ships — most recent genesis **2026-0
 Alpine is the public test network for A-Chain. Core token is XPR (4 decimals).
 :::
 
-> Antelope-style `/v1/chain` REST is not currently exposed on the rebooted testnet — use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table.
+> Antelope-style `/v1/chain` REST is not currently exposed on the testnet — use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table.
