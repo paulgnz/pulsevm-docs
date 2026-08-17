@@ -73,6 +73,10 @@ description: "Non-EVM, Antelope-based blockchain for banks and fintechs — toke
 </div>
 
 <div class="brand-strip">
+  <a href="https://xprnetwork.org" target="_blank" rel="noopener">
+    <img class="light-only" src="/brand/xpr-network-black.svg" alt="XPR Network" height="30" />
+    <img class="dark-only" src="/brand/xpr-network-white.svg" alt="XPR Network" height="30" />
+  </a>
   <a href="https://metalblockchain.org" target="_blank" rel="noopener">
     <img class="light-only" src="/brand/metal-blockchain-black.svg" alt="Metal Blockchain" height="34" />
     <img class="dark-only" src="/brand/metal-blockchain-white.svg" alt="Metal Blockchain" height="34" />

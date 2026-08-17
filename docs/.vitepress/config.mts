@@ -206,7 +206,7 @@ export default withMermaid(defineConfig({
     ],
     footer: {
       message:
-        'A <a href="https://metallicus.com" target="_blank" rel="noopener">Metallicus</a> technology on <a href="https://metalblockchain.org" target="_blank" rel="noopener">Metal Blockchain</a> · PulseVM is <a href="https://github.com/MetalBlockchain/pulsevm" target="_blank" rel="noopener">open source</a>, created by <a href="https://github.com/MlennGarien" target="_blank" rel="noopener">Glenn Mariën</a>',
+        'Based on <a href="https://xprnetwork.org" target="_blank" rel="noopener">XPR Network</a> / Antelope technology · A <a href="https://metallicus.com" target="_blank" rel="noopener">Metallicus</a> technology on <a href="https://metalblockchain.org" target="_blank" rel="noopener">Metal Blockchain</a> · PulseVM is <a href="https://github.com/MetalBlockchain/pulsevm" target="_blank" rel="noopener">open source</a>, created by <a href="https://github.com/MlennGarien" target="_blank" rel="noopener">Glenn Mariën</a>',
       copyright:
         '<a href="/agents">For AI agents</a> · Site by <a href="https://paulgrey.nz" target="_blank" rel="noopener">Paul Grey</a> · <a href="https://github.com/paulgnz/pulsevm-docs" target="_blank" rel="noopener">contribute</a>',
     },
