@@ -108,7 +108,14 @@ export default withMermaid(defineConfig({
           },
         ],
       },
-      { text: 'Network', link: '/network/endpoints' },
+      {
+        text: 'Network',
+        items: [
+          { text: 'Endpoints', link: '/network/endpoints' },
+          { text: 'Updates', link: '/network/updates' },
+          { text: 'Launch Your Own', link: '/network/launch' },
+        ],
+      },
     ],
     sidebar: {
       '/guide/': [
