@@ -4,7 +4,7 @@ Two wallets for PulseVM networks — pick the one that fits your platform and cu
 
 ## WebAuth
 
-Metallicus's flagship wallet for XPR Network / PulseVM — **mobile (iOS/Android) and browser**.
+Metallicus's flagship wallet for [XPR Network](https://xprnetwork.org) / PulseVM — **mobile (iOS/Android) and browser**.
 Passkey/WebAuthn custody, in-app swap, staking, and dapp connect. Best for everyday users.
 
 - **Get it:** [webauth.com](https://webauth.com)

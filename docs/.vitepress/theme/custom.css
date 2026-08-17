@@ -210,3 +210,7 @@
 /* optical equalization: height attrs in the markup encode intent (30/34/30) */
 .brand-strip img[height="30"] { height: 30px; }
 .brand-strip img[height="34"] { height: 34px; }
+
+/* Mermaid: never clip node labels even if a box measures short */
+.mermaid foreignObject { overflow: visible; }
+.mermaid .nodeLabel { line-height: 1.35; }

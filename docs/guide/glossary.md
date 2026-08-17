@@ -34,6 +34,6 @@ description: "PulseVM glossary — named accounts, permissions, multisig, CPU/NE
 
 **Snowman** — Avalanche's consensus protocol (metalgo), giving fast metastable, instantly-final agreement.
 
-**Antelope** — the execution model PulseVM implements (formerly EOSIO); the lineage behind XPR Network, WAX, Telos.
+**Antelope** — the execution model PulseVM implements (formerly EOSIO); the lineage behind [XPR Network](https://xprnetwork.org), WAX, Telos.
 
 **TAPOS** — "transaction-as-proof-of-stake," an Antelope replay-protection mechanism binding a tx to a recent block.

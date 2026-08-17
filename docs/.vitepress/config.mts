@@ -227,7 +227,10 @@ export default withMermaid(defineConfig({
     flowchart: { htmlLabels: true, useMaxWidth: true, curve: 'basis', padding: 14 },
     theme: 'base',
     themeVariables: {
-      fontFamily: 'inherit',
+      // explicit system stack: mermaid sizes nodes at render time, and a
+      // late-loading webfont (Inter) makes labels taller than the measured
+      // boxes → clipped text. System fonts measure == render.
+      fontFamily: 'ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif',
       fontSize: '15px',
       primaryColor: '#4f7cff',
       primaryTextColor: '#ffffff',

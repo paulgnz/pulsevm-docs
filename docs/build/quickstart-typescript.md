@@ -1,6 +1,6 @@
 # TypeScript Quickstart
 
-TypeScript/AssemblyScript is a popular **additional** way to write PulseVM contracts — convenient for teams who already live in TypeScript. (The canonical contract languages are [Rust](/build/quickstart-rust) and [C++](/build/quickstart-cpp); PulseVM and its system contracts are written in Rust.) It runs via [pulse-tsc](https://github.com/paulgnz/pulse-tsc), a fork of XPR Network's proton-tsc retargeted at PulseVM.
+TypeScript/AssemblyScript is a popular **additional** way to write PulseVM contracts — convenient for teams who already live in TypeScript. (The canonical contract languages are [Rust](/build/quickstart-rust) and [C++](/build/quickstart-cpp); PulseVM and its system contracts are written in Rust.) It runs via [pulse-tsc](https://github.com/paulgnz/pulse-tsc), a fork of [XPR Network](https://xprnetwork.org)'s proton-tsc retargeted at PulseVM.
 
 > New to the testnet? Do [Getting Started](/build/get-started) first (account + keys + endpoint).
 

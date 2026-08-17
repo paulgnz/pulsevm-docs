@@ -4,7 +4,7 @@ description: "PulseVM development concepts — the Antelope execution model: acc
 
 # Development Concepts
 
-PulseVM uses the **Antelope** execution model (the lineage behind XPR Network, WAX, and Telos). If you've built Antelope/EOSIO contracts, it's the model you know; if you're coming from EVM, these are the ideas that differ most. Each page below is PulseVM-native; for the exhaustive C++ reference, the [Antelope docs](https://docs.antelope.io) are canonical.
+PulseVM uses the **Antelope** execution model (the lineage behind [XPR Network](https://xprnetwork.org), WAX, and Telos). If you've built Antelope/EOSIO contracts, it's the model you know; if you're coming from EVM, these are the ideas that differ most. Each page below is PulseVM-native; for the exhaustive C++ reference, the [Antelope docs](https://docs.antelope.io) are canonical.
 
 - **[Accounts & Actions](/concepts/accounts-and-actions)** — named accounts, contracts, and the actions they expose
 - **[State & Tables](/concepts/state-and-tables)** — on-chain storage via multi-index tables

@@ -28,7 +28,7 @@ Every Ethereum transaction is globally public; confidentiality must be added cry
 
 ## A proven execution model
 
-PulseVM implements the **Antelope** execution model (formerly EOSIO) — the same model running XPR Network, WAX, and Telos in production, with a decade of real-world use behind its account, permission, and resource semantics — on **Avalanche Snowman** consensus. Modern, institution-shaped primitives on a foundation with production lineage.
+PulseVM implements the **Antelope** execution model (formerly EOSIO) — the same model running [XPR Network](https://xprnetwork.org), WAX, and Telos in production, with a decade of real-world use behind its account, permission, and resource semantics — on **Avalanche Snowman** consensus. Modern, institution-shaped primitives on a foundation with production lineage.
 
 ## The bottom line
 

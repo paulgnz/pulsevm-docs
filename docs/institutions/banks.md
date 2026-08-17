@@ -34,7 +34,7 @@ Each of these is solvable on EVM — by *additional* infrastructure, frameworks,
 
 ## Permissioned is the design point, not a compromise
 
-Your validators are named institutions under legal agreements. Block producers are elected and replaceable. The network's rules — account policy, fee models, asset-level controls, freeze/clawback under court order — live in **system contracts your organization owns and can modify**, on an execution model with a decade of customization precedent (WAX, Telos, FIO, XPR Network).
+Your validators are named institutions under legal agreements. Block producers are elected and replaceable. The network's rules — account policy, fee models, asset-level controls, freeze/clawback under court order — live in **system contracts your organization owns and can modify**, on an execution model with a decade of customization precedent (WAX, Telos, FIO, [XPR Network](https://xprnetwork.org)).
 
 ## Not bare infrastructure
 

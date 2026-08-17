@@ -22,7 +22,7 @@ The most important privacy lever is one public chains lack: the **network bounda
 
 Two honest parts.
 
-**The semantics are a decade old and run in production.** PulseVM implements the Antelope execution model (Leap 5.0.3) that XPR Network runs today, and carries core components — the chainbase state database, the libfc crypto/serialization layer — over directly from the reference implementation. The account model, permissions, and resource economics are not experiments.
+**The semantics are a decade old and run in production.** PulseVM implements the Antelope execution model (Leap 5.0.3) that [XPR Network](https://xprnetwork.org) runs today, and carries core components — the chainbase state database, the libfc crypto/serialization layer — over directly from the reference implementation. The account model, permissions, and resource economics are not experiments.
 
 **Where PulseVM is new, correctness is measurable, not asserted.** The new surfaces are the Rust execution host and the consensus integration. Because a mature reference implementation exists and runs in production, hardening is mechanical:
 

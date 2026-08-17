@@ -31,7 +31,7 @@ PulseVM is a virtual machine plugin for **metalgo** (Metal Blockchain's node). S
 
 ## Customizing the rules
 
-Because the chain's behavior lives in **system contracts you control**, this is also where customization happens — account-creation policy (e.g. KYC-gated onboarding), fee models, asset-level controls (freeze/clawback under legal order), resource economics, and settlement parameters. The Antelope lineage has a decade of precedent for forking the system layer into different economies (XPR Network, WAX, Telos, FIO each did exactly this).
+Because the chain's behavior lives in **system contracts you control**, this is also where customization happens — account-creation policy (e.g. KYC-gated onboarding), fee models, asset-level controls (freeze/clawback under legal order), resource economics, and settlement parameters. The Antelope lineage has a decade of precedent for forking the system layer into different economies ([XPR Network](https://xprnetwork.org), WAX, Telos, FIO each did exactly this).
 
 ## Operating notes
 
