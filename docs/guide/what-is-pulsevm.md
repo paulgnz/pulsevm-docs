@@ -39,8 +39,14 @@ Think of PulseVM as an operating environment, not "a blockchain you join":
 
 PulseVM stands on two proven foundations, named plainly:
 
-- **Execution: Antelope (formerly EOSIO).** The account, permission, contract, and resource semantics are a direct lineage from the Antelope protocol — the model behind XPR Network, WAX, Telos, and EOS — including core components (the chainbase state database, the libfc crypto/serialization layer) carried over directly from the reference implementation.
+- **Execution: Antelope (formerly EOSIO).** The account, permission, contract, and resource semantics are a direct lineage from the Antelope protocol — the model behind XPR Network, WAX, Telos, and EOS. The implementation is **pure Rust** — modern, memory-safe, and validated **byte-for-byte against the reference implementation** by replaying full chain histories through both.
 - **Consensus: Avalanche's Snowman protocol**, as implemented by Metal Blockchain (metalgo). Repeated randomized sampling of the validator set yields fast, metastable, instantly-final agreement — equally suited to small accountable consortium sets and larger public ones.
+
+## A Rust node running WebAssembly contracts
+
+A detail worth being precise about, because it answers a common question — *"Antelope contracts are C++; how do they run on a Rust node?"*
+
+Contracts on Antelope chains are never executed as C++. Authors compile their contract — written in **C++, Rust, or TypeScript** — into a **WebAssembly (WASM)** binary once, and the chain stores and executes that binary. Any node that (a) runs a WASM engine and (b) serves the same host functions the contract imports will execute it identically. PulseVM does both: a production Rust WASM runtime, plus the full classic Antelope host-function surface. The result: **contract binaries from existing Antelope chains run unchanged, byte-identical code hashes and all** — while the node underneath is a single modern Rust codebase that builds in about two minutes.
 
 PulseVM is **open source** ([MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm)), created by Metallicus CTO **Glenn Mariën** ([@MlennGarien](https://github.com/MlennGarien)).
 
