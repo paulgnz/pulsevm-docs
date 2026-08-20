@@ -8,7 +8,7 @@ Development moves fast — new [releases](https://github.com/MetalBlockchain/pul
 
 ## August 2026
 
-**2026-08-18 — Pure-Rust database cutover in review.** [PR #50](https://github.com/MetalBlockchain/pulsevm/pull/50) replaces the C++ chainbase state database (inherited from the EOSIO lineage) with a native Rust store — removing ~2.7M lines of vendored C++/Boost, validated by replaying the full testnet history byte-for-byte against the original implementation. Build times drop from ~30 minutes to ~2.
+**2026-08-19 — v0.7.0: PulseVM is now pure Rust.** The C++ chainbase state database (inherited from the EOSIO lineage) is fully replaced by a native Rust store — ~2.7M lines of vendored C++/Boost removed, validated by replaying the full testnet history byte-for-byte against the original implementation ([PR #50](https://github.com/MetalBlockchain/pulsevm/pull/50)). Build times drop from ~30 minutes to ~2. In review next: protocol-upgrade scheduling with activation safeguards ([#51](https://github.com/MetalBlockchain/pulsevm/pull/51)) and mempool optimization ([#52](https://github.com/MetalBlockchain/pulsevm/pull/52)).
 
 **2026-08-17 — v0.6.3.** Producer-schedule propagation fix for `onblock`.
 
