@@ -8,7 +8,7 @@ PulseVM executes **Antelope/EOSIO smart contracts natively.** Contracts are the 
 
 This page is a **capability snapshot**: what's supported today, what's in progress, and what doesn't apply. It's maintained as the host-function surface evolves.
 
-<small>Snapshot: **June 2026.** Compatibility is actively expanding — check the [repositories](/resources) for the current state.</small>
+<small>Snapshot: **August 2026.** Compatibility is actively expanding — check the [repositories](/resources) for the current state.</small>
 
 ## What "compatible" means here
 
@@ -18,6 +18,7 @@ If you've shipped on an Antelope chain, these carry over directly:
 - **Your ABIs** — identical ABI format; the same `.abi` files describe your actions and tables.
 - **Accounts & permissions** — named accounts, hierarchical `owner`/`active`/custom permissions, linkauth, and **native multisig**. See [Accounts & Permissions](/guide/accounts-permissions).
 - **Your tooling** — CDT for builds; RPC and client libraries follow the Antelope conventions developers already know. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
+- **Your chain state** — PulseVM boots directly from an Antelope **portable chainstate snapshot** (the nodeos `.bin` format), importing accounts, permissions, contract code, and tables byte-exact. Demonstrated at production scale on the [XPR 1:1 demo network](/network/one-to-one-demo).
 
 ## Host-function surface
 

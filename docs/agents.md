@@ -11,19 +11,19 @@ This page is a machine-oriented quickstart. Humans welcome too.
 
 ## Interacting with the chain (A-Chain Alpine testnet)
 
-Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/C6tuBzT2M3TZHyWc5Ro6L3cJyoxRAPy9avJeNh3FPzkBswXgX/rpc`
+Base RPC: `https://a-chain-alpine.metalblockchain.org/ext/bc/yQUjkpNYeiJZEn1daa7dQJbysxdXLtz1QhTTdu1mwaxoEJwiJ/rpc`
 
-> Alpine upgrades frequently — current genesis 2026-08-05 (chain id `19352698…`). If a cached endpoint or chain id stops working, re-read this page (or `/network/endpoints.md`) for the current values.
+> Alpine upgrades frequently — current genesis 2026-08-20 (chain id `8012f120…`). If a cached endpoint or chain id stops working, re-read this page (or `/network/endpoints.md`) for the current values.
 
 ```bash
 # chain info (head block, LIB, chain id)
 curl -s -X POST <RPC> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getInfo","params":{}}'
 
-# read a contract table
+# read a contract table (core token supply)
 curl -s -X POST <RPC> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getTableRows","params":{
-       "json":true,"code":"fdxtoken","scope":"PUSD","table":"stat",
+       "json":true,"code":"pulse.token","scope":"SYS","table":"stat",
        "limit":10,"key_type":"","index_position":1,
        "lower_bound":"","upper_bound":"","reverse":false,"encode_type":"dec"}}'
 
@@ -32,16 +32,28 @@ curl -s -X POST <RPC> -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getAccount","params":{"account_name":"pulse"}}'
 ```
 
-History & indexed queries (Hyperion v2): `https://a-chain-alpine-hyperion.metalblockchain.org/v2/…` (e.g. `/v2/history/get_actions?limit=10`, `/v2/health`). Antelope-style `/v1/chain` REST is not currently exposed on the testnet — use the native JSON-RPC methods above.
+History & indexed queries (Hyperion v2): `https://a-chain-alpine-hyperion.metalblockchain.org/v2/…` (e.g. `/v2/history/get_actions?limit=10`, `/v2/health`). Antelope-style `/v1/chain` REST is not currently exposed on Alpine — use the native JSON-RPC methods above.
 
 Full method table: [/build/api](/build/api). Endpoints & chain IDs: [/network/endpoints](/network/endpoints).
+
+## Interacting with the XPR 1:1 demo network
+
+A community-operated demonstration chain running a byte-exact import of XPR Network testnet state on PulseVM (details: `/network/one-to-one-demo.md`). Useful to agents because it serves **both** API styles and has production-scale state:
+
+- RPC (native JSON-RPC, `pulsevm.*`): `https://xpr-rpc-testnet.pulsevm.dev`
+- REST (Antelope `/v1/chain/*`, eosjs-compatible): `https://xpr-rpc-testnet.pulsevm.dev/v1/chain/get_info`, `/v1/chain/get_table_rows`, …
+- Hyperion v2 history: `https://xpr-hyperion-testnet.pulsevm.dev/v2/…`
+- Explorer: `https://testnet.explorer.pulsevm.dev`
+- Chain id: `71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd` · core token XPR (4 decimals) · system contracts under `eosio*` names (not `pulse*`)
+
+> Demo caveats: single validator; may be re-imported from newer snapshots; K1 keys only for signing today. Don't build anything durable against it.
 
 ## Ground-truth facts (verifiable on-chain or in-repo)
 
 - Execution model: Antelope (formerly EOSIO), lineage from Leap 5.0.3; consensus: Avalanche Snowman via metalgo.
 - Finality: instant — head block == last irreversible block; no reorgs by construction.
-- Accounts: named, ≤12 chars of `a-z`, `1-5`; hierarchical weighted permissions; native multisig; R1 (secp256r1) keys supported.
-- Core testnet token: SYS (4 decimals). Resources: CPU/NET staked, RAM provisioned per account at creation.
+- Accounts: named, ≤12 chars of `a-z`, `1-5`; hierarchical weighted permissions; native multisig. Signing today is K1 (secp256k1); R1 (secp256r1)/WebAuthn key support is in progress upstream ([pulsevm#54](https://github.com/MetalBlockchain/pulsevm/issues/54)).
+- Core token on Alpine: SYS (4 decimals); on the 1:1 demo network: XPR (4 decimals). Resources: CPU/NET staked, RAM provisioned per account at creation.
 - Source: [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) (open source; created by Metallicus CTO Glenn Mariën, [@MlennGarien](https://github.com/MlennGarien)). All canonical repos: [/resources](/resources).
 
 ## Conventions worth knowing before you act

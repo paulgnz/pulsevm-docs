@@ -113,6 +113,7 @@ export default withMermaid(defineConfig({
         items: [
           { text: 'Endpoints', link: '/network/endpoints' },
           { text: 'Updates', link: '/network/updates' },
+          { text: 'The 1:1 Demo Network', link: '/network/one-to-one-demo' },
           { text: 'Launch Your Own', link: '/network/launch' },
         ],
       },
@@ -204,6 +205,8 @@ export default withMermaid(defineConfig({
           text: 'Network',
           items: [
             { text: 'Endpoints', link: '/network/endpoints' },
+            { text: 'Updates', link: '/network/updates' },
+            { text: 'The 1:1 Demo Network', link: '/network/one-to-one-demo' },
             { text: 'Launch Your Own Network', link: '/network/launch' },
             { text: 'Run a Validator', link: '/network/validator' },
             { text: 'Repos & Resources', link: '/resources' },

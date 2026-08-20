@@ -8,7 +8,7 @@ Contracts store state in **tables** — typed, multi-index collections, not arbi
 
 ## Multi-index tables
 
-A table holds rows of a defined struct, identified by a **primary key**, and may have **secondary indexes** for lookups on other fields. PulseVM serves the 64-bit and 128-bit secondary-index host functions today (`db_idx64_*`, `db_idx128_*`); see [host functions](/build/intrinsics).
+A table holds rows of a defined struct, identified by a **primary key**, and may have **secondary indexes** for lookups on other fields. PulseVM serves all Antelope secondary-index key types (`db_idx64_*`, `db_idx128_*`, `db_idx256_*`, `db_idx_double_*`, `db_idx_long_double_*`); see [host functions](/build/intrinsics).
 
 ```rust
 #[derive(Read, Write, NumBytes, Clone)]

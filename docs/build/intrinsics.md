@@ -33,19 +33,22 @@ As of **v0.5.0** (tagged 2026-07-22), PulseVM serves the full classic Antelope h
 `db_idx64_*` · `db_idx128_*` · `db_idx256_*` · `db_idx_double_*` · `db_idx_long_double_*` — each with the full set: `store` · `update` · `remove` · `find_primary` · `find_secondary` · `lowerbound` · `upperbound` · `next` · `previous` · `end`
 
 **Cryptography**
-`sha1` · `sha256` · `sha512` · `ripemd160` · `recover_key` — and the asserting variants `assert_sha1` · `assert_sha256` · `assert_sha512` · `assert_ripemd160` · `assert_recover_key`
+`sha1` · `sha224` · `sha256` · `sha512` · `ripemd160` · `recover_key` — and the asserting variants `assert_sha1` · `assert_sha224` · `assert_sha256` · `assert_sha512` · `assert_ripemd160` · `assert_recover_key`
 
 **Asserts & control flow**
 `pulse_assert` · `pulse_assert_message` · `pulse_assert_code` · `eosio_assert` · `eosio_assert_message` · `eosio_assert_code` · `pulse_exit` · `eosio_exit` · `abort`
 
 **Console / debug output**
-`prints` · `prints_l` · `printi` · `printui` · `printi128` · `printui128` · `printsf` · `printdf` · `printn` · `printhex`
+`prints` · `prints_l` · `printi` · `printui` · `printi128` · `printui128` · `printsf` · `printdf` · `printqf` · `printn` · `printhex`
 
 **Memory**
 `memcpy` · `memmove` · `memset` · `memcmp`
 
 **Privileged, resources & chain params** (system contracts)
-`is_privileged` · `set_privileged` · `get_resource_limits` · `set_resource_limits` · `set_blockchain_parameters_packed`
+`is_privileged` · `set_privileged` · `get_resource_limits` · `set_resource_limits` · `get_blockchain_parameters_packed` · `set_blockchain_parameters_packed`
+
+**Producers & schedule** (system contracts — the on-chain half of producer election, since v0.6.x)
+`get_active_producers` · `set_proposed_producers`
 
 **Math builtins** (compiler support)
 Full **int128** (`__*ti3` shifts, `__multi3`, `__divti3`, `__modti3`, `__udivti3`, `__umodti3`, conversions) and **float128 / `long double`** (`__addtf3`, `__subtf3`, `__multf3`, `__divtf3`, comparisons, conversions) surface.

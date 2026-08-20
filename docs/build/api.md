@@ -28,14 +28,14 @@ Example table read:
 curl -s -X POST https://<endpoint>/ext/bc/<chainID>/rpc \\
   -H 'Content-Type: application/json' \\
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getTableRows","params":{
-        "json":true,"code":"fdxtoken","scope":"PUSD","table":"stat",
+        "json":true,"code":"pulse.token","scope":"SYS","table":"stat",
         "limit":10,"key_type":"","index_position":1,
         "lower_bound":"","upper_bound":"","reverse":false,"encode_type":"dec"}}'
 ```
 
 ## Antelope REST compatibility
 
-`/v1/chain/get_info`, `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, … — request/response parity targeted at nodeos clients, so [eosjs](https://github.com/EOSIO/eosjs)/@proton/js `transact()` works against PulseVM deployments.
+`/v1/chain/get_info`, `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, … — request/response parity targeted at nodeos clients, so [eosjs](https://github.com/EOSIO/eosjs)/@proton/js `transact()` works against PulseVM deployments. Live example: the [XPR 1:1 demo network](/network/one-to-one-demo) serves `/v1/chain` REST alongside the native JSON-RPC (`https://xpr-rpc-testnet.pulsevm.dev/v1/chain/get_info`).
 
 ## Differences from nodeos that bite clients
 
