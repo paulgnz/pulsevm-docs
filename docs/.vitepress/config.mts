@@ -129,6 +129,7 @@ export default withMermaid(defineConfig({
             { text: 'Native Multisig', link: '/guide/multisig' },
             { text: 'Resources (CPU/NET/RAM)', link: '/guide/resources' },
             { text: 'Finality & Settlement', link: '/guide/finality' },
+            { text: 'Migrating an Antelope Chain', link: '/guide/migrate-antelope-chain' },
             { text: 'Privacy & Confidentiality', link: '/guide/privacy' },
             { text: 'Glossary', link: '/guide/glossary' },
           ],

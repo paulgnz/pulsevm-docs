@@ -15,7 +15,7 @@ The claim behind [Antelope compatibility](/compare/antelope) is that existing co
 - **Existing accounts work.** The full account set — permission hierarchies, linked auths, multisig configurations — imported byte-exact and resolves as it did on the source chain.
 - **Existing keys sign.** Post-import blocks are transactions signed with pre-existing XPR Network keys. Login, transfer, contract calls — the same key material, no re-registration.
 - **Existing contracts execute.** Contract WASM imported with verified, identical code hashes and runs on PulseVM's host-function surface — the compatibility surface exercised against real deployed code, not toy contracts.
-- **State at production scale.** Hundreds of thousands of accounts and the tables of hundreds of deployed contracts — the import path is measured against a real chain, not a fixture.
+- **State at production scale.** Tens of thousands of accounts and the tables of hundreds of deployed contracts — over two million table rows — the import path is measured against a real chain, not a fixture.
 
 This is a technical demonstration of PulseVM's execution-layer compatibility. It is a proving ground, not an announcement about any production network's plans.
 
@@ -66,6 +66,7 @@ History from before the snapshot block isn't on the new chain — it federates: 
 
 ## Related
 
+- [Migrating an Antelope Chain to PulseVM](/guide/migrate-antelope-chain) — the capability this network demonstrates, including the rehearsed cutover ceremony
 - [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) — the VM · [snapshot reader PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)
 - [Network Endpoints](/network/endpoints) — this network and Alpine, side by side
 - [Updates](/network/updates) — the development timeline that made this possible
