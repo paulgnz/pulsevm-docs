@@ -58,6 +58,10 @@ Any Antelope chain on the **Leap 5.0.3 lineage** — a public network or a priva
 
 This page describes the capability and the evidence behind it. It is a technical demonstration of what PulseVM can do — not an announcement about any production network's plans.
 
+::: warning Status: proposed process
+The cutover ceremony described here is a **proposed migration flow**, built and rehearsed by the community ([block producer protonnz](https://github.com/paulgnz)). Core pieces are merged upstream ([snapshot reader — PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)); the remainder is [under upstream review](https://github.com/MetalBlockchain/pulsevm/issues/59). Any production use on a real network would be subject to adoption by the PulseVM core team (Metallicus) and that network's own governance — nothing on this page schedules or commits any network to migrate.
+:::
+
 ## The thesis
 
 Four properties make this a migration rather than a relaunch:
