@@ -70,12 +70,12 @@ Four properties make this a migration rather than a relaunch:
 ## How it works
 
 ```mermaid
-flowchart LR
-  a["Source chain\n(nodeos, Leap 5.0.3)"] -->|create_snapshot| b["Portable snapshot\n(.bin)"]
-  b -->|"snapshot_path"| c["PulseVM node boots —\ngenesis IS the imported state"]
-  c --> d{"19-table state\nfingerprints match?"}
-  d -- yes --> e["Join consensus —\nsame chain_id, blocks continue"]
-  d -- no --> f["Refuse — before ever\njoining the network"]
+flowchart TB
+  a["Source chain — nodeos, Leap 5.0.3"] -->|create_snapshot| b["Portable snapshot (.bin)"]
+  b -->|snapshot_path| c["PulseVM node boots — genesis is the imported state"]
+  c --> d{"19-table state fingerprints match?"}
+  d -- yes --> e["Join consensus — same chain_id, blocks continue"]
+  d -- no --> f["Refuse — before ever joining the network"]
 ```
 
 **Snapshot in, chain out.** PulseVM boots a chain directly from an Antelope portable chainstate snapshot: point the node's config at the file (`snapshot_path`) and genesis *is* the imported state. The snapshot reader is upstream PulseVM code ([`pulsevm_snapshot`, PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) — merged).
