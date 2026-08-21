@@ -69,6 +69,11 @@ Four properties make this a migration rather than a relaunch:
 
 ## How it works
 
+<video controls muted playsinline preload="none" poster="/media/cutover-explainer.png" src="/media/cutover-explainer.mp4" style="width:100%;border-radius:12px;margin:8px 0 20px;"></video>
+
+*106 seconds: the whole cutover — the one-file idea, the nobody-trusted verification, the ceremony, the rollback, and the URL that keeps its memory.*
+
+
 ```mermaid
 flowchart TB
   a["Source chain — nodeos, Leap 5.0.3"] -->|create_snapshot| b["Portable snapshot (.bin)"]
