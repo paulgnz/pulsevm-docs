@@ -15,7 +15,7 @@ With a permissioned EVM you control **consensus**, but you inherit **primitives 
 | Dual control | Smart-contract wallet per account | Threshold on any permission |
 | Key rotation | Move assets / wallet framework | `updateauth`, assets never move |
 | Sponsored users | Paymasters + relayers | Staked resources, native |
-| HSM keys | secp256k1 workarounds | R1 native |
+| HSM keys | secp256k1 workarounds | R1 in the account model |
 | Asset-level policy (freeze/clawback under court order) | Per-token contract code | System-contract policy |
 | Settlement finality | Depends on consensus chosen; tooling assumes probabilistic | Instant & irreversible, assumed everywhere |
 

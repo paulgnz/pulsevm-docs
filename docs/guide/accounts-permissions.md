@@ -33,7 +33,7 @@ On EVM chains, one key equals one account; everything beyond that — multisig, 
 - **Key rotation**: one `updateauth` action. Assets never move; the account persists.
 - **Recovery**: `owner` rotates a lost `active` key. Delegated owner = institutional recovery.
 - **Dual control**: a threshold on the permission, not a contract deployment.
-- **HSM custody**: secp256r1 (R1) keys are first-class — hardware modules and secure enclaves sign natively.
+- **HSM custody**: the account model carries secp256r1 (R1) keys alongside K1 — designed for hardware modules and secure enclaves. R1 signature support in the current implementation is landing ([tracked upstream](https://github.com/MetalBlockchain/pulsevm/issues/54)).
 
 ## For contract developers
 

@@ -8,7 +8,7 @@ Ethereum is the most successful smart-contract platform ever built. But it was d
 
 ## Accounts & permissions
 
-Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, passkey signers — to approximate what institutions need. PulseVM ships it natively: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), instant key rotation, and R1/HSM keys at the protocol level. Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
+Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, passkey signers — to approximate what institutions need. PulseVM ships it natively: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), instant key rotation, and R1/HSM keys in the protocol's account model (implementation signing support landing). Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
 
 ## Finality & settlement
 

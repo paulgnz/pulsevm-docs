@@ -44,7 +44,7 @@ features:
     linkText: For banks & fintechs
   - icon: { src: /icons/native.svg, width: 28, height: 28 }
     title: Native, not bolted on
-    details: Account abstraction, multisig, batched payments, fee sponsorship, passkey keys — what other chains retrofit onto Ethereum, PulseVM has had from day one.
+    details: Account abstraction, multisig, batched payments, fee sponsorship, passkey-class keys — what other chains retrofit onto Ethereum, PulseVM's account model has had from day one.
     link: /guide/native-by-design
     linkText: See what's built in
   - icon: { src: /icons/build.svg, width: 28, height: 28 }

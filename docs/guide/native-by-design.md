@@ -20,7 +20,7 @@ PulseVM didn't retrofit them. They are the base model.
 | **Batched atomic operations** | Native — a transaction is many actions, all-or-nothing | `multicall` / 4337 batching |
 | **Fee sponsorship** | Native — apps stake resources for their users | Paymaster contracts + relayers |
 | **No gas for end users** | Native — staked resources, users hold nothing | Gas required (even when paid in a stablecoin) |
-| **Passkey / hardware-key sign-in** | Native R1 (secp256r1) keys | secp256r1 precompile workarounds |
+| **Passkey / hardware-key sign-in** | R1 (secp256r1) keys in the account model (signing support landing) | secp256r1 precompile workarounds |
 | **Asset-level controls** | Policy at the system-contract layer | Per-token bespoke contract code |
 
 ## Why "native" matters beyond elegance

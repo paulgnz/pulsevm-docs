@@ -83,7 +83,7 @@ PulseVM plus the **Metal Dollar** network inverts that flow:
 | Authorization matrix | Hierarchical permissions — native |
 | Dual control / maker-checker | [Weighted multisig](/guide/multisig) on any permission |
 | Key rotation & recovery | Native `updateauth`; assets never move |
-| HSM / enclave custody | secp256r1 (R1) keys natively |
+| HSM / enclave custody | secp256r1 (R1) keys in the account model (implementation support landing) |
 | Customer pays no gas | Institution stakes resources; users see an app |
 | "When is it settled?" | Instant, irreversible — [no reorgs by construction](/guide/finality) |
 | Audit trail | Full indexed history, human-readable actions |
