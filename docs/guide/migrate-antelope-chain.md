@@ -73,9 +73,9 @@ Four properties make this a migration rather than a relaunch:
 
 ## How it works
 
-<video controls muted playsinline preload="none" poster="/media/cutover-explainer.png" src="/media/cutover-explainer.mp4" style="width:100%;border-radius:12px;margin:8px 0 20px;"></video>
+<video controls playsinline preload="none" poster="/media/cutover-explainer.png" src="/media/cutover-explainer.mp4" style="width:100%;border-radius:12px;margin:8px 0 20px;"></video>
 
-*106 seconds: the whole cutover — the one-file idea, the nobody-trusted verification, the ceremony, the rollback, and the URL that keeps its memory. The agent that runs it is open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover).*
+*Two minutes, narrated: the whole cutover — the one-file idea, the nobody-trusted verification, the ceremony, the rollback, and the URL that keeps its memory. The agent that runs it is open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover).*
 
 
 ```mermaid
