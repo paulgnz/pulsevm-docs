@@ -42,3 +42,9 @@ The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/M
 ## This site
 
 [paulgnz/pulsevm-docs](https://github.com/paulgnz/pulsevm-docs) — corrections and PRs welcome.
+
+
+## Community
+
+- **Telegram** — [join the PulseVM community group](https://t.me/+N1mAvoUDbtVmNTBh) (member approval enabled)
+- **GitHub** — [MetalBlockchain](https://github.com/MetalBlockchain) · [community tooling](https://github.com/paulgnz)
