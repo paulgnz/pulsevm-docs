@@ -196,7 +196,7 @@ the honest claim is repeatability and anatomy, not a universal constant.
 | Snapshot reader (`pulsevm_snapshot`) | **Merged upstream** — [PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) |
 | Bulk state writer + snapshot boot | PRs in flight — [PR #58](https://github.com/MetalBlockchain/pulsevm/pull/58) |
 | 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
-| Cutover agent (freeze → verify → ignite → flip) | **Three modes recorded** (producer / API / history) on live-testnet state; 22/22 repeat runs; being open-sourced |
+| Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
 | R1 / WebAuthn key verification | Tracked upstream — [#54](https://github.com/MetalBlockchain/pulsevm/issues/54) |
 | Multi-validator cutover ceremony | Next milestone — each validator snapshots and verifies independently |
