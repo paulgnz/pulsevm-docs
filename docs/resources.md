@@ -34,6 +34,7 @@ The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/M
 | Repo | What it is |
 |---|---|
 | [pulse-explorer](https://github.com/paulgnz/pulse-explorer) | Block explorer for PulseVM chains — accounts, contracts, tokens, producers, wallet (community) — live at [testnet.explorer.pulsevm.dev](https://testnet.explorer.pulsevm.dev) |
+| [pulse-cutover](https://github.com/paulgnz/pulse-cutover) | Antelope→PulseVM cutover agent — snapshot ceremony, byte-exact verification, API/history endpoint continuity (community) |
 | `explorer` | Metal Blockchain explorer (repo currently private) |
 | [metal-wallet](https://github.com/MetalBlockchain/metal-wallet) | Web wallet |
 | [metal-docs](https://github.com/MetalBlockchain/metal-docs) | Metal Blockchain documentation |

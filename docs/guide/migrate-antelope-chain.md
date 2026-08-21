@@ -59,7 +59,7 @@ Any Antelope chain on the **Leap 5.0.3 lineage** — a public network or a priva
 This page describes the capability and the evidence behind it. It is a technical demonstration of what PulseVM can do — not an announcement about any production network's plans.
 
 ::: warning Status: proposed process
-The cutover ceremony described here is a **proposed migration flow**, built and rehearsed by the community ([block producer protonnz](https://github.com/paulgnz)). Core pieces are merged upstream ([snapshot reader — PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)); the remainder is [under upstream review](https://github.com/MetalBlockchain/pulsevm/issues/59). Any production use on a real network would be subject to adoption by the PulseVM core team (Metallicus) and that network's own governance — nothing on this page schedules or commits any network to migrate.
+The cutover ceremony described here is a **proposed migration flow**, built and rehearsed by the community ([block producer protonnz](https://github.com/paulgnz)). The cutover agent is open source — **[github.com/paulgnz/pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — and core pieces are merged upstream ([snapshot reader — PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)); the remainder is [under upstream review](https://github.com/MetalBlockchain/pulsevm/issues/59). Any production use on a real network would be subject to adoption by the PulseVM core team (Metallicus) and that network's own governance — nothing on this page schedules or commits any network to migrate.
 :::
 
 ## The thesis
@@ -75,7 +75,7 @@ Four properties make this a migration rather than a relaunch:
 
 <video controls muted playsinline preload="none" poster="/media/cutover-explainer.png" src="/media/cutover-explainer.mp4" style="width:100%;border-radius:12px;margin:8px 0 20px;"></video>
 
-*106 seconds: the whole cutover — the one-file idea, the nobody-trusted verification, the ceremony, the rollback, and the URL that keeps its memory.*
+*106 seconds: the whole cutover — the one-file idea, the nobody-trusted verification, the ceremony, the rollback, and the URL that keeps its memory. The agent that runs it is open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover).*
 
 
 ```mermaid
