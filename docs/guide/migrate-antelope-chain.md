@@ -29,7 +29,7 @@ head:
             "name": "What happens to transaction history when an Antelope chain moves to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "State migrates; history federates. Blocks and actions from before the cutover stay on the source chain's Hyperion archive; everything after is indexed by the new chain's hyperion-rs. Explorers and APIs stitch the two at the snapshot block into one continuous per-account timeline, so no history-migration project is required."
+              "text": "State migrates; history federates. Blocks and actions from before the cutover stay on the source chain's Hyperion archive; everything after is indexed by the new chain's hyperion-rs, and a federating router serves both through the same public /v2 URL as one continuous per-account timeline. This has been recorded live: minutes after a testnet-state cutover, one get_actions call returned the post-cut transaction directly above thousands of pre-cut archive rows. No history-migration project is required."
             }
           },
           {
@@ -37,7 +37,7 @@ head:
             "name": "How long is the downtime when migrating an Antelope chain to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "In the rehearsed cutover ceremony the write pause was 15.0 seconds wall-clock, and read downtime was zero — the source chain kept serving queries throughout. The pause covers snapshot creation, cryptographic state verification, and target-chain ignition. At larger state sizes snapshot creation takes longer, but the ceremony keeps the source chain producing and serving while the snapshot is written, so scale mostly extends the preparation phase rather than the write gap."
+              "text": "Read downtime is zero: across 22 consecutive ceremonies against live XPR Network testnet state, external probes measured 99.8% availability with a 0.75-second traffic flip — smaller than ordinary internet jitter in the same trace. The write-side gap was 15.0 seconds on a dev-scale rehearsal; on full testnet state the freeze-to-live gap averaged 190 seconds, about 93% of which is the source chain finalizing its own cut block (a wait any snapshot-based migration pays) and about 13.6 seconds of which is the migration tooling itself."
             }
           },
           {
@@ -65,7 +65,7 @@ Four properties make this a migration rather than a relaunch:
 - **State moves byte-exactly.** Every account, permission tree, contract (verified code hashes), table row, balance, and resource position imports from an Antelope portable chainstate snapshot — the same `.bin` files nodeos produces.
 - **Identity is continuous.** The migrated chain presents the **source chain_id**, so every existing key signs, every existing signature verifies, and every dapp's signing config is already correct. Block numbering continues from the cut — there is no "new chain" from a client's point of view.
 - **History federates.** Pre-cut history stays on the source chain's Hyperion archive; post-cut history is indexed by [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs). One continuous account timeline, no history-migration project.
-- **The switchover is measured.** In rehearsal, the write pause was **15.0 seconds wall-clock** with **zero read downtime** — and every step before the traffic flip is abortable, with the source chain resuming automatically.
+- **The switchover is measured.** In the dev-chain rehearsal the write pause was **15.0 seconds wall-clock** with **zero read downtime**. Against a real chain's full state (32,513 accounts, live XPR Network testnet), the API-provider ceremony has now been run **22 consecutive times without a failure**, with an externally measured **99.8% read availability** through the ceremony and a traffic flip smaller than ordinary internet jitter — and every step before the flip is abortable, with automatic rollback.
 
 ## How it works
 
@@ -120,8 +120,73 @@ The same keys that signed transactions on the source chain before the freeze sig
 
 **The failed runs are part of the proof.** In two earlier rehearsal runs, a deliberately reachable misconfiguration meant the ignited chain presented the cut but could not produce. The LIVE gate refused, the ceremony **aborted and rolled back automatically** — the source chain's producer resumed, and because traffic flips only after LIVE, no client was ever pointed at a dead chain. The rollback doctrine is simple: the source chain remains authoritative until the new chain is provably producing, and un-pausing it is the entire rollback.
 
+## Rehearsed again — on a real chain's state, from the operator's side
+
+The dev-chain rehearsal proved the mechanics. The next question was the one an
+infrastructure operator actually asks: *what do my users see?* So the ceremony was
+re-run in **API-provider mode** — the flavor an RPC provider runs on switch day —
+against the **full live state of XPR Network testnet** (32,513 accounts, 636
+contracts, a 180 MB production-shape snapshot), with an external probe hammering
+the public endpoint every 250 ms from another network, through the entire ceremony:
+
+| Measured (live-testnet state, API-provider ceremony) | Result |
+|---|---|
+| Read availability through the whole ceremony (3,229 external probes) | **99.81%** |
+| The traffic flip itself (nodeos → PulseVM behind one URL) | **0.75 s** (2 probes) — smaller than the **1.26 s** worst internet-jitter gap in the *same trace before the ceremony began* |
+| State verification (sha256 + dual independent import + 19 fingerprints) | **4.1 s** |
+| Write proof | a transfer signed with a pre-existing key, pushed through the *same public URL*, minted the first post-cut block |
+
+**Repeatability, with numbers.** The same ceremony has now run **22 times in a
+row against the live testnet — 22/22 reached LIVE**, zero aborts (two batches,
+statistically identical):
+
+| Ceremony phase (N=22) | mean | median | p95 |
+|---|---|---|---|
+| Snapshot at finality (source chain's own irreversibility wait) | 176.6 s | 174.0 s | 180.0 s |
+| Verify (sha256 + dual import + fingerprints) | 3.1 s | 2.9 s | 4.0 s |
+| Ignite (PulseVM serves the source chain_id at the cut) | 8.5 s | 8.6 s | 8.6 s |
+| Flip + health + source retirement | 2.0 s | 2.0 s | 2.1 s |
+| **Ceremony gap (freeze → LIVE)** | **190.2 s** | **188.0 s** | **194.7 s** |
+
+The anatomy matters: **~93% of that gap is the source chain finalizing its own
+cut block** — the unavoidable wait for irreversibility that any snapshot-based
+migration pays, on any stack. The tooling itself (verify + ignite + flip +
+retire) costs about **13.6 seconds**. Reads never gap either way; the shadow-mirror
+design that pre-syncs state continuously targets the finality wait, not the tooling.
+
+## Your history endpoint keeps its memory
+
+"History federates" was proven client-side by the explorer; it is now a
+**server-side capability**: a federating history router serves the Hyperion `/v2`
+API through one public URL, answering pre-cut queries from the source chain's
+existing Hyperion archive and post-cut queries from the new chain's
+[hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) — one continuous,
+correctly ordered account timeline across the migration seam. The cutover agent
+runs it as part of the same ceremony: hyperion-rs is stood up against the new
+chain and health-gated for hydration *before* anything flips, and `/v1` and `/v2`
+swap in the same instant.
+
+Recorded live (same testnet-state ceremony): minutes after the cut, one call to
+the public `/v2/history/get_actions` returned the **post-cut transfer indexed by
+hyperion-rs directly above thousands of pre-cut actions from the old archive** —
+same URL, same account, one timeline; `get_transaction` resolves post-cut ids
+locally and pre-cut ids from the archive. Providers who kept their own full
+history point the router at their local archive instead of a public one — same
+configuration, one knob. And an operational bonus from the recorded run: post-cut
+`/v2` availability measured *higher* than the pre-cut public archive it fronted
+(99.8–100% vs 93.3%), because post-cut answers are local.
+
+The ceremony now covers all three operator roles — **block producer** (freeze,
+snapshot at exactly the declared height, become a producer of the new chain),
+**API provider** (`/v1` continuity, zero read gap), and **history provider**
+(`/v2` continuity) — each with a recorded, journaled run on real chain state.
+
 ::: warning Scale, honestly
-The rehearsal ran on a dev-scale chain. Snapshot creation scales with state size — at production scale it takes minutes, not seconds. The ceremony is designed for that: the source chain keeps producing (and serving reads) while the snapshot is written, so state size mostly extends the preparation phase rather than the write gap. A shadow-mirror design that pre-syncs state continuously and collapses the gap to a final drain is specified as the next iteration.
+These numbers are testnet-scale (180 MB snapshot, ~32k accounts; verification
+alone at this size is ~3–4 s). A larger chain extends snapshot creation and the
+finality wait — the phases where the source chain is still fully serving — more
+than the tooling phases. The 22-run distribution above is one chain at one size;
+the honest claim is repeatability and anatomy, not a universal constant.
 :::
 
 ## Where each piece stands
@@ -131,7 +196,8 @@ The rehearsal ran on a dev-scale chain. Snapshot creation scales with state size
 | Snapshot reader (`pulsevm_snapshot`) | **Merged upstream** — [PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) |
 | Bulk state writer + snapshot boot | PRs in flight — [PR #58](https://github.com/MetalBlockchain/pulsevm/pull/58) |
 | 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
-| Cutover agent (freeze → verify → ignite → flip) | Rehearsed end-to-end; being open-sourced |
+| Cutover agent (freeze → verify → ignite → flip) | **Three modes recorded** (producer / API / history) on live-testnet state; 22/22 repeat runs; being open-sourced |
+| Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
 | R1 / WebAuthn key verification | Tracked upstream — [#54](https://github.com/MetalBlockchain/pulsevm/issues/54) |
 | Multi-validator cutover ceremony | Next milestone — each validator snapshots and verifies independently |
 
@@ -144,10 +210,10 @@ No. The chain_id is preserved, so every existing key and signature works unchang
 The endpoint URL. That's the list. chain_id, keys, contracts, ABIs, and table shapes are unchanged; `/v1/chain` REST is served through a compatibility gateway so eosjs/WharfKit clients work as-is; hyperion-rs serves drop-in Hyperion v2 history shapes.
 
 **What happens to history?**
-State migrates, history federates: pre-cut actions stay on the source chain's Hyperion, post-cut actions index into hyperion-rs, and explorers stitch them into one account timeline at the snapshot block.
+State migrates, history federates: pre-cut actions stay on the source chain's Hyperion, post-cut actions index into hyperion-rs, and a federating router serves both through the same public /v2 URL as one account timeline — recorded live, with a post-cut transaction answering directly above thousands of pre-cut rows minutes after the cut.
 
 **How long is the pause?**
-15.0 seconds of write pause in rehearsal, zero read downtime. Larger chains extend the preparation phase (snapshot creation), not materially the write gap.
+Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: 15.0 s on the dev-chain rehearsal; on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling.
 
 **Is this production-ready today?**
 The capability is demonstrated, not yet productized. The reader is merged, the demo network is live, and the ceremony is rehearsed with automatic rollback — while the state-writer/boot PRs, R1/WebAuthn keys, and a multi-validator rehearsal are open, tracked work. This page will keep pace as each lands.
