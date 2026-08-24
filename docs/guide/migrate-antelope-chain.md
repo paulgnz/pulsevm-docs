@@ -163,27 +163,20 @@ migration pays, on any stack. The tooling itself (verify + ignite + flip +
 retire) costs about **13.6 seconds**. Reads never gap either way; the shadow-mirror
 design that pre-syncs state continuously targets the finality wait, not the tooling.
 
-## Your history endpoint keeps its memory
+## History: what a Hyperion provider actually does
 
-"History federates" was proven client-side by the explorer; it is now a
-**server-side capability**: a federating history router serves the Hyperion `/v2`
-API through one public URL, answering pre-cut queries from the source chain's
-existing Hyperion archive and post-cut queries from the new chain's
-[hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) — one continuous,
-correctly ordered account timeline across the migration seam. The cutover agent
-runs it as part of the same ceremony: hyperion-rs is stood up against the new
-chain and health-gated for hydration *before* anything flips, and `/v1` and `/v2`
-swap in the same instant.
+The short version: **you don't re-index anything.** The natural worry — "Hyperion has no shortcuts, every action has to be indexed and queried" — doesn't apply here, because the history splits cleanly at the cut block and each half is already handled:
 
-Recorded live (same testnet-state ceremony): minutes after the cut, one call to
-the public `/v2/history/get_actions` returned the **post-cut transfer indexed by
-hyperion-rs directly above thousands of pre-cut actions from the old archive** —
-same URL, same account, one timeline; `get_transaction` resolves post-cut ids
-locally and pre-cut ids from the archive. Providers who kept their own full
-history point the router at their local archive instead of a public one — same
-configuration, one knob. And an operational bonus from the recorded run: post-cut
-`/v2` availability measured *higher* than the pre-cut public archive it fronted
-(99.8–100% vs 93.3%), because post-cut answers are local.
+- **Everything *before* the cut** is already indexed in your **existing Hyperion**. The source chain froze at the cut, so those indices are final and complete — nothing to re-do. Your current Hyperion keeps serving them, read-only.
+- **Everything *after* the cut** is indexed by **[hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs)** on the new chain, starting from the cut block and moving forward — the normal, ongoing indexing you already run, just on the new node.
+
+A small **federating router** sits in front and sends each query to the right half — pre-cut to the old archive, post-cut to hyperion-rs — and returns them as one continuous, correctly ordered timeline. To the outside world it's the same `/v2` URL answering the same way; nothing downstream changes.
+
+So the total work for a history provider is: **run hyperion-rs on the new node (forward-only indexing), and put the router in front.** No back-fill, no re-indexing years of history, no history-migration project.
+
+**Recorded live** (same testnet-state ceremony): minutes after the cut, one call to the public `/v2/history/get_actions` returned the post-cut transfer (indexed by hyperion-rs) **directly above thousands of pre-cut actions from the old archive** — same URL, same account, one timeline. `get_transaction` resolves post-cut ids locally and pre-cut ids from the archive automatically. Providers who keep their own full-history archive point the router at it instead of a public one — one config value. Operational bonus: post-cut `/v2` availability measured *higher* than the public archive it fronted (99.8–100% vs 93.3%), because post-cut answers are served locally.
+
+The cutover agent runs all of this as part of the same ceremony — hyperion-rs is stood up and health-gated for hydration *before* anything flips, and `/v1` + `/v2` swap in the same instant.
 
 The ceremony now covers all three operator roles — **block producer** (freeze,
 snapshot at exactly the declared height, become a producer of the new chain),
