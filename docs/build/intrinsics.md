@@ -61,7 +61,7 @@ A handful of advanced families aren't served yet. They're uncommon outside zk / 
 |---|---|---|
 | **Context accessors** | `get_sender` · `publication_time` | inline-action sender / trx publication timestamp |
 | **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases |
-| **Protocol-feature framework** | `is_feature_activated` · `preactivate_feature` | feature-gating |
+| **Protocol-feature framework** | `is_feature_activated` · `preactivate_feature` | the node-side activation framework landed in [#51](https://github.com/MetalBlockchain/pulsevm/pull/51); these contract-callable intrinsics are not served yet |
 | **Deferred transactions** | `send_deferred` · `cancel_deferred` | deprecated in Antelope 5.x — use inline actions |
 
 If your design depends on something here, [get in touch](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) — intrinsic coverage is actively expanding.
