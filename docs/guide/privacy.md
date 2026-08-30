@@ -36,7 +36,7 @@ Because launching a network is provisioning rather than a research project, the 
 
 - **One network per consortium** — members share a ledger; non-members see nothing.
 - **Separate networks per relationship** — bilateral or small-group settlement on its own subnet, isolated from other counterparties.
-- **Connect by choice** — networks interoperate only where the business relationship requires; isolation is the default posture.
+- **Connect by choice** — networks interoperate only where the business relationship requires; isolation is the default posture. See [Cross-Chain Messaging](/guide/cross-chain).
 
 ## Confidentiality between members on a shared network
 

@@ -131,6 +131,7 @@ export default withMermaid(defineConfig({
             { text: 'Finality & Settlement', link: '/guide/finality' },
             { text: 'Migrating an Antelope Chain', link: '/guide/migrate-antelope-chain' },
             { text: 'Privacy & Confidentiality', link: '/guide/privacy' },
+            { text: 'Cross-Chain Messaging', link: '/guide/cross-chain' },
             { text: 'Glossary', link: '/guide/glossary' },
           ],
         },

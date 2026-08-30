@@ -68,7 +68,7 @@ Supply-chain provenance, loyalty and rewards, inter-company settlement, B2B invo
 - **Rules that match the agreement.** Settlement terms, access policy, asset definitions, and fee models live in system contracts the consortium owns — not hard-coded by a platform vendor.
 - **Authorization that mirrors your org chart.** Role keys, [weighted multisig](/guide/multisig) for approvals, delegation between subsidiaries and parents — your existing authority structure expressed directly.
 - **Settlement you can reconcile against.** [Instant, irreversible finality](/guide/finality) and free reads mean every counterparty (and every auditor) sees the same authoritative state with no confirmation-window ambiguity.
-- **Interoperate by choice.** Networks in the Metal ecosystem share consensus infrastructure and can bridge as the business relationship requires — connection is a decision, never a default exposure.
+- **Interoperate by choice.** Networks in the Metal ecosystem share consensus infrastructure and can exchange verified messages as the business relationship requires — connection is a decision, never a default exposure. See [Cross-Chain Messaging](/guide/cross-chain).
 
 The same primitives that make this work for banks — named accounts, native permissions, deterministic settlement, owner-defined rules — apply directly to any multi-party enterprise process.
 
