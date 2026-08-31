@@ -91,6 +91,8 @@ flowchart TB
 
 **Every node verifies; nobody is trusted.** Each validator computes **19-table state fingerprints** over its imported state and compares them against published goldens before joining consensus. There is no trusted snapshot publisher anywhere in the flow: a node whose import disagrees with the network **fails its own verification first**, before it can ever contribute a block. In a multi-validator ceremony, each operator takes the snapshot from their *own* source node — the fingerprints prove that everyone starts from identical state, byte for byte.
 
+**Cross-verified by two independent implementations.** The strongest evidence for import correctness now comes from outside this project: the PulseVM core team built [their own import pipeline](https://github.com/MetalBlockchain/pulsevm/pull/61) — different authors, different source encoding (SHiP state deltas vs. the portable snapshot, no shared import code) — and running both against the same XPR testnet snapshot produced **byte-identical state, including row order, on every table both pipelines carry**: all 32,496 accounts, 633 contracts, 822,887 contract rows and 1.13 million index rows, with identical SHA-256s measured by the upstream tooling ([full results](https://github.com/MetalBlockchain/pulsevm/pull/61#issuecomment-5485633926)). Two independently-written importers agreeing byte-for-byte is the kind of correctness evidence no single implementation can provide.
+
 **History before the cut federates.** The new chain doesn't carry old blocks; it doesn't need to. Explorers and history APIs query the source chain's Hyperion for everything up to the snapshot block and the new chain's hyperion-rs for everything after, stitched into one timeline.
 
 ## The living proof
