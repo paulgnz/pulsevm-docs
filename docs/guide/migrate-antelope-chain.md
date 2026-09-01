@@ -45,7 +45,7 @@ head:
             "name": "Is Antelope-to-PulseVM migration production-ready today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import runs live on the public 1:1 demo network, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. Remaining work is tracked in the open: state-writer and snapshot-boot pull requests, R1/WebAuthn key verification, and a multi-validator cutover rehearsal."
+              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import runs live on the public 1:1 demo network, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. Remaining work is tracked in the open: state-writer and snapshot-boot pull requests and a multi-validator cutover rehearsal."
             }
           }
         ]
@@ -203,13 +203,13 @@ the honest claim is repeatability and anatomy, not a universal constant.
 | 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
 | Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
-| R1 / WebAuthn key verification | Tracked upstream — [#54](https://github.com/MetalBlockchain/pulsevm/issues/54) |
+| R1 / WebAuthn key verification | **Merged upstream** — [PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69) (2026-09-01), closes [#54](https://github.com/MetalBlockchain/pulsevm/issues/54) |
 | Multi-validator cutover ceremony | Next milestone — each validator snapshots and verifies independently |
 
 ## FAQ
 
 **Do users need new keys?**
-No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the demo network. K1 keys are fully supported today; R1/WebAuthn passkey verification is tracked in [#54](https://github.com/MetalBlockchain/pulsevm/issues/54).
+No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the demo network. K1, R1, and WebAuthn passkey keys are all supported — R1/WebAuthn verification merged upstream in [#69](https://github.com/MetalBlockchain/pulsevm/pull/69) (2026-09-01).
 
 **Do dapps need code changes?**
 The endpoint URL. That's the list. chain_id, keys, contracts, ABIs, and table shapes are unchanged; `/v1/chain` REST is served through a compatibility gateway so eosjs/WharfKit clients work as-is; hyperion-rs serves drop-in Hyperion v2 history shapes.
@@ -221,7 +221,7 @@ State migrates, history federates: pre-cut actions stay on the source chain's Hy
 Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: 15.0 s on the dev-chain rehearsal; on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling.
 
 **Is this production-ready today?**
-The capability is demonstrated, not yet productized. The reader is merged, the demo network is live, and the ceremony is rehearsed with automatic rollback — while the state-writer/boot PRs, R1/WebAuthn keys, and a multi-validator rehearsal are open, tracked work. This page will keep pace as each lands.
+The capability is demonstrated, not yet productized. The reader is merged, the demo network is live, and the ceremony is rehearsed with automatic rollback — while the state-writer/boot PRs and a multi-validator rehearsal are open, tracked work. This page will keep pace as each lands.
 
 ## Related
 
