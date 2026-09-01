@@ -61,7 +61,7 @@ History from before the snapshot block isn't on the new chain — it federates: 
 ::: warning What this is and isn't
 - **A community-operated demonstration**, run by [XPR Network block producer protonnz](https://github.com/paulgnz) — not an official XPR Network or Metallicus service.
 - **Single validator**, and it may be re-imported from newer snapshots as tooling evolves. The chain id and state persist across restarts, but treat it as a demo, not a service.
-- **K1 keys only for signing today.** R1/WebAuthn keys aren't yet carried through the import — upstream key-type support is tracked in [MetalBlockchain/pulsevm#54](https://github.com/MetalBlockchain/pulsevm/issues/54).
+- **K1 keys only for signing on this node today.** R1/WebAuthn verification merged upstream on 2026-09-01 ([PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69)); this demo node runs a build from before that merge and will pick it up at its next re-import.
 :::
 
 ## Related
