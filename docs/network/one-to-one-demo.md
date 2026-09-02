@@ -6,7 +6,7 @@ description: "A live demonstration network running a byte-exact import of XPR Ne
 
 A live, public demonstration network running a **byte-exact import of XPR Network testnet state on PulseVM**. Not a synthetic benchmark — the real thing: every account, permission tree, contract (verified code hashes), table row, balance, and resource position from a production-scale Antelope chain, executing on a PulseVM node.
 
-The import is from an XPR Network testnet snapshot taken **2026-08-15 at head block 400,588,707**. The chain continues the source's block numbering — blocks **400,588,708 and up are PulseVM blocks**, containing transactions signed with the same keys the accounts had on XPR Network testnet.
+The import is from an XPR Network testnet snapshot taken **2026-09-02 at head block 403,625,033** (the network was re-imported on that date onto a build carrying upstream's R1/WebAuthn key support). The chain continues the source's block numbering — blocks **403,625,034 and up are PulseVM blocks**, containing transactions signed with the same keys the accounts had on XPR Network testnet.
 
 ## Why this matters
 
@@ -48,7 +48,7 @@ The same reads work REST-style: `POST /v1/chain/get_info`, `POST /v1/chain/get_t
 |---|---|
 | Chain ID | `71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd` |
 | Core token | XPR (4 decimals) |
-| Snapshot | XPR Network testnet, 2026-08-15, head block 400,588,707 |
+| Snapshot | XPR Network testnet, 2026-09-02 00:00 UTC, head block 403,625,033 |
 
 ## How it works
 
@@ -61,7 +61,7 @@ History from before the snapshot block isn't on the new chain — it federates: 
 ::: warning What this is and isn't
 - **A community-operated demonstration**, run by [XPR Network block producer protonnz](https://github.com/paulgnz) — not an official XPR Network or Metallicus service.
 - **Single validator**, and it may be re-imported from newer snapshots as tooling evolves. The chain id and state persist across restarts, but treat it as a demo, not a service.
-- **K1 keys only for signing on this node today.** R1/WebAuthn verification merged upstream on 2026-09-01 ([PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69)); this demo node runs a build from before that merge and will pick it up at its next re-import.
+- **All three Antelope key types sign here.** The node runs upstream's R1/WebAuthn verification ([PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69)); the import carries every imported R1 and WebAuthn authority (6 R1 and 1,020 WebAuthn keys in this snapshot), and R1- and WebAuthn-signed transactions have been executed on this network under `protonnz@r1sign` / `protonnz@wasign`.
 :::
 
 ## Related
