@@ -46,13 +46,13 @@ A community-operated demonstration chain running a byte-exact import of XPR Netw
 - Explorer: `https://testnet.explorer.pulsevm.dev`
 - Chain id: `71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd` · core token XPR (4 decimals) · system contracts under `eosio*` names (not `pulse*`)
 
-> Demo caveats: single validator; may be re-imported from newer snapshots; K1 keys only for signing today. Don't build anything durable against it.
+> Demo caveats: single validator; may be re-imported from newer snapshots; K1 keys only for signing on this node until it is re-imported on a post-#69 build. Don't build anything durable against it.
 
 ## Ground-truth facts (verifiable on-chain or in-repo)
 
 - Execution model: Antelope (formerly EOSIO), lineage from Leap 5.0.3; consensus: Avalanche Snowman via metalgo.
 - Finality: instant — head block == last irreversible block; no reorgs by construction.
-- Accounts: named, ≤12 chars of `a-z`, `1-5`; hierarchical weighted permissions; native multisig. Signing today is K1 (secp256k1); R1 (secp256r1)/WebAuthn key support is in progress upstream ([pulsevm#54](https://github.com/MetalBlockchain/pulsevm/issues/54)).
+- Accounts: named, ≤12 chars of `a-z`, `1-5`; hierarchical weighted permissions; native multisig. Key types: K1 (secp256k1), R1 (secp256r1) and WebAuthn — R1/WebAuthn authority-key verification merged upstream 2026-09-01 ([pulsevm#69](https://github.com/MetalBlockchain/pulsevm/pull/69)).
 - Core token on Alpine: SYS (4 decimals); on the 1:1 demo network: XPR (4 decimals). Resources: CPU/NET staked, RAM provisioned per account at creation.
 - Source: [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) (open source; created by Metallicus CTO Glenn Mariën, [@MlennGarien](https://github.com/MlennGarien)). All canonical repos: [/resources](/resources).
 

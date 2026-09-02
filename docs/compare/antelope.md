@@ -35,6 +35,7 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 | **Context-free actions** | <span class="ck y" role="img" aria-label="supported"></span> | CFA execution + `get_context_free_data` |
 | **Console / printing** | <span class="ck y" role="img" aria-label="supported"></span> | `prints*`, `printi*`, `printui*`, name/hex |
 | **Math builtins** | <span class="ck y" role="img" aria-label="supported"></span> | full int128 (`__*ti*`) and float128 (`__*tf*`) compiler-rt surface |
+| **Authority key types** | <span class="ck y" role="img" aria-label="supported"></span> | K1 (secp256k1), R1 (secp256r1) and WebAuthn — R1/WebAuthn verification merged in [#69](https://github.com/MetalBlockchain/pulsevm/pull/69) |
 | **Resource limits** | <span class="ck y" role="img" aria-label="supported"></span> | `get_resource_limits` / `set_resource_limits` |
 | **Chain parameters** | <span class="ck y" role="img" aria-label="supported"></span> | `set_blockchain_parameters_packed` and read |
 | **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover` — zk / EVM-bridge use cases |
