@@ -220,6 +220,12 @@ State migrates, history federates: pre-cut actions stay on the source chain's Hy
 **How long is the pause?**
 Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: 15.0 s on the dev-chain rehearsal; on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling.
 
+**Do we need to upgrade to Antelope Spring first?**
+No. The migration imports chain **state** — accounts, permissions, contracts, tables, balances — from a nodeos portable snapshot. Consensus and finality are not imported; they come from the Avalanche Snowman engine the PulseVM chain runs on, where a block is final the moment it is accepted and the last-irreversible block always equals head. So the source chain's consensus software is a **snapshot-format question, not a prerequisite**: Leap 5.0.x snapshots (chainstate version 6) are the proven path, demonstrated on the [1:1 demo network](/network/one-to-one-demo). A chain on Leap 5.0 gains nothing on the migration by upgrading first.
+
+**Our chain already runs Spring with Savanna. Can it still migrate?**
+Yes — same path, same result. Savanna changed Antelope's *consensus* state (finalizer policies, finality core), and that is exactly the part the import discards; the *contract* state is the same chainbase rows. Three things are specific to a Savanna source and are tracked as roadmap work rather than demonstrated today: reading the Spring snapshot format (chainstate version 8), serving the `bls_*` host functions of `BLS_PRIMITIVES2` (they share the BLS12-381 code PulseVM's Warp support brings in), and accepting the system contract's `set_finalizers` / `set_proposed_producers_ex` calls, which have no consensus meaning on Snowman and are recorded rather than acted on. Deferred transactions are already disabled on Savanna chains, which makes that import simpler, not harder. Finality after the move is at least what Savanna provides: about a second, with no reversible window at all. Where each Antelope mainnet stands today is tabulated on [Antelope Chain Status](/compare/antelope-chains).
+
 **Is this production-ready today?**
 The capability is demonstrated, not yet productized. The reader is merged, the demo network is live, and the ceremony is rehearsed with automatic rollback — while the state-writer/boot PRs and a multi-validator rehearsal are open, tracked work. This page will keep pace as each lands.
 

@@ -183,6 +183,7 @@ export default withMermaid(defineConfig({
             { text: 'vs Ethereum', link: '/compare/ethereum' },
             { text: 'vs Permissioned EVM', link: '/compare/permissioned-evm' },
             { text: 'Antelope Compatibility', link: '/compare/antelope' },
+            { text: 'Antelope Chain Status', link: '/compare/antelope-chains' },
           ],
         },
       ],
