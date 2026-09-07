@@ -8,6 +8,8 @@ export default withMermaid(defineConfig({
   lastUpdated: true,
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+    // apply the remembered sidebar-hidden state before first paint (see theme/SidebarToggle.vue)
+    ['script', {}, "try{if(localStorage.getItem('pvm-sidebar-hidden')==='1'){document.documentElement.classList.add('pvm-sidebar-hidden')}}catch(e){}"],
     ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32.png' }],
     ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'theme-color', content: '#4F7CFF' }],

@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import ProtonAtom from './ProtonAtom.vue'
 import NetworkScene from './NetworkScene.vue'
+import SidebarToggle from './SidebarToggle.vue'
 import './custom.css'
 
 // Full-bleed Three.js proton animation behind the home hero (text overlaid).
@@ -16,6 +17,7 @@ export default {
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'home-hero-before': () => h(ProtonAtom),
+      'nav-bar-content-after': () => h(SidebarToggle),
     })
   },
 }

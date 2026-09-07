@@ -214,3 +214,22 @@
 /* Mermaid: never clip node labels even if a box measures short */
 .mermaid foreignObject { overflow: visible; }
 .mermaid .nodeLabel { line-height: 1.35; }
+
+/* ===== Sidebar toggle (desktop). <html class="pvm-sidebar-hidden"> collapses the
+   left nav: every default-theme offset derives from --vp-sidebar-width, so zeroing
+   it does most of the work; the rest re-creates the theme's no-sidebar layout for
+   the navbar title and the doc container. Set by theme/SidebarToggle.vue. ===== */
+@media (min-width: 960px) {
+  html.pvm-sidebar-hidden { --vp-sidebar-width: 0px; }
+  html.pvm-sidebar-hidden .VPSidebar { display: none; }
+  html.pvm-sidebar-hidden .VPNavBar.has-sidebar .wrapper { padding: 0 32px; }
+  html.pvm-sidebar-hidden .VPNavBar.has-sidebar .container { max-width: calc(var(--vp-layout-max-width) - 64px); }
+  html.pvm-sidebar-hidden .VPNavBar.has-sidebar .title { position: relative; top: auto; left: auto; width: auto; padding: 0; }
+  html.pvm-sidebar-hidden .VPNavBar.has-sidebar .content { padding-left: 0; padding-right: 0; }
+  html.pvm-sidebar-hidden .VPNavBar.has-sidebar .divider { padding-left: 0; }
+  html.pvm-sidebar-hidden .VPNavBarTitle.has-sidebar .title { border-bottom-color: transparent; }
+  /* centre the doc in a wider column than the sidebar layout had; prose stays capped by
+     .content-container (688px on pages with an outline), tables get the extra room */
+  html.pvm-sidebar-hidden .VPDoc.has-sidebar .container { display: flex; justify-content: center; max-width: 1280px; margin: 0 auto; }
+  html.pvm-sidebar-hidden .VPDoc.has-sidebar .content { max-width: none; }
+}
