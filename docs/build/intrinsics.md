@@ -55,13 +55,12 @@ Full **int128** (`__*ti3` shifts, `__multi3`, `__divti3`, `__modti3`, `__udivti3
 
 ## Still landing
 
-A handful of advanced families aren't served yet. They're uncommon outside zk / EVM-bridge and specialized cryptographic contracts — a contract that imports one won't load until it's added:
+One advanced family isn't served yet. They're uncommon outside zk / EVM-bridge and specialized cryptographic contracts — a contract that imports one won't load until it's added:
 
 | Family | Functions | Note |
 |---|---|---|
-| **Context accessors** | `publication_time` | trx publication timestamp. `get_sender`, nodeos-exact `get_code_hash` and `get_block_num` are **served** since [#66](https://github.com/MetalBlockchain/pulsevm/pull/66) / [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) (2026-09) |
 | **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases — the last unserved family |
 
-Now served (moved out of this table in September 2026): `is_feature_activated` / `preactivate_feature` and `send_deferred` / `cancel_deferred` — both landed with [#61](https://github.com/MetalBlockchain/pulsevm/pull/61). Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
+Now served (moved out of this table in September 2026): the context accessors `get_sender`, nodeos-exact `get_code_hash`, `get_block_num` and `publication_time` ([#66](https://github.com/MetalBlockchain/pulsevm/pull/66) / [#61](https://github.com/MetalBlockchain/pulsevm/pull/61)); `is_feature_activated` / `preactivate_feature`; and `send_deferred` / `cancel_deferred` — the last three families landed with #61. Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
 
 If your design depends on something here, [get in touch](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) — intrinsic coverage is actively expanding.
