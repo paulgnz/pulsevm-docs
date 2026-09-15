@@ -39,9 +39,9 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 | **Resource limits** | <span class="ck y" role="img" aria-label="supported"></span> | `get_resource_limits` / `set_resource_limits` |
 | **Chain parameters** | <span class="ck y" role="img" aria-label="supported"></span> | `set_blockchain_parameters_packed` and read |
 | **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover` — zk / EVM-bridge use cases |
-| **Protocol-feature framework** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `is_feature_activated` / `preactivate_feature` |
+| **Protocol-feature framework** | <span class="ck y" role="img" aria-label="supported"></span> | `is_feature_activated` / `preactivate_feature` — served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) (2026-09-14) |
 | **Key-value database** (`kv_*`) | <span class="ck n" role="img" aria-label="not applicable"></span><span class="q">n/a</span> | never activated on EOS / XPR — not part of the standard contract surface |
-| **Deferred transactions** | <span class="ck n" role="img" aria-label="not applicable"></span><span class="q">deprecated</span> | deprecated in Antelope; not used by modern contracts |
+| **Deferred transactions** | <span class="ck y" role="img" aria-label="supported"></span> | `send_deferred` / `cancel_deferred` served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61); deprecated in Antelope — prefer inline actions in new code |
 
 <small><span class="ck y" role="img" aria-label="supported"></span> supported &nbsp;·&nbsp; <span class="ck p" role="img" aria-label="in progress"></span> in progress &nbsp;·&nbsp; <span class="ck n" role="img" aria-label="not applicable"></span> not applicable</small>
 
@@ -49,7 +49,7 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 
 For the overwhelming majority of XPR Network, EOS and WAX contracts — **token contracts, marketplaces, DeFi, DAOs, system-style governance contracts** — the answer is **yes**, because they use only the classic host-function surface above.
 
-A contract needs review before it will run if it imports one of the **in-progress** primitives — i.e. it uses **zk / pairing crypto** (`alt_bn128`, `mod_exp`, `blake2_f`) or gates behavior on `is_feature_activated`. Those are uncommon outside EVM-bridge and specialized cryptographic contracts.
+A contract needs review before it will run if it imports one of the **in-progress** primitives — i.e. it uses **zk / pairing crypto** (`alt_bn128`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover`). Those are uncommon outside EVM-bridge and specialized cryptographic contracts; an audit of every contract deployed on XPR Network testnet found none that import them.
 
 The fastest way to know: build with the standard CDT and deploy to the testnet ([endpoints](/network/endpoints)). If it instantiates, the host-function surface is satisfied.
 

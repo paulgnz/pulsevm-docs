@@ -52,7 +52,7 @@ The migration imports chain **state**: accounts, permissions, contract code, tab
 ## Reading the numbers
 
 - **Finality** is head minus last-irreversible block as reported by the nodes. Around 330 blocks is classic DPoS finality, about 165 s at 0.5 s blocks; 2 blocks is Savanna.
-- **Features** is the count from `get_activated_protocol_features`. Two of XPR's, `CRYPTO_PRIMITIVES` and `GET_BLOCK_NUM`, are activated on XPR and WAX but not yet served as host functions by PulseVM; an audit of every contract deployed on XPR testnet found none that import them, and serving them is tracked work.
+- **Features** is the count from `get_activated_protocol_features`. One of XPR's, `CRYPTO_PRIMITIVES`, is activated on XPR and WAX but its host functions are not yet served by PulseVM; an audit of every contract deployed on XPR testnet found none that import them, and serving them is tracked work. (`GET_BLOCK_NUM` has been served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61), 2026-09-14.)
 - **Node software** mixes are normal on a live network. A chain can run Spring-based nodes without activating Savanna, as WAX does today.
 
 ## Related

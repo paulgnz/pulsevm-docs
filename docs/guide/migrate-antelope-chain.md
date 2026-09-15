@@ -198,8 +198,7 @@ the honest claim is repeatability and anatomy, not a universal constant.
 | Component | Status |
 |---|---|
 | Snapshot reader (`pulsevm_snapshot`) | **Merged upstream** — [PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) |
-| Bulk state writer + snapshot boot | PRs in flight — [PR #58](https://github.com/MetalBlockchain/pulsevm/pull/58) |
-| Core-team state import + multi-node boot | **In review upstream** — [PR #61](https://github.com/MetalBlockchain/pulsevm/pull/61) (Metallicus): chainbase→Arena migration and a five-node boot path |
+| Core-team state import + multi-node boot | **Merged upstream** — [PR #61](https://github.com/MetalBlockchain/pulsevm/pull/61) (Metallicus, 2026-09-14): chainbase→Arena migration, a 21-table verification gate (including the unexpired-transaction replay-protection set), and a five-node boot path. The same branch replayed **all 401,005,383 blocks of XPR Network mainnet** on PulseVM before merging — the strongest 1:1 execution proof to date. The community bulk writer ([PR #58](https://github.com/MetalBlockchain/pulsevm/pull/58)) is superseded by it |
 | 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
 | Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
@@ -227,7 +226,7 @@ No. The migration imports chain **state** — accounts, permissions, contracts, 
 Yes — same path, same result. Savanna changed Antelope's *consensus* state (finalizer policies, finality core), and that is exactly the part the import discards; the *contract* state is the same chainbase rows. Three things are specific to a Savanna source and are tracked as roadmap work rather than demonstrated today: reading the Spring snapshot format (chainstate version 8), serving the `bls_*` host functions of `BLS_PRIMITIVES2` (they share the BLS12-381 code PulseVM's Warp support brings in), and accepting the system contract's `set_finalizers` / `set_proposed_producers_ex` calls, which have no consensus meaning on Snowman and are recorded rather than acted on. Deferred transactions are already disabled on Savanna chains, which makes that import simpler, not harder. Finality after the move is at least what Savanna provides: about a second, with no reversible window at all. Where each Antelope mainnet stands today is tabulated on [Antelope Chain Status](/compare/antelope-chains).
 
 **Is this production-ready today?**
-The capability is demonstrated, not yet productized. The reader is merged, the demo network is live, and the ceremony is rehearsed with automatic rollback — while the state-writer/boot PRs and a multi-validator rehearsal are open, tracked work. This page will keep pace as each lands.
+The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path ([#61](https://github.com/MetalBlockchain/pulsevm/pull/61), merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The demo network is live and the ceremony is rehearsed with automatic rollback. Not yet done: a tagged release carrying these merges (v0.7.1 predates them), and a multi-validator cutover rehearsal. This page will keep pace as each lands.
 
 ## Related
 
