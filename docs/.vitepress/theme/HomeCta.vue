@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/HomeCta.md (keep in sync)
 // Homepage close: the three things an institution does next, plus the
 // developer path.
 const steps = [

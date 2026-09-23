@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/HomeFeatures.md (keep in sync)
 import FinalityTimeline from './FinalityTimeline.vue'
 // Homepage capability rows: four primary capabilities, each shown as the
 // thing itself (a permission tree, a settlement timeline, a customer receipt,
@@ -54,7 +55,7 @@ const more = [
     <div class="hf-row hf-flip">
       <div class="hf-copy">
         <h2>Settlement you can put in an SLA</h2>
-        <p>Sub-second blocks with instant finality. A transfer is rejected immediately or it is final. There is no confirmation count to wait out and no reorganization afterwards.</p>
+        <p>A payment is final in about a second, as soon as its block is accepted. There is no confirmation count to wait out and no reorganization afterwards.</p>
         <a href="/guide/finality">Finality and settlement</a>
       </div>
       <figure class="hf-art" aria-label="One payment on two chains: final on PulseVM in under a second, only probably final on a confirmation-count chain after minutes">

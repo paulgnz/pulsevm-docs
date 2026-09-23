@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/BanksLead.md (keep in sync)
 // Lead block for /institutions/banks: the page's argument in one picture,
 // plus the two actions a bank reader takes.
 </script>

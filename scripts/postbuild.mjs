@@ -8,6 +8,32 @@ const SRC = 'docs'
 const DIST = 'docs/.vitepress/dist'
 const SITE = 'https://pulsevm.dev'
 
+
+// Vue components render to HTML on the site but are bare tags in markdown.
+// Replace them with their plain-text versions (docs/.vitepress/agent-text/*.md)
+// so the .md mirrors and llms-full.txt carry the same content an HTML reader sees.
+const AGENT_TEXT = join(SRC, '.vitepress', 'agent-text')
+function agentText(md) {
+  md = md.replace(/<ProofBand\s+:items="\[([\s\S]*?)\]"\s*\/>/g, (_, body) => {
+    const items = [...body.matchAll(/figure:\s*'([^']*)',\s*text:\s*'([^']*)',\s*source:\s*'([^']*)',\s*href:\s*'([^']*)'/g)]
+    return '**Proof you can check**\n\n' + items.map(([, f, t, s, h]) => `- **${f}** ${t} ([${s}](${h}))`).join('\n')
+  })
+  // home layout: the hero lives in frontmatter; surface it as the page's heading
+  const fm = md.match(/^---\n([\s\S]*?)\n---\n/)
+  if (fm && /\nhero:/.test('\n' + fm[1])) {
+    const pick = (k) => ((fm[1].match(new RegExp('^\\s+' + k + ':\\s*(.+)$', 'm')) || [])[1] || '').replace(/^["']|["']$/g, '')
+    const hero = `# ${pick('name')}: ${pick('text')}\n\n${pick('tagline')}\n\n`
+    md = md.slice(0, fm[0].length) + '\n' + hero + md.slice(fm[0].length)
+  }
+  md = md.replace(/<NetworkScene[^>]*\/>\n?/g, '')
+  md = md.replace(/<([A-Z][A-Za-z]+)\s*\/>/g, (tag, name) => {
+    try { return readFileSync(join(AGENT_TEXT, `${name}.md`), 'utf8').trim() } catch { return tag }
+  })
+  // brand-strip markup and page-local <style> blocks are presentation only
+  md = md.replace(/<div class="brand-strip">[\s\S]*?<\/div>\n?/g, '').replace(/<style>[\s\S]*?<\/style>\n?/g, '')
+  return md
+}
+
 const pages = []
 function walk(dir) {
   for (const e of readdirSync(dir)) {
@@ -26,7 +52,7 @@ for (const p of pages.sort()) {
   const rel = relative(SRC, p)                       // e.g. guide/multisig.md
   const out = join(DIST, rel)
   mkdirSync(dirname(out), { recursive: true })
-  const raw = readFileSync(p, 'utf8')
+  const raw = agentText(readFileSync(p, 'utf8'))
   writeFileSync(out, raw)
   const fm = (raw.match(/^---\n([\s\S]*?)\n---/) || [, ''])[1]
   const heroText = (fm.match(/^\s+text:\s*(.+)$/m) || [])[1]

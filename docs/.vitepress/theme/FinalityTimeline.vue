@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/FinalityTimeline.md (keep in sync)
 // Two chains, one payment, a shared time axis. PulseVM's lane ends in a
 // final block before the one-second mark; a confirmation-count chain keeps
 // adding blocks for minutes before the payment is only "probably final".

@@ -1,5 +1,54 @@
 ---
 layout: home
+head:
+  - - script
+    - type: application/ld+json
+    - |
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SoftwareApplication",
+            "name": "PulseVM",
+            "applicationCategory": "DeveloperApplication",
+            "operatingSystem": "Linux",
+            "url": "https://pulsevm.dev/",
+            "description": "PulseVM runs the Antelope account and contract model on Metal Blockchain: named accounts, permission trees, keys bound to one contract action, native multisig, staked resources instead of gas, and finality in about a second, on a network the institution owns.",
+                "codeRepository": "https://github.com/MetalBlockchain/pulsevm",
+            "creator": {
+              "@id": "https://metallicus.com/#org"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "Open source"
+            }
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://metallicus.com/#org",
+            "name": "Metallicus",
+            "url": "https://metallicus.com",
+            "foundingDate": "2015",
+            "founder": [
+              {
+                "@type": "Person",
+                "name": "Marshall Hayner"
+              },
+              {
+                "@type": "Person",
+                "name": "Glenn Mariën"
+              }
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "name": "PulseVM",
+            "url": "https://pulsevm.dev/"
+          }
+        ]
+      }
 title: PulseVM — tokenized deposits on a network you own
 titleTemplate: false
 
@@ -18,7 +67,7 @@ hero:
       text: Start building
       link: /build/get-started
 
-description: "Non-EVM, Antelope-based blockchain for banks and fintechs — tokenized deposits, named accounts, native multisig, instant finality. A permissioned network you own."
+description: "Tokenized deposits on a network your institution owns. Named accounts, maker-checker approval, keys limited to one action and settlement final in about a second, built into the ledger instead of built and audited on Ethereum or an EVM chain."
 ---
 
 <HomeFeatures />

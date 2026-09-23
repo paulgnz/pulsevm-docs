@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/HomeTrust.md (keep in sync)
 // Homepage: the company behind PulseVM already operates in regulated finance.
 // Every item is public and sourced on /institutions/metallicus.
 const facts = [

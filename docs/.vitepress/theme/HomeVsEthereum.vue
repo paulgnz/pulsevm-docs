@@ -1,4 +1,5 @@
 <script setup>
+// Plain-text twin for .md mirrors and llms-full.txt: docs/.vitepress/agent-text/HomeVsEthereum.md (keep in sync)
 // Homepage: the decision a bank is actually making. Left column is what the
 // team would build and audit on Ethereum; right is how PulseVM accounts work.
 const rows = [
