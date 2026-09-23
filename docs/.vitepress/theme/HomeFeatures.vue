@@ -9,7 +9,7 @@ const ring = validators.map((name, i) => {
   return { name, x: 160 + 112 * Math.cos(a), y: 150 + 112 * Math.sin(a) }
 })
 const more = [
-  { title: 'Keep deposits at home', text: 'Issue tokenized dollars on Metal Dollar rails while the deposits stay on your balance sheet.', link: '/institutions/banks', label: 'For banks and fintechs' },
+  { title: 'Keep deposits at home', text: 'Issue tokenized dollars your customers can move instantly, while the deposits stay on your balance sheet.', link: '/institutions/banks', label: 'For banks and fintechs' },
   { title: 'Native, not bolted on', text: 'Account abstraction, batched payments, fee sponsorship, and passkey (WebAuthn) and secure-enclave (R1) keys are part of the account model.', link: '/guide/native-by-design', label: 'What is built in' },
   { title: 'Build in Rust, C++ or TypeScript', text: 'Rust is the canonical contract kit. C++ carries the Antelope heritage. TypeScript suits teams who prefer it.', link: '/build/get-started', label: 'Start building' },
   { title: 'Compliance and identity', text: 'Allow-lists, freeze and clawback under legal order are controls you implement in contracts you own, operated under dual control. Pairs with Metal Identity.', link: 'https://identity.metallicus.com', label: 'Metal Identity' },

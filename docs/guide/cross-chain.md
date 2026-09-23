@@ -104,7 +104,7 @@ The practical consequence is a bounded blast radius. Connecting to one counterpa
 ## What it enables
 
 - **Institution-to-institution settlement** across separate networks — each party keeps its own ledger and its own rules, while value and instructions move between them under verification rather than under trust.
-- **A common settlement asset.** Metal Dollar can act as the shared unit across the ecosystem, so participants transact in one asset without sharing one chain — see [For Banks & Fintechs](/institutions/banks).
+- **A common settlement asset.** A regulated dollar stablecoin can act as the shared unit, so participants transact in one asset without sharing one chain. Metallicus' Metal Dollar (XMD), a reserve-backed index over a basket of regulated dollar stablecoins, is one example from the same team.
 - **Consortium networks that stay sovereign.** Members exchange verified state — attestations, positions, claims, settlement instructions — without merging into a single shared chain and the governance compromise that implies. See [Enterprises & Consortia](/institutions/enterprises).
 - **Mixed-VM architectures**, as above: EVM where EVM fits, PulseVM where the account and permission model fits.
 - **Continuity after migration.** A chain that [migrates its state onto PulseVM](/guide/migrate-antelope-chain) lands inside this ecosystem rather than isolated from it.
@@ -123,4 +123,4 @@ The host-function surface that exposes this to WASM contracts is part of the wor
 - [Privacy & Confidentiality](/guide/privacy) — the isolation model this builds on
 - [Launch Your Own Network](/network/launch) — standing up the network that would connect
 - [Enterprises & Consortia](/institutions/enterprises) — the multi-party case
-- [For Banks & Fintechs](/institutions/banks) — settlement and Metal Dollar
+- [For banks and fintechs](/institutions/banks) — tokenized deposits and settlement

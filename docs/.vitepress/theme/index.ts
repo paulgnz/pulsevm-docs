@@ -8,6 +8,7 @@ import BanksLead from './BanksLead.vue'
 import FinalityTimeline from './FinalityTimeline.vue'
 import HomeVsEthereum from './HomeVsEthereum.vue'
 import HomeCta from './HomeCta.vue'
+import HomeTrust from './HomeTrust.vue'
 import SidebarToggle from './SidebarToggle.vue'
 import './custom.css'
 
@@ -25,6 +26,7 @@ export default {
     app.component('FinalityTimeline', FinalityTimeline)
     app.component('HomeVsEthereum', HomeVsEthereum)
     app.component('HomeCta', HomeCta)
+    app.component('HomeTrust', HomeTrust)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {

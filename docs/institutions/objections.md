@@ -65,6 +65,10 @@ Honestly: PulseVM is at test-network stage.
 - **Surface still in development.** A `/v1/chain` API inside the node (a gateway serves it today), a set of newer cryptographic host functions, and support for the latest metalgo release.
 - **Pilots first.** The path to production is a pilot run with Metallicus engineering, with exit criteria agreed up front. See [Run a 90-day pilot](/institutions/pilot) and the [technical status table](/institutions/technical-evaluators#status-what-is-shipped-and-what-is-not).
 
+## "Who uses it today?"
+
+No bank or credit union runs PulseVM in production yet; it is at test-network stage, and institutions start with a [pilot](/institutions/pilot). The account model it runs is in production on XPR Network, and the team behind it already works inside regulated finance: Metallicus is live on the Federal Reserve's FedNow Service, and credit unions work with it through the Cornerstone League stablecoin pilot and the Metal Blockchain Banking Innovation Program. See [Who is behind PulseVM](/institutions/metallicus).
+
 ## Next step
 
 Take these questions, and the ones we have not answered, into a conversation. The [buyer's checklist](/institutions/checklist) is a good agenda.

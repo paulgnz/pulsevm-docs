@@ -89,12 +89,12 @@ See [Accounts and permissions](/guide/accounts-permissions) for the full model.
 
 Every dollar a customer moves into a third-party stablecoin or fintech app is a deposit that **leaves your balance sheet**. The float, the net interest margin and, increasingly, the customer relationship go to the issuer or the app, while the institution that did the KYC becomes a funding source for someone else's business model.
 
-PulseVM plus the **Metal Dollar** network turns that around:
+PulseVM turns that around:
 
 - **Your institution issues the tokenized dollars.** Customers get instant, programmable, 24/7 money, and the deposits behind it **stay on your balance sheet**, earning your margin.
 - **You own the customer relationship and the data.** The wallet is your app, the account is your named account, the permissions are your policy.
 - **You own the rails.** The institution (or consortium) operates the network, so technology competency builds up inside the institution instead of being rented.
-- **Interoperate on your terms.** Metal Dollar provides a common settlement asset across the ecosystem for institution-to-institution transfer, while each network's rules remain its own.
+- **Interoperate on your terms.** Your network keeps its own rules. Settlement with other institutions runs over the rails you choose, including FedNow, which Metallicus is certified on, and regulated dollar stablecoins.
 
 The same product that stops deposit flight makes you the technology provider instead of the disintermediated party.
 
@@ -130,9 +130,9 @@ sequenceDiagram
   participant H as Hyperion to GL
   C->>B: Deposits $10,000
   B->>T: Issuance request
-  T->>L: issue 10,000 MUSD (officer proposes, risk approves)
+  T->>L: issue 10,000 ACUSD (officer proposes, risk approves)
   L-->>C: Tokens in the customer's named account
-  C->>L: Saturday 11pm: transfer 2,500 MUSD to a friend
+  C->>L: Saturday 11pm: transfer 2,500 ACUSD to a friend
   L-->>C: Final in about a second
   L->>H: Every action, human-readable
   H->>B: Reconciliation feed, an API read
@@ -141,7 +141,7 @@ sequenceDiagram
 1. **The dollars stay home.** The deposit sits where it always did, on the bank's balance sheet, because the bank is the issuer.
 2. **Issuance runs under dual control.** A treasury officer proposes, a risk officer approves, and the mint executes only at threshold, each step on the audit trail.
 3. **Transfers settle at any hour.** No cutoff times, no "pending until Monday", no gas prompt, just the bank's own app.
-4. **Operations reads a ledger of named accounts.** An anomalous transfer reads as `acme.treas → acme.ops, 250,000 MUSD`, not `0x4f3a…`.
+4. **Operations reads a ledger of named accounts.** An anomalous transfer reads as `acme.treas → acme.ops, 250,000 ACUSD`, not `0x4f3a…`.
 5. **The chain is the subledger.** Its full history queries for free, so month-end reconciliation into the core is an API read rather than a batch-file break investigation.
 
 The core remains your system of record. Integration is a read feed and an issuance path, not a core replacement. This is the designed capability, and the shape a [90-day pilot](/institutions/pilot) is built to prove.

@@ -100,7 +100,7 @@ flowchart TD
 - **Member-to-member payments work at any hour.** A member sends money to their daughter at a credit union two states away on a Sunday morning, inside the CU's own app, with no gas fee and nothing to explain.
 - **Smaller institutions get enterprise-grade custody.** [Weighted multisig](/guide/multisig), key rotation without moving funds, and R1 (HSM, secure enclave) and WebAuthn (passkey) keys verified by the chain are how every account works, not a platform to buy.
 - **A key can be limited to one job.** A bill-pay service key can be bound with `linkauth` to one contract action, so it cannot do anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
-- **Deposits stay home.** Each CU issues its own tokenized deposits on Metal Dollar rails, so the liability and the margin stay on that CU's balance sheet. The economics are the same as the [banks case](/institutions/banks).
+- **Deposits stay home.** Each CU issues its own tokenized deposits on the shared network, so the liability and the margin stay on that CU's balance sheet. The economics are the same as the [banks case](/institutions/banks).
 - **Examiners get a read grant, not a data request.** Full, human-readable history through Hyperion, at no per-query cost.
 
 Each credit union keeps its core as the system of record. The network settles between them, and Hyperion feeds every member's reconciliation. One shared rail, many sovereign balance sheets.

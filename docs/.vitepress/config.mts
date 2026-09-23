@@ -63,6 +63,7 @@ export default withMermaid(defineConfig({
               { text: 'Technical evaluators', link: '/institutions/technical-evaluators' },
               { text: 'Delegated authority with limits', link: '/guide/delegated-authority' },
               { text: 'Run a 90-day pilot', link: '/institutions/pilot' },
+              { text: 'Who is behind PulseVM', link: '/institutions/metallicus' },
             ],
           },
           {
@@ -169,6 +170,7 @@ export default withMermaid(defineConfig({
             { text: 'Objections, answered', link: '/institutions/objections' },
             { text: 'Run a 90-day pilot', link: '/institutions/pilot' },
             { text: "Buyer's checklist", link: '/institutions/checklist' },
+            { text: 'Who is behind PulseVM', link: '/institutions/metallicus' },
             { text: 'Delegated authority (case study)', link: '/guide/delegated-authority' },
           ],
         },

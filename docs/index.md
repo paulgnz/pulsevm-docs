@@ -27,6 +27,8 @@ description: "Non-EVM, Antelope-based blockchain for banks and fintechs — toke
 
 <p class="home-industries">Also used for <a href="/industries/insurance">insurance</a>, <a href="/industries/trade-finance">trade finance</a>, <a href="/industries/capital-markets">capital markets</a>, <a href="/industries/title-escrow">title and escrow</a>, <a href="/industries/healthcare">healthcare</a> and <a href="/industries/loyalty">loyalty</a>. <a href="/industries/">All industries</a>.</p>
 
+<HomeTrust />
+
 <HomeCta />
 
 <p class="brand-strip-eyebrow">The account model has run in production on XPR Network for years. PulseVM runs it on Metal Blockchain, from Metallicus.</p>
