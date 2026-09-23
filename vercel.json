@@ -14,5 +14,12 @@
         }
       ]
     }
-  ]
+  ],
+  "proxy": {
+    "entrypoint": "proxy.js",
+    "matcher": [
+      "/",
+      "/((?!assets/|.*\\.[A-Za-z0-9]+$).*)"
+    ]
+  }
 }
