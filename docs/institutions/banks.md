@@ -62,6 +62,8 @@ head:
 
 # For Banks & Fintechs
 
+<BanksLead />
+
 ## The economic argument first: keep deposits — and the technology — at home
 
 Every dollar a customer moves into a third-party stablecoin or fintech app is a deposit that **leaves your balance sheet**. The float, the net interest margin, and increasingly the customer relationship accrue to the issuer or the app — while the institution that did the KYC and bears the regulatory burden becomes a funding source for someone else's business model.

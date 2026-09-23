@@ -23,7 +23,9 @@ const addCleanup = (fn) => cleanups.push(fn)
 onMounted(() => {
   if (typeof window === 'undefined' || !host.value) return
   const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  const small = window.matchMedia?.('(max-width: 768px)').matches
+  // below 960px the hero text sits on top of the scene: the live WebGL glow
+  // would sit behind the tagline, so use the dimmed static mark instead
+  const small = window.matchMedia?.('(max-width: 960px)').matches
   const webgl = (() => {
     try {
       const c = document.createElement('canvas')
@@ -151,6 +153,11 @@ onBeforeUnmount(() => {
     linear-gradient(to bottom, var(--vp-c-bg) 0%, transparent 14%),
     linear-gradient(90deg, var(--vp-c-bg) 0%, color-mix(in srgb, var(--vp-c-bg) 45%, transparent) 34%, transparent 70%);
   pointer-events: none;
+}
+/* a window resized below 960px after the scene booted keeps the live canvas:
+   dim it so the tagline stays legible */
+@media (max-width: 960px) {
+  .proton-atom.gl :deep(canvas) { opacity: 0.35; }
 }
 @media (max-width: 960px) {
   .proton-atom::after {

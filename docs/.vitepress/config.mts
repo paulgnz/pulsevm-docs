@@ -23,6 +23,11 @@ export default withMermaid(defineConfig({
     ['meta', { name: 'twitter:image', content: 'https://pulsevm.dev/brand/og.png' }],
     ['meta', { name: 'keywords', content: 'non-EVM blockchain, EVM alternative, tokenized deposits, permissioned blockchain for banks, stablecoin issuance, Antelope blockchain, named accounts, native multisig, instant finality, blockchain for fintech, private blockchain for financial institutions' }],
   ],
+  // vitepress-plugin-mermaid puts every diagram type (and KaTeX) into each
+  // page's preload list, so every page downloaded ~1 MB of chart code up front.
+  // Skip preloading them; pages that render a diagram still load them on demand.
+  shouldPreload: (link) =>
+    !/(katex|Diagram|diagram-|-definition-|cytoscape|dagre|cose-bilkent|mermaid)/.test(link),
   cleanUrls: true,
   sitemap: { hostname: 'https://pulsevm.dev' },
   transformPageData(pageData, { siteConfig }) {

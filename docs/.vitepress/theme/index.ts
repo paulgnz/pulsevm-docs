@@ -2,6 +2,9 @@ import DefaultTheme from 'vitepress/theme'
 import { h } from 'vue'
 import ProtonAtom from './ProtonAtom.vue'
 import NetworkScene from './NetworkScene.vue'
+import ProofBand from './ProofBand.vue'
+import HomeFeatures from './HomeFeatures.vue'
+import BanksLead from './BanksLead.vue'
 import SidebarToggle from './SidebarToggle.vue'
 import './custom.css'
 
@@ -13,10 +16,13 @@ export default {
   extends: DefaultTheme,
   enhanceApp({ app }) {
     app.component('NetworkScene', NetworkScene)
+    app.component('HomeFeatures', HomeFeatures)
+    app.component('BanksLead', BanksLead)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'home-hero-before': () => h(ProtonAtom),
+      'home-features-before': () => h(ProofBand),
       'nav-bar-content-after': () => h(SidebarToggle),
     })
   },
