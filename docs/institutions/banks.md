@@ -37,7 +37,7 @@ head:
             "name": "What happens under a court order or regulatory action?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Asset-level controls — freeze, clawback, account restriction — are policy in system contracts your institution owns, executed under multisig by named officers with every step on the audit trail. You are not asking a neutral public protocol for an exception; compliance actions are first-class operations on a network whose rules you set."
+              "text": "Asset-level controls such as freeze, clawback and account restriction are policy you write into the token and system contracts your institution owns, executed under multisig by named officers with every step on the audit trail. You are not asking a neutral public protocol for an exception; compliance actions are first-class operations on a network whose rules you set."
             }
           },
           {
@@ -85,16 +85,21 @@ PulseVM plus the **Metal Dollar** network inverts that flow:
 | Authorization matrix | Hierarchical permissions — native |
 | Dual control / maker-checker | [Weighted multisig](/guide/multisig) on any permission |
 | Key rotation & recovery | Native `updateauth`; assets never move |
-| HSM / enclave custody | secp256r1 (R1) keys in the account model (implementation support landing) |
+| HSM / enclave custody | R1 (secure enclave, HSM) and WebAuthn (passkey) keys verified by the chain ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), on `main`) |
+| A key that can do one thing | `linkauth` binds a permission to a single contract action. A payments key that may only call `transfer` is refused on anything else, before the contract runs |
 | Customer pays no gas | Institution stakes resources; users see an app |
 | "When is it settled?" | Instant, irreversible — [no reorgs by construction](/guide/finality) |
 | Audit trail | Full indexed history, human-readable actions |
 
-Each of these is solvable on EVM — by *additional* infrastructure, frameworks, and audit surface. Here they are the floor.
+On EVM chains each of these is extra infrastructure: a contract wallet, a module, a paymaster, each with its own audit. Here they are how accounts work.
+
+::: tip In production today
+A trading service on XPR Network mainnet gives each customer an account of their own and gives its bot a key linked to one action, `trade`, with limits the contract enforces. The operator cannot withdraw. In a testnet exercise with the real bot key, 31 of 31 attempts to move money out or take the account over were refused by the chain. For a bank this is the same shape as a payments processor or a treasury desk acting under a mandate. [Read the case study](/guide/delegated-authority).
+:::
 
 ## Permissioned is the design point, not a compromise
 
-Your validators are named institutions under legal agreements. Block producers are elected and replaceable. The network's rules — account policy, fee models, asset-level controls, freeze/clawback under court order — live in **system contracts your organization owns and can modify**, on an execution model with a decade of customization precedent (WAX, Telos, FIO, [XPR Network](https://xprnetwork.org)).
+Your validators are named institutions under legal agreements. The members admit them and can remove them. The network's rules — account policy, fee models, asset-level controls, and controls such as freeze or clawback under court order, written as policy — live in **system contracts your organization owns and can modify**, on an execution model with a decade of customization precedent (WAX, Telos, FIO, [XPR Network](https://xprnetwork.org)).
 
 ## What this looks like in practice
 
@@ -122,7 +127,7 @@ The chain settles; the core remains your system of record; Hyperion is the bridg
 
 ## Not bare infrastructure
 
-A deployment starts with working products, not a toolkit: the **WebAuth wallet** (passkey-grade custody with named accounts), **Metal X** (a running order-book exchange), a **loan protocol**, and the indexers, explorers, and SDKs that come from operating these networks in production.
+The same account model already runs products in production on XPR Network: the **WebAuth wallet** (passkey custody with named accounts), **Metal X** (an order-book exchange), a **loan protocol**, and the indexers, explorers and SDKs around them. Contracts built for that model run on PulseVM, which is how these products come to a PulseVM network.
 
 ## Frequently asked questions
 
@@ -140,7 +145,7 @@ Yes — PulseVM is designed to run alongside your core as a settlement and recor
 
 ### What happens under a court order or regulatory action?
 
-Asset-level controls — freeze, clawback, account restriction — are policy in system contracts your institution owns, executed under [multisig](/guide/multisig) by named officers with every step on the audit trail. You are not asking a neutral public protocol for an exception; compliance actions are first-class operations on a network whose rules you set.
+Asset-level controls such as freeze, clawback and account restriction are policy you write into the token and system contracts your institution owns, executed under [multisig](/guide/multisig) by named officers with every step on the audit trail. The account model makes this possible; the reference contracts do not ship these controls today. You are not asking a neutral public protocol for an exception; compliance actions are first-class operations on a network whose rules you set.
 
 ### Is this a public blockchain? Who can see our transactions?
 

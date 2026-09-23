@@ -1,13 +1,17 @@
+---
+description: "Connect a web app to the PulseVM desktop wallet with the Pulse Web SDK: ConnectWallet(), decode-before-sign, callbacks and limits."
+---
+
 # Connect Wallet (Pulse Web SDK)
 
 The **Pulse Web SDK** lets a web app connect to the **PulseVM desktop wallet**, request a signature, and broadcast — the same `ConnectWallet()` shape as proton-web-sdk, but the wallet selector shows **Pulse Wallet (Desktop)** instead of Anchor.
 
 Keys never touch the browser. The app hands an unsigned transaction to the wallet over the `pulsevm://` URL scheme; the wallet decodes it, signs with a Secure Enclave / imported key behind Touch ID, and returns the signature.
 
-<a href="/demo/" target="_blank" rel="noopener" style="display:inline-block;margin:8px 8px 4px 0;padding:11px 20px;border-radius:12px;font-weight:600;color:#fff;background:linear-gradient(135deg,#4F7CFF,#8B95FF);text-decoration:none;">▶ PulseVM Wallet demo</a>
-<a href="/demo-pulse/" target="_blank" rel="noopener" style="display:inline-block;margin:8px 0 4px;padding:11px 20px;border-radius:12px;font-weight:600;color:#fff;background:rgba(127,127,127,.18);border:1px solid rgba(127,127,127,.35);text-decoration:none;">▶ PulseVM &amp; WebAuth demo</a>
+<a href="/demo/" target="_blank" rel="noopener" class="pvm-button">PulseVM Wallet demo</a>
+<a href="/demo-pulse/" target="_blank" rel="noopener" class="pvm-button pvm-button-alt">PulseVM &amp; WebAuth demo</a>
 
-> The PulseVM Wallet demo needs the **PulseVM desktop wallet** installed and launched once (so macOS registers the `pulsevm://` scheme). Both default to the A‑Chain testnet.
+> macOS only for now. The PulseVM Wallet demo needs the **PulseVM desktop wallet** installed and launched once, so macOS registers the `pulsevm://` scheme.
 
 ## Two ways to connect
 
@@ -38,8 +42,8 @@ import { ConnectWallet } from "@pulsevm/pulse-web-sdk"
 
 const { session } = await ConnectWallet({
   appName: "My PulseVM dapp",
-  chainId: "8012f12057c8…",                         // your network's chain id — current values at /network/endpoints
-  rpcEndpoint: "https://a-chain-alpine.metalblockchain.org/ext/bc/yQUjkpNYeiJZEn1daa7dQJbysxdXLtz1QhTTdu1mwaxoEJwiJ/rpc",
+  chainId: "71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd", // your network's chain id (this one: the 1:1 demo network)
+  rpcEndpoint: "https://xpr-rpc-testnet.pulsevm.dev", // current values at /network/endpoints
 })
 
 console.log(session.actor, session.permission)      // e.g. "protonnz" "active"
@@ -66,7 +70,7 @@ The wallet renders a **decode-before-sign** view of the real action (amount, rec
 
 ## Handling the callback
 
-The wallet returns to your `callback` URL with the result. On that page, call `handleCallback()` once on load — it stores the result and notifies the opener:
+If you pass a `callback` URL, the wallet returns to it with the result. On that page, call `handleCallback()` once on load — it stores the result and notifies the opener:
 
 ```ts
 import { handleCallback } from "@pulsevm/pulse-web-sdk"
@@ -75,6 +79,6 @@ handleCallback()
 
 ## Notes & limits
 
-- This SDK build serializes the `transfer` action. For arbitrary actions, serialize with [pulsevm-js](https://github.com/paulgnz) and pass the packed transaction to the wallet.
+- This SDK build serializes the `transfer` action. For arbitrary actions, serialize with [pulsevm-js](https://github.com/MetalBlockchain/pulsevm-js) and pass the packed transaction to the wallet.
 - Transport is the `pulsevm://` URL scheme, so the desktop wallet must be installed. A browser-extension / mobile transport can be added later behind the same `ConnectWallet()` API.
-- Source: [`@pulsevm/pulse-web-sdk`](https://github.com/paulgnz) · see also the [TypeScript Quickstart](/build/quickstart-typescript) for writing contracts.
+- Source: [`@pulsevm/pulse-web-sdk`](https://github.com/paulgnz/pulse-web-sdk) · see also the [TypeScript Quickstart](/build/quickstart-typescript) for writing contracts.

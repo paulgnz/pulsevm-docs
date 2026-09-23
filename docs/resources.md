@@ -1,3 +1,7 @@
+---
+description: "PulseVM repositories and tools: the VM, contract kits, SDKs, CLIs, wallets, indexers and operator tooling."
+---
+
 # Repositories & Resources
 
 The canonical home for PulseVM and the Metal Blockchain stack is **[github.com/MetalBlockchain](https://github.com/MetalBlockchain)**.

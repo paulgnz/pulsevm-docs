@@ -39,14 +39,14 @@ Think of PulseVM as an operating environment, not "a blockchain you join":
 
 PulseVM stands on two proven foundations, named plainly:
 
-- **Execution: Antelope (formerly EOSIO).** The account, permission, contract, and resource semantics are a direct lineage from the Antelope protocol — the model behind XPR Network, WAX, Telos, and EOS. The implementation is **pure Rust** — modern, memory-safe, and validated **byte-for-byte against the reference implementation** by replaying full chain histories through both.
+- **Execution: Antelope (formerly EOSIO).** The account, permission, contract, and resource semantics are a direct lineage from the Antelope protocol — the model behind XPR Network, WAX, Telos, and EOS. The implementation is **pure Rust** — modern, memory-safe, and checked **byte-for-byte against the reference implementation**: the migration path merged in [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) replayed all 401,005,383 XPR Network mainnet blocks.
 - **Consensus: Avalanche's Snowman protocol**, as implemented by Metal Blockchain (metalgo). Repeated randomized sampling of the validator set yields fast, metastable, instantly-final agreement — equally suited to small accountable consortium sets and larger public ones.
 
 ## A Rust node running WebAssembly contracts
 
 A detail worth being precise about, because it answers a common question — *"Antelope contracts are C++; how do they run on a Rust node?"*
 
-Contracts on Antelope chains are never executed as C++. Authors compile their contract — written in **C++, Rust, or TypeScript** — into a **WebAssembly (WASM)** binary once, and the chain stores and executes that binary. Any node that (a) runs a WASM engine and (b) serves the same host functions the contract imports will execute it identically. PulseVM does both: a production Rust WASM runtime, plus the full classic Antelope host-function surface. The result: **contract binaries from existing Antelope chains run unchanged, byte-identical code hashes and all** — while the node underneath is a single modern Rust codebase that builds in about two minutes.
+Contracts on Antelope chains are never executed as C++. Authors compile their contract — written in **C++, Rust, or TypeScript** — into a **WebAssembly (WASM)** binary once, and the chain stores and executes that binary. Any node that (a) runs a WASM engine and (b) serves the same host functions the contract imports will execute it identically. PulseVM does both: a production Rust WASM runtime, plus about 180 Antelope host functions, which covers every contract on XPR Network mainnet (all 401,005,383 blocks replay). The Spring-era crypto and BLS sets are still to come ([status](/build/intrinsics)). The result: **contract binaries from existing Antelope chains run unchanged, byte-identical code hashes and all.**
 
 PulseVM is **open source** ([MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm)), created by Metallicus CTO **Glenn Mariën** ([@MlennGarien](https://github.com/MlennGarien)).
 

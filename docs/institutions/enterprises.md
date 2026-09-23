@@ -21,7 +21,7 @@ head:
             "name": "Who governs a consortium network and what happens when a member joins or leaves?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The consortium does, through system contracts it owns and a validator set it appoints. Members are named accounts admitted under the agreement; joining is an account-creation and permission grant, leaving is a revocation — both auditable policy actions, not platform-vendor tickets. Validators are named, elected, and replaceable, which maps directly onto how consortium governance already works."
+              "text": "The consortium does, through system contracts it owns and a validator set it appoints. Members are named accounts admitted under the agreement; joining is an account-creation and permission grant, leaving is a revocation — both auditable policy actions, not platform-vendor tickets. Validators are named, admitted by the members, and removable, which maps directly onto how consortium governance already works."
             }
           },
           {
@@ -104,7 +104,7 @@ By scoping the network to the relationship. A PulseVM network is deployed per co
 
 ### Who governs a consortium network and what happens when a member joins or leaves?
 
-The consortium does, through system contracts it owns and a validator set it appoints. Members are named accounts admitted under the agreement; joining is an account-creation and [permission grant](/guide/accounts-permissions), leaving is a revocation — both auditable policy actions, not platform-vendor tickets. Validators are named, elected, and replaceable, which maps directly onto how consortium governance already works.
+The consortium does, through system contracts it owns and a validator set it appoints. Members are named accounts admitted under the agreement; joining is an account-creation and [permission grant](/guide/accounts-permissions), leaving is a revocation — both auditable policy actions, not platform-vendor tickets. Validators are named, admitted by the members, and removable, which maps directly onto how consortium governance already works.
 
 ### Can this integrate with our ERP?
 

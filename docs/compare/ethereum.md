@@ -16,17 +16,15 @@ The five points behind it, in the order a bank cares:
 2. **Recovery and policy are native.** Key recovery, freezes under legal order, and account-level controls are permission and system-contract operations, not bespoke application code. On Ethereum each of those is custom smart-contract logic, and custom logic is where exploits live.
 3. **Finality is one block, with no reversible window.** A block is accepted and it is final, in about a second. On Ethereum a reorg remains possible until economic finality roughly thirteen minutes later. For settlement, that difference is the product.
 4. **No gas auction, no fee volatility.** Resources are staked, so cost is capacity planning rather than a market fought against everyone else on the chain. Users never hold a token to pay fees.
-5. **The institution owns the network and the upgrade path.** The chain's rules live in system contracts it controls, validators are the members it admits, and the chain's state can move between deployments without changing its identity. Permissioned Ethereum forks give you the EVM's limits with none of its public liquidity.
-
-What not to lead with: throughput numbers and the phrase "better primitives". Every vendor says both. Lead with the account model, finality and ownership, and let the primitives show up in the demo, when the multisig approval takes one action and the key rotation takes one more.
+5. **The institution owns the network and the upgrade path.** The chain's rules live in system contracts it controls, validators are the members it admits, and the chain's state can move to a new deployment keeping its chain ID, accounts and keys. Permissioned Ethereum forks give you the EVM's limits with none of its public liquidity.
 
 ## Accounts & permissions
 
-Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, passkey signers — to approximate what institutions need. PulseVM ships it natively: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), instant key rotation, and R1/HSM keys in the protocol's account model (implementation signing support landing). Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
+Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, EIP-7702 delegation, the P-256 precompile for passkeys, session-key modules — to approximate what institutions need. Each of those is a contract or standard you adopt and audit. PulseVM ships it natively: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), instant key rotation, and R1 (secure enclave / HSM) and WebAuthn (passkey) keys verified by the chain itself ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), merged on `main`, not yet in a tagged release). A permission can also be bound to one contract action with `linkauth`, so a key made for one job cannot do any other. Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
 
 ## Finality & settlement
 
-PulseVM offers **sub-second, instant, irreversible finality** — versus 12-second blocks and roughly 13 minutes to economic finality on Ethereum. No reorg handling, no confirmation-count policies, no probabilistic-settlement language in your risk memos. "When is it settled?" has a one-word answer. For payments and settlement, this is decisive.
+PulseVM offers **instant, irreversible finality in about a second** — versus 12-second blocks and roughly 13 minutes to economic finality on Ethereum. No reorg handling, no confirmation-count policies, no probabilistic-settlement language in your risk memos. "When is it settled?" has a one-word answer. For payments and settlement, this is decisive.
 
 ## Cost model
 
@@ -34,7 +32,7 @@ Ethereum's gas market prices users out at peak and makes costs unforecastable. P
 
 ## Governance & control
 
-Ethereum's credible neutrality — rules nobody can change — is the right property for neutral global settlement. A regulated institution needs the opposite: governance, upgrade agility, and the ability to act under legal order. PulseVM's **elected, replaceable validators** and **owner-modifiable system contracts** put those controls where an institution requires them.
+Ethereum's credible neutrality — rules nobody can change — is the right property for neutral global settlement. A regulated institution needs the opposite: governance, upgrade agility, and the ability to act under legal order. PulseVM's **named validators that the members admit and can remove** and **owner-modifiable system contracts** put those controls where an institution requires them.
 
 ## Privacy
 

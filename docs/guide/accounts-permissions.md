@@ -1,40 +1,106 @@
-# Accounts & Permissions
+---
+description: "PulseVM accounts are readable names with a tree of permissions. Any permission can be bound to one contract action with linkauth, so a key made for one job cannot do anything else. Multisig, key rotation, recovery and passkeys are configuration, not contracts."
+---
 
-The account model is PulseVM's clearest advantage over EVM-style chains — and the part that maps directly onto how institutions already operate.
+# Accounts and permissions
+
+On PulseVM an account is a name, not a key. Each account holds a tree of permissions. Each permission is a threshold over keys, other accounts and time delays, and any permission can be bound to exactly one contract action. Multisig, scoped bot keys, key rotation and recovery are things you configure with two system actions. You do not deploy or audit a contract to get them.
+
+This is the part of PulseVM that people who build on it talk about first.
 
 ## Named accounts
 
-Accounts are human-readable names (up to 12 characters, `a-z`, `1-5`): `acme.treas`, `branch.04`, `fdxtoken`. Reconciliation, audit, and operations think in names; so does the chain.
+Accounts are readable names of up to 12 characters (`a-z`, `1-5`, `.`): `acme.treas`, `branch.04`, `payroll`. Operations, audit and reconciliation already think in names, and so does the chain. Tokens, contracts and history are all addressed by name.
 
-## Permission hierarchies
+## A tree of permissions
 
-Every account has a tree of permissions. By default: `owner` (root, recovery) and `active` (day-to-day). You can add any structure beneath them:
-
-- A `trading` permission whose key can only call exchange actions
-- A `payroll` permission delegated to an operations account
-- An `active` requiring 2-of-3 named officers (see [Multisig](/guide/multisig))
-
-Each permission is a **threshold over weighted factors** — keys, other accounts' permissions, and time waits. Authority can be *delegated across accounts*: `subsidiary@owner` can be satisfied by `parent@active`.
-
-## The permission tree
+Every account starts with two permissions: `owner`, the root used for recovery, and `active`, for day-to-day use. You add any structure beneath them, each with its own threshold and its own keys or accounts.
 
 ```mermaid
 flowchart TD
-  owner["owner — root key, recovery"] --> active["active — day-to-day"]
-  active --> trading["trading<br/>key limited to exchange actions"]
-  active --> treasury["treasury<br/>2-of-3 named officers"]
-  active --> code["account@pulse.code<br/>contract acts as itself"]
+  owner["owner<br/>board, 3 of 5 keys"] --> active["active<br/>operations, 2 of 3"]
+  active --> treasury["treasury<br/>2 of 3 named officers"]
+  active --> payments["payments<br/>1 key, linked to token::transfer only"]
+  active --> trader["trader<br/>bot key, linked to vault::trade only"]
 ```
+
+A permission is satisfied by a weighted set of factors that must reach its threshold:
+
+- **Keys**: K1 (secp256k1), R1 (secp256r1, for HSMs and secure enclaves) and WebAuthn (passkeys). R1 and WebAuthn are verified by the chain itself ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), on `main`).
+- **Other accounts**: `subsidiary@owner` can be satisfied by `parent@active`, which is how institutional recovery and delegation work.
+- **Time delays**: a factor that only counts after a wait, for changes that should never be instant.
+
+## Give a key one job
+
+`linkauth` binds a permission to a single contract action. After this call, `acme.treas@payments` is the permission required for `token::transfer`:
+
+```json
+{ "account": "acme.treas", "code": "token", "type": "transfer", "requirement": "payments" }
+```
+
+For every action in a transaction, the chain looks up the minimum permission for that contract and action. That is the linked permission if one exists, and `active` if not. A signature from a permission that does not reach that minimum is refused **before the contract runs**. So a key on `trader`, linked only to `vault::trade`, cannot transfer tokens, cannot change the account's keys and cannot link itself to anything else. PulseVM refuses it with the same message as XPR Network and every Antelope chain:
+
+```
+action declares irrelevant authority 'vault@keeper'; minimum authority is vault@active
+```
+
+That one mechanism is what lets you hand a trading bot, a payments processor, an auditor or an AI agent a key with a mandate the protocol enforces. For a system that does exactly this in production, see [Delegated authority with hard limits](/guide/delegated-authority).
+
+## Recipes
+
+These use [`pulse-ts`](https://github.com/paulgnz/pulse-cli-ts). The system account is `pulse` on Pulse-native chains such as Alpine and `eosio` on chains migrated from Antelope, such as the [1:1 demo network](/network/one-to-one-demo); substitute accordingly.
+
+**Add a permission with its own key.** `trader` sits under `active`, so `active` signs its creation:
+
+```bash
+pulse-ts update-auth myacct trader active PUB_K1_6...botkey --sign-permission active
+```
+
+**Bind it to one action:**
+
+```bash
+pulse-ts push-action pulse linkauth \
+  '{"account":"myacct","code":"vault","type":"trade","requirement":"trader"}' \
+  -a myacct@active
+```
+
+**Use it.** The bot signs with `trader`, and only `vault::trade` accepts it:
+
+```bash
+pulse-ts push-action vault trade '{"owner":"myacct","market":3,"amount":"25.0000 XMD"}' -a myacct@trader
+```
+
+**Rotate a key.** One action, signed by the parent. The account, its assets and its history stay where they are:
+
+```bash
+pulse-ts update-auth myacct active owner PUB_K1_6...newkey --sign-permission owner
+```
+
+**Revoke.** `unlinkauth` removes the binding and `deleteauth` removes the permission:
+
+```bash
+pulse-ts push-action pulse unlinkauth '{"account":"myacct","code":"vault","type":"trade"}' -a myacct@active
+pulse-ts push-action pulse deleteauth '{"account":"myacct","permission":"trader"}' -a myacct@active
+```
+
+For dual control on any permission, see [Multisig](/guide/multisig).
 
 ## What this replaces
 
-On EVM chains, one key equals one account; everything beyond that — multisig, spending limits, session keys, recovery — is a smart-contract wallet platform you deploy, audit, and maintain (multisig contracts, ERC-4337 account-abstraction stacks). Here it is protocol configuration:
+On EVM chains one key is one account. Everything beyond that is a smart-contract wallet you deploy, audit and maintain.
 
-- **Key rotation**: one `updateauth` action. Assets never move; the account persists.
-- **Recovery**: `owner` rotates a lost `active` key. Delegated owner = institutional recovery.
-- **Dual control**: a threshold on the permission, not a contract deployment.
-- **HSM custody**: the account model carries secp256r1 (R1) keys alongside K1 — designed for hardware modules and secure enclaves. R1 and WebAuthn signature verification are in upstream PulseVM as of 2026-09-01 ([PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69)).
+| You need | On PulseVM | On an EVM chain |
+|:---|:---|:---|
+| Readable identity | The account name | A name service mapped onto a hex address |
+| Dual control | A threshold on the permission | A multisig contract wallet |
+| A key limited to one action | `linkauth` | A session-key module or guard contract |
+| Key rotation | One `updateauth`; the account stays | A smart wallet, or moving every asset to a new address |
+| Recovery | `owner`, or a parent account, rewrites `active` | A recovery module |
+| Passkeys and HSM keys | WebAuthn and R1 keys, verified by the chain | A contract-wallet verifier or the P-256 precompile |
+| Users who never pay gas | The institution stakes resources | A paymaster service |
+
+Every row in the right-hand column is code someone has to write, audit and keep safe. Every row in the middle column is protocol.
 
 ## For contract developers
 
-Contracts check authority with `require_auth(account)` — the chain enforces the full permission tree. A contract can also act under its own authority via a `pulse.code` permission grant, enabling safe inline actions.
+Contracts check authority with `require_auth(account)` or `require_auth2(account, permission)`, and the chain has already enforced the whole tree, including links, before your code runs. A contract acts under its own authority through a `pulse.code` grant on its permission (`eosio.code` on migrated chains), which is how contracts send inline actions safely. See [Authorization](/concepts/authorization) for the developer view and [System contracts](/build/system-contracts) for the native actions.

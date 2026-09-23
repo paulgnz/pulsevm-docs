@@ -1,3 +1,7 @@
+---
+description: "PulseVM's resource model: CPU and NET are staked, RAM is bought, and an institution can pay for its users so customers never hold a fee token."
+---
+
 # Resources: CPU, NET, RAM
 
 PulseVM has no gas market. Capacity is provisioned, not auctioned.

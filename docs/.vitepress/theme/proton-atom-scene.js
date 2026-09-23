@@ -14,6 +14,10 @@
    follows the pointer. Middle orbit carries the single warm accent and runs
    counter-rotation.
 
+   Arrival: the atom settles in and its first heartbeat lands ~0.5 s after the
+   scene appears. Scroll: the camera dollies back and the atom lifts as the
+   hero scrolls away.
+
    Everything is single-pass ShaderMaterials — no postprocessing chain.
    ~23 draw calls, zero per-frame allocations, DPR capped at 2, pausable.
 
@@ -502,8 +506,17 @@ export function mountProtonAtom(el, { dark = true, interactive = true, offsetRig
   /* -------------------------------- animate ------------------------------- */
   let raf = 0
   let running = false
-  let t = 0
+  /* start the heartbeat clock just before a beat, so the first lub-dub lands
+     ~0.5 s after the scene appears (the arrival moment) */
+  let t = BEAT - 0.5
+  let intro = 0            // 0 -> 1 over the first ~1.8 s of animation
   let last = 0
+  /* scroll-linked dolly: 0 at the top of the page, 1 once the hero is gone */
+  let scrollT = 0, scrollP = 0
+  const onScroll = () => { scrollT = Math.min(1, Math.max(0, window.scrollY / (h || 1))) }
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+  scrollP = scrollT
   const tmpV = new THREE.Vector3()
   const render = () => renderer.render(scene, camera)
   scene.updateMatrixWorld(true)
@@ -513,12 +526,21 @@ export function mountProtonAtom(el, { dark = true, interactive = true, offsetRig
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016)
     last = now
     t += dt
+    intro = Math.min(1, intro + dt / 1.8)
+    const ease = 1 - Math.pow(1 - intro, 3)          // easeOutCubic
+
+    /* arrival: the atom settles in from slightly smaller and further back */
+    atom.scale.setScalar(0.86 + 0.14 * ease)
+
+    /* scroll: recede and lift as the hero scrolls away */
+    scrollP += (scrollT - scrollP) * 0.08
+    camera.position.z = 7.2 + scrollP * 1.8 + (1 - ease) * 0.9
 
     /* parallax + autonomous drift */
     px += (tx - px) * 0.04
     py += (ty - py) * 0.04
     worldTilt.position.x = baseX + px * 0.3
-    worldTilt.position.y = -py * 0.18
+    worldTilt.position.y = -py * 0.18 + scrollP * 0.9
     worldTilt.rotation.y = px * 0.16 + Math.sin(t * 0.11) * 0.05
     worldTilt.rotation.x = py * 0.12 + Math.cos(t * 0.09) * 0.035
 
@@ -558,7 +580,7 @@ export function mountProtonAtom(el, { dark = true, interactive = true, offsetRig
       }
     }
     core.scale.setScalar(1 + env * 0.05)
-    glowMat.uniforms.uIntensity.value = theme.glowIntensity * (1 + env * 0.7)
+    glowMat.uniforms.uIntensity.value = theme.glowIntensity * (1 + env * 0.7) * (0.35 + 0.65 * ease)
     glowQuad.scale.setScalar(theme.glowScale * (1 + env * 0.06))
 
     /* orbits: motion, traveling ring highlight, depth-aware electron glow */
@@ -602,6 +624,7 @@ export function mountProtonAtom(el, { dark = true, interactive = true, offsetRig
     pause()
     ro.disconnect()
     window.removeEventListener('pointermove', onPointer)
+    window.removeEventListener('scroll', onScroll)
     renderer.domElement.removeEventListener('webglcontextlost', ctxLost)
     disposables.forEach((d) => d.dispose?.())
     renderer.dispose()

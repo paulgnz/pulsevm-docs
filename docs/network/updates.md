@@ -1,16 +1,16 @@
 ---
-description: "PulseVM development and network updates — releases, testnet milestones, and ecosystem changes, newest first. The quickest way to see that PulseVM ships weekly."
+description: "PulseVM development and network updates — releases, testnet milestones, and ecosystem changes, newest first. The quickest way to see how fast PulseVM moves."
 ---
 
 # Updates
 
-Development moves fast — new [releases](https://github.com/MetalBlockchain/pulsevm/releases) land weekly. Newest first; current testnet endpoints always live at [Network Endpoints](/network/endpoints).
+Development moves fast: `main` changes most weeks, and tagged [releases](https://github.com/MetalBlockchain/pulsevm/releases) follow. Newest first; current testnet endpoints always live at [Network Endpoints](/network/endpoints).
 
 ## September 2026
 
 **2026-09-23 — Wallet encryption hardened; Leap replay fixes.** The bundled `keosd` wallet now derives keys with Argon2id and encrypts with authenticated AES-256-GCM, rotates nonces on every save, writes files atomically with owner-only permissions, and migrates older wallets after a successful unlock ([#95](https://github.com/MetalBlockchain/pulsevm/pull/95)). Replay of Leap history now serializes state-history tables the way Leap's own fixtures expect and accounts resources correctly on the trusted-replay path ([#99](https://github.com/MetalBlockchain/pulsevm/pull/99)). In review: a **native nodeos-style HTTP API** served by the node itself (`/v1/chain/get_info`, `get_account`, `get_table_rows`, `push_transaction` and more), so `@proton/js` and proton-cli work without a separate gateway ([#98](https://github.com/MetalBlockchain/pulsevm/pull/98)).
 
-**2026-09-22 — metalgo 1.14.2 for Tahoe (Granite).** Metal Blockchain published [metalgo v1.14.2-tahoe](https://github.com/MetalBlockchain/metalgo/releases/tag/v1.14.2-tahoe), bringing the Granite network upgrade to the Tahoe testnet. Granite includes L1 validator epochs (ACP-181), the piece sovereign-L1 validator management needs to add and remove validators. PulseVM's matching RPC protocol bump (v45) is in review ([#97](https://github.com/MetalBlockchain/pulsevm/pull/97)). Tahoe node operators should plan the upgrade.
+**2026-09-22 — metalgo 1.14.2 for Tahoe (Granite).** Metal Blockchain published [metalgo v1.14.2-tahoe](https://github.com/MetalBlockchain/metalgo/releases/tag/v1.14.2-tahoe), bringing the Granite network upgrade to the Tahoe testnet. Granite includes L1 validator epochs (ACP-181), the piece sovereign-L1 validator management needs to add and remove validators. PulseVM's matching RPC protocol bump (v45) is in review ([#97](https://github.com/MetalBlockchain/pulsevm/pull/97)). Tahoe node operators on metalgo 1.13.5 need to upgrade to v1.14.2-tahoe.
 
 **2026-09-21/22 — hyperion-rs gets faster and safer to resume.** The history indexer now decodes raw blocks on a bounded worker pool, reuses prepared ABI decoders, caps bulk requests by size ([#2](https://github.com/MetalBlockchain/hyperion-rs/pull/2)), guards asset rendering against corrupt precision bytes ([#3](https://github.com/MetalBlockchain/hyperion-rs/pull/3)), and writes to Elasticsearch concurrently with per-document versions and a durable resume checkpoint, so an out-of-order or repeated write can never overwrite newer data ([#4](https://github.com/MetalBlockchain/hyperion-rs/pull/4)). The synthetic benchmark shows 25–30% higher throughput from parallel decoding alone.
 

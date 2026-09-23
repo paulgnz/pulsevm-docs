@@ -1,3 +1,7 @@
+---
+description: "Command-line tools for PulseVM: pulse-ts, the cross-platform proton-cli-shaped CLI, and the Rust pulse CLI shipped with each release. Accounts, keys, contracts, actions and permissions."
+---
+
 # Command-line Tools
 
 PulseVM has two CLIs: the **native `pulse` CLI** (ships with the node, follows cleos conventions) and **pulse-cli-ts** (community TypeScript CLI with conveniences for day-to-day contract work).
@@ -52,7 +56,7 @@ pulse-ts set-abi  myacct ./contract.abi
 
 # actions — multi-auth supported
 pulse-ts push-action myacct greet '{"account":"myacct","text":"hi"}' --actor myacct
-pulse-ts push-action fdxperps process '{"q_size":50}' -a 'keeper@active,fdxperps'
+pulse-ts push-action escrow release '{"id":42}' -a 'buyer@active,seller@active'
 
 # permissions
 pulse-ts update-auth myacct active owner PUB_K1_NEWKEY...

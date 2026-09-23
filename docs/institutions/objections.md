@@ -1,8 +1,12 @@
+---
+description: "The hard questions institutions ask about PulseVM, answered: control, maturity, lock-in, privacy and production readiness."
+---
+
 # Objections, Answered
 
 We steel-man these because credibility is the product.
 
-## "Enforce permissions sounds like control"
+## "Permissions sound like central control"
 
 Other way around — they are permissions **the account holder sets on their own account**: which of *your* keys can do what. Nothing protocol-level decides who transacts. And the rule-sets themselves are forkable: anyone can deploy their own network with their own validators. Opt-in rule-sets have no central authority to abuse.
 
@@ -22,7 +26,7 @@ The most important privacy lever is one public chains lack: the **network bounda
 
 Two honest parts.
 
-**The semantics are a decade old and run in production; the implementation is modern.** PulseVM implements the Antelope execution model (Leap 5.0.3) that [XPR Network](https://xprnetwork.org) runs today — as a **pure-Rust node** validated **byte-for-byte against the reference implementation** by replaying full chain histories through both. Contracts execute as WebAssembly exactly as on any Antelope chain, so existing contract binaries run unchanged. The account model, permissions, and resource economics are not experiments.
+**The semantics are a decade old and run in production; the implementation is modern.** PulseVM implements the Antelope execution model (Leap 5.0.3) that [XPR Network](https://xprnetwork.org) runs today — as a **Rust VM** checked **byte-for-byte against the reference implementation**: [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) replayed all 401,005,383 XPR Network mainnet blocks. Contracts execute as WebAssembly exactly as on any Antelope chain, so existing contract binaries run unchanged. The account model, permissions, and resource economics are not experiments.
 
 **Where PulseVM is new, correctness is measurable, not asserted.** The new surfaces are the Rust execution host and the consensus integration. Because a mature reference implementation exists and runs in production, hardening is mechanical:
 

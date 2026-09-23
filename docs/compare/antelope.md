@@ -4,11 +4,11 @@ description: "PulseVM ↔ Antelope/EOSIO compatibility — which host functions,
 
 # Antelope Compatibility
 
-PulseVM executes **Antelope/EOSIO smart contracts natively.** Contracts are the same WebAssembly modules, with the same ABIs, the same named accounts and permission model, and the same multisig — so the large majority of XPR Network, EOS and WAX contracts run on PulseVM **unchanged or with minimal changes.**
+PulseVM executes **Antelope/EOSIO smart contracts natively.** Contracts are the same WebAssembly modules, with the same ABIs, the same named accounts and permission model, and the same multisig — so the large majority of XPR Network, EOS and WAX contracts run on PulseVM **unchanged or with minimal changes.** The exception is contracts that call the Spring-era `bls_*` and `set_finalizers` functions, which includes the current EOS and Telos system contracts.
 
 This page is a **capability snapshot**: what's supported today, what's in progress, and what doesn't apply. It's maintained as the host-function surface evolves.
 
-<small>Snapshot: **August 2026.** Compatibility is actively expanding — check the [repositories](/resources) for the current state.</small>
+<small>Snapshot: **September 2026.** Compatibility is actively expanding — check the [repositories](/resources) for the current state.</small>
 
 ## What "compatible" means here
 
@@ -17,8 +17,8 @@ If you've shipped on an Antelope chain, these carry over directly:
 - **Your contract binaries** — the same `.wasm` built with the standard CDT (Rust or C++). No re-architecting.
 - **Your ABIs** — identical ABI format; the same `.abi` files describe your actions and tables.
 - **Accounts & permissions** — named accounts, hierarchical `owner`/`active`/custom permissions, linkauth, and **native multisig**. See [Accounts & Permissions](/guide/accounts-permissions).
-- **Your tooling** — CDT for builds; RPC and client libraries follow the Antelope conventions developers already know. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
-- **Your chain state** — PulseVM boots directly from an Antelope **portable chainstate snapshot** (the nodeos `.bin` format), importing accounts, permissions, contract code, and tables byte-exact. Demonstrated at production scale on the [XPR 1:1 demo network](/network/one-to-one-demo).
+- **Your tooling** — CDT for builds, and client libraries that follow Antelope conventions. The node speaks JSON-RPC today; a nodeos-style `/v1/chain` API in the node is in review ([#98](https://github.com/MetalBlockchain/pulsevm/pull/98)), and a gateway covers eosjs and @proton/js until then. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
+- **Your chain state** — PulseVM boots directly from an Antelope **portable chainstate snapshot** (the nodeos `.bin` format), importing accounts, permissions, contract code, and tables byte-exact. Running on the [XPR 1:1 demo network](/network/one-to-one-demo), and proven at full scale by replaying all 401,005,383 XPR Network mainnet blocks ([#61](https://github.com/MetalBlockchain/pulsevm/pull/61)).
 
 ## Host-function surface
 
@@ -38,7 +38,7 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 | **Authority key types** | <span class="ck y" role="img" aria-label="supported"></span> | K1 (secp256k1), R1 (secp256r1) and WebAuthn — R1/WebAuthn verification merged in [#69](https://github.com/MetalBlockchain/pulsevm/pull/69) |
 | **Resource limits** | <span class="ck y" role="img" aria-label="supported"></span> | `get_resource_limits` / `set_resource_limits` |
 | **Chain parameters** | <span class="ck y" role="img" aria-label="supported"></span> | `set_blockchain_parameters_packed` and read |
-| **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover` — zk / EVM-bridge use cases |
+| **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover` — zk / EVM-bridge use cases. Also not yet served: `bls_*` and `set_finalizers` (Spring/Savanna) |
 | **Protocol-feature framework** | <span class="ck y" role="img" aria-label="supported"></span> | `is_feature_activated` / `preactivate_feature` — served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) (2026-09-14) |
 | **Key-value database** (`kv_*`) | <span class="ck n" role="img" aria-label="not applicable"></span><span class="q">n/a</span> | never activated on EOS / XPR — not part of the standard contract surface |
 | **Deferred transactions** | <span class="ck y" role="img" aria-label="supported"></span> | `send_deferred` / `cancel_deferred` served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61); deprecated in Antelope — prefer inline actions in new code |

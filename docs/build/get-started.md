@@ -1,44 +1,83 @@
 ---
-description: "Build on PulseVM — deploy smart contracts in Rust, C++, or TypeScript on the A-Chain testnet. Accounts, keys, endpoints and first-deploy guide."
+description: "Get started on PulseVM: install the CLI, get a named account, deploy a contract in Rust, C++ or TypeScript, then give a second key permission to call exactly one action."
 ---
 
-# Getting Started on A-Chain Alpine
+# Get started
 
-Before you can deploy a contract you need three things on the testnet: an **account**, its **keys**, and a little **SYS** to stake for resources. Alpine is a permissioned network, so accounts are created by an authority rather than self-minted — here's the path.
+On PulseVM your account is a readable name, and it carries its own permission tree. In about fifteen minutes you'll deploy a contract to it, then give a second key permission to call exactly one of its actions.
 
-## 1. Generate a keypair
+## 1. Pick a network
+
+| Network | Use it for | Accounts | Status |
+|:---|:---|:---|:---|
+| [1:1 demo network](/network/one-to-one-demo) | Trying real Antelope state on PulseVM | Every XPR Network testnet account that existed on 2026-09-02, with the same keys | Up. Serves JSON-RPC and `/v1/chain` |
+| [A-Chain Alpine](/network/endpoints#a-chain-alpine-testnet) | Metallicus' Pulse-native testnet (SYS token) | Created on request | Public RPC not answering as of 2026-09-24 |
+| Your own network | Anything you want to control | You hold the creator authority | See [Launch your own network](/network/launch) |
+
+If you already have an XPR Network testnet account, the demo network is the fastest start: your account and keys are already there.
+
+## 2. Install the CLI
+
+`pulse-ts` is the cross-platform CLI, shaped like XPR Network's proton-cli. It needs Node 18 or newer and is not on npm yet, so build it from source:
 
 ```bash
-pulse-ts create-key      # prints a PUB_K1_… / PVT_K1_… pair — save the private key
+git clone https://github.com/paulgnz/pulse-cli-ts
+cd pulse-cli-ts
+npm install
+npx tsc -b
+npm link          # puts pulse-ts on your PATH
+pulse-ts --help
 ```
 
-## 2. Request a testnet account
+Metallicus also ships a Rust `pulse` CLI with every [pulsevm release](https://github.com/MetalBlockchain/pulsevm/releases) (Linux binaries). See [Command-line tools](/build/cli).
 
-Account creation requires a creator authority (the `pulse` system account on Alpine). Request an account + starter resources through the community channel or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs), providing your public key. You'll get back a named account (e.g. `yourname1`) with its `owner`/`active` set to your key and starter CPU/NET/RAM.
-
-> Why not self-serve? On a permissioned chain, account creation is an authorized action — this is a feature (named, accountable identities), not a limitation. For a network you operate yourself, you hold the creator authority and mint accounts freely.
-
-## 3. Point your tooling at Alpine
+## 3. Keys and an account
 
 ```bash
-pulse-ts endpoint:set https://a-chain-alpine.metalblockchain.org/ext/bc/yQUjkpNYeiJZEn1daa7dQJbysxdXLtz1QhTTdu1mwaxoEJwiJ/rpc
+pulse-ts create-key          # prints a PUB_K1_… / PVT_K1_… pair. Save the private key.
+pulse-ts key:add             # import the private key into the local, encrypted keystore
 ```
 
-## 4. Build & deploy
+- **On the demo network**, import the key of an XPR Network testnet account you already own and skip the next step.
+- **On Alpine**, account creation is an authorized action. Ask in the [Telegram group](https://t.me/protonnz) or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) with your public key. You get back a named account, such as `yourname1`, with `owner` and `active` set to your key and starter resources.
+- **On your own network**, you hold the creator authority and create accounts yourself.
 
-Pick your language and follow the quickstart:
+## 4. Point the CLI at the network
 
-- **[Rust](/build/quickstart-rust)** — the canonical CDT (PulseVM and its system contracts are Rust)
-- **[C++](/build/quickstart-cpp)** — full Antelope CDT heritage
-- **[TypeScript / AssemblyScript](/build/quickstart-typescript)** — popular option for teams who prefer it
+```bash
+pulse-ts endpoint:set https://xpr-rpc-testnet.pulsevm.dev      # 1:1 demo network
+pulse-ts chain:info                                            # prints head block and chain ID
+pulse-ts account yourname1                                     # your permissions and resources
+```
+
+## 5. Build and deploy
+
+Pick a language and follow its quickstart. Each ends with a deployed contract and an action you pushed:
+
+- **[Rust](/build/quickstart-rust)**: the canonical contract kit. PulseVM and its system contracts are Rust.
+- **[C++](/build/quickstart-cpp)**: the full Antelope CDT heritage.
+- **[TypeScript](/build/quickstart-typescript)**: AssemblyScript, for teams who prefer it.
+
+## 6. Give a second key one job
+
+This is the step that has no equivalent on most chains. Create a permission for a bot, and bind it to a single action of your contract:
+
+```bash
+pulse-ts create-key                                            # the bot's key
+pulse-ts update-auth yourname1 bot active PUB_K1_…botkey --sign-permission active
+pulse-ts push-action eosio linkauth \
+  '{"account":"yourname1","code":"yourname1","type":"greet","requirement":"bot"}' \
+  -a yourname1@active
+```
+
+Now `yourname1@bot` can call `greet` and nothing else. Try a token transfer with it and the chain refuses before any contract runs. On Alpine the system account is `pulse` rather than `eosio`. More in [Accounts and permissions](/guide/accounts-permissions#recipes).
 
 ## When it fails
 
-A first deploy commonly trips on one of these:
-
 | Error | Cause | Fix |
 |---|---|---|
-| `pulse assert failed: <msg>` | a contract precondition failed | read the message — it names the failing check |
-| insufficient RAM | account too small for the contract | RAM is sized at account creation; request more |
-| missing authority / `transaction declares authority…` | wrong `--actor` or unsatisfied permission | sign with a key on the named account's permission |
-| connection / empty response | endpoint not set | run step 3 |
+| `eosio assert failed: <msg>` | A contract check failed | Read the message. It names the failing check |
+| `action declares irrelevant authority` | You signed with a permission that is not linked to that action | Sign with the linked permission, or with `active` |
+| `missing authority of <account>` | The signing key is not on the permission you named | Check `-a account@permission` and `pulse-ts account <name>` |
+| Insufficient RAM | The account is too small for the contract | Buy RAM, or ask for more on a testnet |
+| Connection error or empty response | Endpoint not set, or the network is down | Run step 4 and check [Network endpoints](/network/endpoints) |

@@ -1,4 +1,5 @@
 <script setup>
+import FinalityTimeline from './FinalityTimeline.vue'
 // Homepage capability rows: four primary capabilities, each shown as the
 // thing itself (a permission tree, a settlement timeline, a customer receipt,
 // a validator ring), then a compact list of the rest.
@@ -9,7 +10,7 @@ const ring = validators.map((name, i) => {
 })
 const more = [
   { title: 'Keep deposits at home', text: 'Issue tokenized dollars on Metal Dollar rails while the deposits stay on your balance sheet.', link: '/institutions/banks', label: 'For banks and fintechs' },
-  { title: 'Native, not bolted on', text: 'Account abstraction, batched payments, fee sponsorship and passkey-class keys are part of the account model.', link: '/guide/native-by-design', label: 'What is built in' },
+  { title: 'Native, not bolted on', text: 'Account abstraction, batched payments, fee sponsorship, and passkey (WebAuthn) and secure-enclave (R1) keys are part of the account model.', link: '/guide/native-by-design', label: 'What is built in' },
   { title: 'Build in Rust, C++ or TypeScript', text: 'Rust is the canonical contract kit. C++ carries the Antelope heritage. TypeScript suits teams who prefer it.', link: '/build/get-started', label: 'Start building' },
   { title: 'Compliance and identity', text: 'Allow-listing, freeze and clawback under legal order are policy you set, and pair with Metal Identity.', link: 'https://identity.metallicus.com', label: 'Metal Identity' },
 ]
@@ -20,9 +21,9 @@ const more = [
     <!-- accounts -->
     <div class="hf-row">
       <div class="hf-copy">
-        <h2>Accounts that match how institutions work</h2>
-        <p>Named accounts, permission hierarchies, key rotation and weighted multisig. Your authorization matrix is configuration, not a wallet platform you build and audit.</p>
-        <a href="/guide/accounts-permissions">Accounts and permissions</a>
+        <h2>Give a key one job</h2>
+        <p>Every account is a readable name with a tree of permissions: 3 of 5 for the board, 2 of 3 for operations, and a bot key that can only call <code>trade</code>. Two system actions set it up, and the chain enforces it on every transaction. On EVM chains the same controls need a contract wallet and a session-key module you audit yourself.</p>
+        <div class="hf-links"><a href="/guide/accounts-permissions">Accounts and permissions</a><a href="/guide/delegated-authority">See it in production</a></div>
       </div>
       <figure class="hf-art" aria-label="Example permission tree for a treasury account">
         <div class="tree">
@@ -32,7 +33,8 @@ const more = [
               <ul>
                 <li><div class="tree-node"><strong>active</strong><span>Operations, 2 of 3 keys</span></div>
                   <ul>
-                    <li><div class="tree-node tree-leaf"><strong>payments</strong><span>May only call token transfer. 1 key.</span></div></li>
+                    <li><div class="tree-node tree-leaf"><strong>payments</strong><span>Linked to token::transfer only. 1 key.</span></div></li>
+                    <li><div class="tree-node tree-leaf"><strong>trader</strong><span>Linked to vault::trade only. Bot key.</span></div></li>
                   </ul>
                 </li>
               </ul>
@@ -42,6 +44,12 @@ const more = [
       </figure>
     </div>
 
+    <a class="hf-proof" href="/guide/delegated-authority">
+      <span class="hf-proof-figure">31 of 31</span>
+      <span class="hf-proof-text">attempts to misuse a trading bot's real key, in a testnet exercise, were refused by the chain. The key can call one action and cannot withdraw. The service runs on XPR Network mainnet, on the account model PulseVM runs.</span>
+      <span class="hf-proof-link">Read the case study</span>
+    </a>
+
     <!-- finality -->
     <div class="hf-row hf-flip">
       <div class="hf-copy">
@@ -49,15 +57,8 @@ const more = [
         <p>Sub-second blocks with instant finality. A transfer is rejected immediately or it is final. There is no confirmation count to wait out and no reorganization afterwards.</p>
         <a href="/guide/finality">Finality and settlement</a>
       </div>
-      <figure class="hf-art" aria-label="Settlement timeline compared with confirmation-count chains">
-        <div class="track">
-          <span class="track-name">PulseVM</span>
-          <div class="track-blocks"><i class="b final"></i><em class="track-mark">Final in under a second</em></div>
-        </div>
-        <div class="track track-muted">
-          <span class="track-name">Confirmation-count chains</span>
-          <div class="track-blocks"><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="b"></i><em class="track-mark">Probably final, after waiting</em></div>
-        </div>
+      <figure class="hf-art" aria-label="One payment on two chains: final on PulseVM in under a second, only probably final on a confirmation-count chain after minutes">
+        <FinalityTimeline />
       </figure>
     </div>
 

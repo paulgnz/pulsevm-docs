@@ -1,5 +1,7 @@
 ---
 layout: home
+title: PulseVM — financial infrastructure you own
+titleTemplate: false
 
 hero:
   name: PulseVM

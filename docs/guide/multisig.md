@@ -36,10 +36,10 @@ sequenceDiagram
 - Wire-release requiring 2-of-3 treasury officers
 - System-contract upgrades requiring a majority of consortium members
 - Parameter changes requiring league/board sign-off
-- Board-level governance with time-delayed (wait-weighted) execution
+- Risk committee or board approval with time-delayed (wait-weighted) execution
 
 All the same primitive. No separate smart-contract multisig platform to deploy, audit, and maintain — and no calldata-blob signing ceremonies.
 
 ---
 
-The on-chain mechanism is the open-source **`pulse.msig`** system contract — see [System Contracts](/build/system-contracts#pulse-msig-on-chain-multisig).
+The on-chain mechanism is the open-source **`pulse.msig`** system contract — see [System Contracts](/build/system-contracts#pulse-msig). Chains migrated from Antelope keep their `eosio.msig`.

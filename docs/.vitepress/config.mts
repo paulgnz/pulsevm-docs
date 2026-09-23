@@ -32,7 +32,7 @@ export default withMermaid(defineConfig({
   sitemap: { hostname: 'https://pulsevm.dev' },
   transformPageData(pageData, { siteConfig }) {
     const desc = pageData.description || pageData.frontmatter.description || siteConfig.site.description
-    const title = pageData.title ? `${pageData.title} | PulseVM` : 'PulseVM — blockchain for banks & fintechs'
+    const title = pageData.frontmatter.titleTemplate === false && pageData.title ? pageData.title : pageData.title ? `${pageData.title} | PulseVM` : 'PulseVM — financial infrastructure you own'
     const path = pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '')
     const url = `https://pulsevm.dev/${path}`
     pageData.frontmatter.head ??= []
@@ -61,6 +61,7 @@ export default withMermaid(defineConfig({
               { text: 'Government & Governance', link: '/institutions/government' },
               { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
               { text: 'For Technical Evaluators', link: '/institutions/technical-evaluators' },
+              { text: 'Delegated authority with limits', link: '/guide/delegated-authority' },
             ],
           },
           {
@@ -132,7 +133,8 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'What is PulseVM?', link: '/guide/what-is-pulsevm' },
             { text: 'Native by Design', link: '/guide/native-by-design' },
-            { text: 'Accounts & Permissions', link: '/guide/accounts-permissions' },
+            { text: 'Accounts and permissions', link: '/guide/accounts-permissions' },
+            { text: 'Delegated authority (case study)', link: '/guide/delegated-authority' },
             { text: 'Native Multisig', link: '/guide/multisig' },
             { text: 'Resources (CPU/NET/RAM)', link: '/guide/resources' },
             { text: 'Finality & Settlement', link: '/guide/finality' },
@@ -165,6 +167,7 @@ export default withMermaid(defineConfig({
             { text: 'Enterprises & Consortia', link: '/institutions/enterprises' },
             { text: 'For Technical Evaluators', link: '/institutions/technical-evaluators' },
             { text: 'Objections, Answered', link: '/institutions/objections' },
+            { text: 'Delegated authority (case study)', link: '/guide/delegated-authority' },
           ],
         },
       ],
@@ -232,7 +235,7 @@ export default withMermaid(defineConfig({
       message:
         'Based on <a href="https://xprnetwork.org" target="_blank" rel="noopener">XPR Network</a> / Antelope technology · A <a href="https://metallicus.com" target="_blank" rel="noopener">Metallicus</a> technology on <a href="https://metalblockchain.org" target="_blank" rel="noopener">Metal Blockchain</a> · PulseVM is <a href="https://github.com/MetalBlockchain/pulsevm" target="_blank" rel="noopener">open source</a>, created by <a href="https://github.com/MlennGarien" target="_blank" rel="noopener">Glenn Mariën</a>',
       copyright:
-        '<a href="/agents">For AI agents</a> · Site by <a href="https://paulgrey.nz" target="_blank" rel="noopener">Paul Grey</a> · <a href="https://github.com/paulgnz/pulsevm-docs" target="_blank" rel="noopener">contribute</a>',
+        '<a href="/network/updates">Updates</a> · <a href="/network/endpoints">Endpoints</a> · <a href="https://t.me/protonnz" target="_blank" rel="noopener">Telegram</a> · <a href="/agents">For AI agents</a> · Site by <a href="https://paulgrey.nz" target="_blank" rel="noopener">Paul Grey</a> · <a href="https://github.com/paulgnz/pulsevm-docs" target="_blank" rel="noopener">contribute</a>',
     },
     editLink: {
       pattern: 'https://github.com/paulgnz/pulsevm-docs/blob/main/docs/:path',

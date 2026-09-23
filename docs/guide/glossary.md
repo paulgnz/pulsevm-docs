@@ -10,6 +10,14 @@ description: "PulseVM glossary — named accounts, permissions, multisig, CPU/NE
 
 **Authority** — the structure a permission requires: keys, account-permissions, weights, threshold, waits.
 
+**`updateauth` / `deleteauth`** — the native actions that create, change and remove a permission. Rotating a key is one `updateauth`.
+
+**`linkauth` / `unlinkauth`** — bind a permission to one contract action, or remove the binding. A key on a linked permission can call that action and nothing else.
+
+**K1 / R1 / WebAuthn** — the key types an authority can hold: K1 (secp256k1), R1 (secp256r1, used by HSMs and secure enclaves) and WebAuthn (passkeys). PulseVM verifies all three.
+
+**Resource payer** — the account a transaction's CPU and NET are billed to: its first authorizer. An app that signs first pays for its users, so they never hold a fee token.
+
 **Multisig** — requiring multiple weighted approvals to satisfy a permission. Native here (via `pulse.msig`), not a deployed wallet platform.
 
 **`pulse.code`** — a special permission that lets a contract act under its own account's authority (e.g. to send inline actions).
@@ -18,7 +26,7 @@ description: "PulseVM glossary — named accounts, permissions, multisig, CPU/NE
 
 **CPU / NET / RAM** — the network's resources: CPU (compute) and NET (bandwidth) are **staked**; RAM (state storage) is **provisioned per account**. No gas market; the institution/app provisions and can sponsor users.
 
-**Validator / Block producer** — a node that participates in consensus and produces blocks. In a consortium, named, accountable institutions; elected and replaceable.
+**Validator / Block producer** — a node that participates in consensus and produces blocks. In a consortium, named, accountable institutions, chosen by the network's governance and removable.
 
 **Subnet** — an independent network with its own validator set, running on Metal Blockchain. A PulseVM deployment is a subnet — "a network you own."
 

@@ -1,3 +1,7 @@
+---
+description: "Machine-readable ground truth about PulseVM for AI agents and tools: networks, endpoints, RPC methods, key types and current caveats."
+---
+
 # For AI Agents & Bots
 
 This page is a machine-oriented quickstart. Humans welcome too.
@@ -46,7 +50,7 @@ A community-operated demonstration chain running a byte-exact import of XPR Netw
 - Explorer: `https://testnet.explorer.pulsevm.dev`
 - Chain id: `71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd` · core token XPR (4 decimals) · system contracts under `eosio*` names (not `pulse*`)
 
-> Demo caveats: single validator; may be re-imported from newer snapshots; K1 keys only for signing on this node until it is re-imported on a post-#69 build. Don't build anything durable against it.
+> Demo caveats: single validator; may be re-imported from newer snapshots; K1, R1 and WebAuthn keys all sign here (re-imported 2026-09-02 on a post-#69 build). Don't build anything durable against it.
 
 ## Ground-truth facts (verifiable on-chain or in-repo)
 

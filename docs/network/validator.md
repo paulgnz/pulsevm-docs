@@ -1,3 +1,7 @@
+---
+description: "Run a PulseVM validator: metalgo with the PulseVM plugin, joining a network, and operating the node."
+---
+
 # Run a Validator
 
 A PulseVM network validator is a metalgo node with the PulseVM plugin, registered to the subnet.

@@ -6,9 +6,25 @@ description: "PulseVM authorization — require_auth, permission checks, and inl
 
 ## Permission checks
 
-Every action carries one or more authorizations — `actor@permission` pairs. A contract enforces them with `require_auth(account)`, and the chain validates the full [permission tree](/concepts/accounts-and-actions) (keys, weights, thresholds, delegation, multisig) before the action runs. `require_recipient`, `has_auth`, and `is_account` round out the checks. See [host functions](/build/intrinsics#supported-today).
+Every action carries one or more authorizations — `actor@permission` pairs. A contract enforces them with `require_auth(account)`, and the chain validates the full [permission tree](/guide/accounts-permissions) (keys, weights, thresholds, delegation, multisig) before the action runs. `require_recipient`, `has_auth`, and `is_account` round out the checks. See [host functions](/build/intrinsics#supported-today).
 
 This is the heart of [Native by Design](/guide/native-by-design): authorization is a protocol primitive, so dual-control, role keys, and multisig are *configuration*, not contract code you write and audit.
+
+## Binding a permission to one action (`linkauth`)
+
+By default every action of every contract requires the account's `active` permission. `linkauth` changes that for one contract action: it names the permission that is enough to authorize it.
+
+```json
+{ "account": "myacct", "code": "vault", "type": "trade", "requirement": "trader" }
+```
+
+The chain resolves the minimum permission for each action before your contract runs. A signature from `myacct@trader` satisfies `vault::trade`. The same signature on any other action, such as a token `transfer`, is refused by the protocol:
+
+```
+action declares irrelevant authority 'myacct@trader'; minimum authority is myacct@active
+```
+
+Your contract never sees the refused action, so a bug in your code cannot widen what the key can do. Links are also how an account gives a bot, an auditor or an agent a narrow mandate; see [Delegated authority with hard limits](/guide/delegated-authority). The commands are in [Accounts and permissions](/guide/accounts-permissions#recipes).
 
 ## Inline actions
 

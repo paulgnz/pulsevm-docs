@@ -15,7 +15,7 @@ function walk(dir) {
     if (statSync(p).isDirectory()) {
       if (e === '.vitepress' || e === 'public' || e === 'node_modules') continue
       walk(p)
-    } else if (e.endsWith('.md')) pages.push(p)
+    } else if (e.endsWith('.md') && e !== '404.md') pages.push(p)
   }
 }
 walk(SRC)

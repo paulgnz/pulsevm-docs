@@ -16,11 +16,12 @@ PulseVM didn't retrofit them. They are the base model.
 | **Account abstraction** | The account model *is* abstract — keys, weights, thresholds | Smart-contract wallets + ERC-4337 bundlers |
 | **Multisig** | Native — a threshold on any permission | A wallet contract you deploy, audit, maintain |
 | **Granular authorization** | Native permission tree (role keys, delegation) | Custom contracts / session-key frameworks |
+| **A key limited to one action** | `linkauth` binds a permission to one contract action; the chain refuses it anywhere else | Session-key modules (ERC-7579 / ERC-6900 plugins) you install and audit |
 | **Key rotation & recovery** | One `updateauth` — assets never move | Migrate assets, or a recovery framework |
 | **Batched atomic operations** | Native — a transaction is many actions, all-or-nothing | `multicall` / 4337 batching |
 | **Fee sponsorship** | Native — apps stake resources for their users | Paymaster contracts + relayers |
 | **No gas for end users** | Native — staked resources, users hold nothing | Gas required (even when paid in a stablecoin) |
-| **Passkey / hardware-key sign-in** | R1 (secp256r1) keys in the account model (signing support landing) | secp256r1 precompile workarounds |
+| **Passkey / hardware-key sign-in** | R1 (secure enclave, HSM) and WebAuthn (passkey) keys verified by the chain ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), on `main`) | A contract-wallet verifier or the P-256 precompile |
 | **Asset-level controls** | Policy at the system-contract layer | Per-token bespoke contract code |
 
 ## Why "native" matters beyond elegance

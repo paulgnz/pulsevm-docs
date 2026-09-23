@@ -62,7 +62,7 @@ The heart of the chain: account creation, the resource economy (CPU/NET/RAM), st
 
 ---
 
-## `pulse.msig` — on-chain multisig
+## `pulse.msig` — on-chain multisig {#pulse-msig}
 
 Native, on-chain multi-party approval — the contract behind the [native multisig](/guide/multisig) story. Officers propose a transaction; required signers approve asynchronously from their own keys; it executes only when the authority threshold is met.
 
@@ -88,7 +88,7 @@ The bootstrap/authority contract. Its actions manage the account permission mode
 | `newaccount(creator, name, owner, active)` | Create an account |
 | `updateauth(account, permission, parent, auth)` | Set or replace a permission (keys, accounts, thresholds) |
 | `deleteauth(account, permission)` | Remove a permission |
-| `linkauth(account, code, message_type, requirement)` | Require a specific permission for a contract action |
+| `linkauth(account, code, message_type, requirement)` | Bind a permission to one contract action. A key on `myacct@trader` linked to `vault::trade` can call that and nothing else: no `transfer`, no `updateauth`. See [recipes](/guide/accounts-permissions#recipes) |
 | `unlinkauth(account, code, message_type)` | Remove a permission link |
 | `setalimits(account, ram_bytes, net_weight, cpu_weight)` | Set account resource limits |
 | `setpriv(account, is_priv)` | Grant/revoke privileged status |

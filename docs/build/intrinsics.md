@@ -1,5 +1,5 @@
 ---
-description: "PulseVM host functions (intrinsics) reference — the Antelope intrinsic set supported as of v0.5.0 (action, database, all secondary indexes, crypto, transaction introspection, permissions, context-free actions, console, math builtins) and the few advanced families still landing."
+description: "PulseVM host functions (intrinsics) reference: about 180 Antelope host functions on main, what the latest release serves, and the families not yet served (CRYPTO_PRIMITIVES, bls_*, set_finalizers)."
 ---
 
 # Host Functions (Intrinsics)
@@ -8,7 +8,11 @@ Intrinsics are the functions the VM exposes to a contract's WebAssembly — how 
 
 This page lists what PulseVM serves **today** and the few families still landing, so you know before you build. The CDTs ([Rust](https://github.com/MetalBlockchain/pulse-cdt-rust), C++, [TypeScript/AS](https://github.com/paulgnz/pulse-tsc)) wrap these — you rarely call them directly, but if a contract imports one that isn't served, it won't load, so the supported set is what matters.
 
-::: tip Expanded in v0.5.0 · hardened in v0.5.1
+::: tip About 180 host functions on `main`
+The latest tagged release is **v0.7.1** (2026-08-20). `main` has moved on: it serves about 180 host functions, including everything listed as "now served" below, but a node running v0.7.1 does not have those additions yet. Not served on either: the CRYPTO_PRIMITIVES set, `bls_*` and `set_finalizers`.
+:::
+
+::: details History: expanded in v0.5.0, hardened in v0.5.1
 As of **v0.5.0** (tagged 2026-07-22), PulseVM serves the full classic Antelope host-function surface — all secondary-index key types, the standard crypto suite, transaction/TAPoS introspection, permission checks, context-free actions, and the int128/float128 compiler builtins. The vast majority of XPR Network, EOS and WAX contracts run unchanged. **v0.5.1** further aligns semantics with the Antelope reference: `eosio_assert`/`pulse_assert` now fail only on `condition == 0` (any non-zero value is truthy, matching nodeos), CPU billing is fully deterministic across producers and verifiers, and asset (de)serialization matches nodeos bounds. See [Antelope Compatibility](/compare/antelope) for the migration view.
 :::
 
@@ -55,12 +59,13 @@ Full **int128** (`__*ti3` shifts, `__multi3`, `__divti3`, `__modti3`, `__udivti3
 
 ## Still landing
 
-One advanced family isn't served yet. They're uncommon outside zk / EVM-bridge and specialized cryptographic contracts — a contract that imports one won't load until it's added:
+Two families aren't served yet. They're uncommon outside zk / EVM-bridge and specialized cryptographic contracts — a contract that imports one won't load until it's added:
 
 | Family | Functions | Note |
 |---|---|---|
-| **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases — the last unserved family |
+| **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases |
+| **Spring / Savanna** | `bls_*` · `set_finalizers` | used by the current EOS and Telos system contracts; not needed by XPR Network contracts |
 
-Now served (moved out of this table in September 2026): the context accessors `get_sender`, nodeos-exact `get_code_hash`, `get_block_num` and `publication_time` ([#66](https://github.com/MetalBlockchain/pulsevm/pull/66) / [#61](https://github.com/MetalBlockchain/pulsevm/pull/61)); `is_feature_activated` / `preactivate_feature`; and `send_deferred` / `cancel_deferred` — the last three families landed with #61. Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
+Now served on `main`, not yet in a tagged release (moved out of this table in September 2026): the context accessors `get_sender`, nodeos-exact `get_code_hash`, `get_block_num` and `publication_time` ([#66](https://github.com/MetalBlockchain/pulsevm/pull/66) / [#61](https://github.com/MetalBlockchain/pulsevm/pull/61)); `is_feature_activated` / `preactivate_feature`; and `send_deferred` / `cancel_deferred` — the last three families landed with #61. Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
 
 If your design depends on something here, [get in touch](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) — intrinsic coverage is actively expanding.

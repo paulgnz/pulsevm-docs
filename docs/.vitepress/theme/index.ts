@@ -5,6 +5,7 @@ import NetworkScene from './NetworkScene.vue'
 import ProofBand from './ProofBand.vue'
 import HomeFeatures from './HomeFeatures.vue'
 import BanksLead from './BanksLead.vue'
+import FinalityTimeline from './FinalityTimeline.vue'
 import SidebarToggle from './SidebarToggle.vue'
 import './custom.css'
 
@@ -18,11 +19,12 @@ export default {
     app.component('NetworkScene', NetworkScene)
     app.component('HomeFeatures', HomeFeatures)
     app.component('BanksLead', BanksLead)
+    app.component('ProofBand', ProofBand)
+    app.component('FinalityTimeline', FinalityTimeline)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {
       'home-hero-before': () => h(ProtonAtom),
-      'home-features-before': () => h(ProofBand),
       'nav-bar-content-after': () => h(SidebarToggle),
     })
   },

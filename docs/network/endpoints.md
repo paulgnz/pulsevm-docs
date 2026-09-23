@@ -1,10 +1,18 @@
-# Network Endpoints
+---
+description: "Public PulseVM endpoints: the XPR 1:1 demo network (JSON-RPC, /v1/chain, Hyperion, explorer) and the A-Chain Alpine testnet, with chain IDs and status."
+---
+
+# Network endpoints
+
+<small>Last checked: 2026-09-24.</small>
 
 ## A-Chain Alpine (testnet)
 
-::: tip Fast-moving testnet
-Alpine upgrades frequently as development ships — most recent genesis **2026-08-20** (v0.7.x era). Endpoints and chain IDs on this page are kept current; if a cached value stops working, re-check here or see [Updates](/network/updates).
+::: warning Public RPC not answering (checked 2026-09-24)
+Alpine's public RPC below returns `404` and its Hyperion reports an RPC error. Use the [XPR 1:1 demo network](#xpr-1-1-demo-network-community-operated) to try PulseVM in the meantime. This page will be updated when Alpine is back.
 :::
+
+Alpine upgrades frequently as development ships. Most recent genesis: **2026-08-20** (v0.7.x era). If a cached value stops working, re-check here or see [Updates](/network/updates).
 
 | | |
 |---|---|
@@ -19,7 +27,7 @@ Alpine upgrades frequently as development ships — most recent genesis **2026-0
 Alpine is the public test network for A-Chain. Core/staking token is SYS (4 decimals); an XPR token is issued on `pulse.token` as well.
 :::
 
-> Antelope-style `/v1/chain` REST is not currently exposed on Alpine — use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table. (The [XPR 1:1 demo network](#xpr-1-1-demo-network-community-operated) below does serve `/v1` REST.)
+> Antelope-style `/v1/chain` REST is not exposed on Alpine today; a native `/v1/chain` API inside the node is in review ([#98](https://github.com/MetalBlockchain/pulsevm/pull/98)) — use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table. (The [XPR 1:1 demo network](#xpr-1-1-demo-network-community-operated) below does serve `/v1` REST.)
 
 ## XPR 1:1 demo network (community-operated)
 

@@ -1,3 +1,7 @@
+---
+description: "Write a PulseVM smart contract in C++ with the Antelope CDT, build it to WebAssembly and deploy it."
+---
+
 # C++ Quickstart
 
 PulseVM fully supports C++ contracts through the Antelope Contract Development Kit (`pulse-cdt` — repo currently private; any standard Antelope CDT builds compatible WASM). If you've written EOSIO/Antelope contracts, this is the same model — `eosio::contract`, `multi_index`, `check()`, inline actions — and the deepest existing PulseVM contracts (exchanges, DeFi) are C++.

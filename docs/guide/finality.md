@@ -1,3 +1,7 @@
+---
+description: "Finality on PulseVM: a transaction is final in about a second, with no confirmation count and no reorganizations, because consensus is Snowman on Metal Blockchain."
+---
+
 # Finality & Settlement
 
 PulseVM's most underrated property: **the head block is the last irreversible block.**
