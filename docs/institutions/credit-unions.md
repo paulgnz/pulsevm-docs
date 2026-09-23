@@ -13,7 +13,7 @@ head:
             "name": "Can a credit union run its own blockchain?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes — and the natural shape is a league or CUSO operating the validator network on behalf of its member credit unions, so no single CU carries the infrastructure alone. Each member credit union is a named account with its own permission tree; validators run on standard Linux hosts under legal agreements between institutions that already trust each other. The movement's existing consortium structure is exactly the governance shape a permissioned network needs."
+              "text": "Yes — and the natural shape is a corporate credit union or CUSO operating the validator network on behalf of participating credit unions, so no single CU carries the infrastructure alone. Each member credit union is a named account with its own permission tree; validators run on standard Linux hosts under legal agreements between institutions that already trust each other. The movement's existing consortium structure is exactly the governance shape a permissioned network needs."
             }
           },
           {
@@ -53,7 +53,7 @@ head:
             "name": "Is this available in production today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "PulseVM is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and settlement semantics are proven. The recommended entry point is a small league-operated pilot with Metallicus engineering."
+              "text": "PulseVM is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and settlement semantics are proven. The recommended entry point is a small pilot, with a corporate or CUSO running the nodes, alongside Metallicus engineering."
             }
           }
         ]
@@ -62,16 +62,17 @@ head:
 
 # For credit unions and leagues
 
-**A league already governs like a consortium. Give it a ledger it owns.**
+**The movement already works as a network. Give it a ledger it owns.**
 
-Leagues, corporates, CUSOs and member credit unions already trust each other, govern together and settle with each other every day. That is the governance a permissioned network needs, so the movement does not have to invent a new one. It maps its existing structure onto the network and keeps the deposits, and the technology, inside the movement.
+Corporates, CUSOs, leagues and member credit unions already trust each other and settle with each other every day. That is the governance a permissioned network needs, so the movement does not have to invent a new one. It maps its existing structure onto the network and keeps the deposits, and the technology, inside the movement.
 
 ## Your structure, mapped onto the network
 
 | Movement role | Network role | What it does |
 |---|---|---|
-| League | Validator set and governance | Admits and removes validators, owns the system contracts that hold the network's rules |
-| CUSO | Operator | Runs nodes, Hyperion and monitoring for members who do not want to run infrastructure |
+| Corporate credit union or CUSO | Validators and operator | Runs the nodes, history and monitoring, and holds the network's rules in system contracts under multisig |
+| Participating credit unions | Governance | Admit and remove validators and approve rule changes under a written network agreement |
+| League | Convener (optional) | Brings members together, sets policy expectations, can sit on the governance multisig |
 | Corporate credit union | Settlement and liquidity account | Holds the settlement positions members fund and draw on, under its own multisig |
 | Member credit union | A named account with its own permission tree | Issues its own tokenized deposits, runs its own approvals, keeps its own balance sheet |
 | Member | An account the CU sponsors | Uses the CU's app; never holds a fee token or a seed phrase |
@@ -80,17 +81,17 @@ No single credit union carries the infrastructure alone, and no member gives up 
 
 ```mermaid
 flowchart TD
-  subgraph net["League-operated PulseVM network"]
-    league["League<br/>validators + system contracts"]
-    cuso["CUSO<br/>operates nodes + Hyperion"]
+  subgraph net["Credit union network (PulseVM)"]
+    gov["Participating CUs<br/>governance multisig"]
+    cuso["Corporate CU or CUSO<br/>runs validators + history"]
     corp["corporate.cu<br/>settlement account"]
-    a["acme.cu<br/>owner: board · active: ops 2 of 3"]
-    p["pine.cu<br/>owner: board · active: ops 2 of 3"]
+    a["acme.cu<br/>owner: officers 3 of 5 · active: ops 2 of 3"]
+    p["pine.cu<br/>owner: officers 3 of 5 · active: ops 2 of 3"]
   end
   a <-->|"shared branching,<br/>final in about a second"| p
   a --- corp
   p --- corp
-  cuso -.->|"operates for"| league
+  cuso -.->|"operates for"| gov
 ```
 
 ## What changes for a member credit union
@@ -106,13 +107,17 @@ Each credit union keeps its core as the system of record. The network settles be
 
 ## Why the movement should own the rail
 
-Shared branching and inter-CU settlement work today, through batch windows, cutoff times, per-transaction network fees and a standing reconciliation workload. Meanwhile the instant-money experience members expect is being delivered by fintechs and stablecoin apps that pull deposits out of the movement. Owning the rail as a league is the version of modernization where the deposits and the technology competency stay home. For the comparison with public chains and generic DLTs, see [Objections, answered](/institutions/objections).
+Shared branching and inter-CU settlement work today, through batch windows, cutoff times, per-transaction network fees and a standing reconciliation workload. Meanwhile the instant-money experience members expect is being delivered by fintechs and stablecoin apps that pull deposits out of the movement. Owning the rail together is the version of modernization where the deposits and the technology competency stay home. For the comparison with public chains and generic DLTs, see [Objections, answered](/institutions/objections).
+
+## Doesn't FedNow already do this?
+
+FedNow and RTP move money between institutions instantly, and PulseVM works alongside them. They do not let a credit union issue a programmable deposit, give a vendor's system a key that can perform one action, or give an examiner a live, read-only view of the ledger. A practical shape: members transact on the network the movement runs, and net positions between credit unions settle over FedNow or RTP.
 
 ## Frequently asked questions
 
 ### Can a credit union run its own blockchain?
 
-Yes — and the natural shape is a league or CUSO operating the validator network on behalf of its member credit unions, so no single CU carries the infrastructure alone. Each member credit union is a named account with its own [permission tree](/guide/accounts-permissions); validators run on standard Linux hosts under legal agreements between institutions that already trust each other. The movement's existing consortium structure is exactly the governance shape a permissioned network needs.
+Yes — and the natural shape is a corporate credit union or CUSO operating the validator network on behalf of participating credit unions, so no single CU carries the infrastructure alone. Each member credit union is a named account with its own [permission tree](/guide/accounts-permissions); validators run on standard Linux hosts under legal agreements between institutions that already trust each other. The movement's existing consortium structure is exactly the governance shape a permissioned network needs.
 
 ### Do members need cryptocurrency, tokens, or gas fees?
 
@@ -132,11 +137,11 @@ Complete, human-readable history — every action, by named account, queryable i
 
 ### Is this available in production today?
 
-PulseVM is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and settlement semantics are proven. The recommended entry point is a small league-operated pilot with Metallicus engineering.
+PulseVM is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and settlement semantics are proven. The recommended entry point is a small pilot, with a corporate or CUSO running the nodes, alongside Metallicus engineering.
 
 ## Next step
 
-The right first project is a league pilot: a handful of member CUs, a CUSO running the nodes, a tokenized test deposit and real shared-branching flows for 90 days. See [Run a 90-day pilot](/institutions/pilot) and bring the [buyer's checklist](/institutions/checklist).
+The right first project is a small pilot: a handful of member CUs, a corporate or CUSO running the nodes, a tokenized test deposit and real shared-branching flows for 90 days. See [Run a 90-day pilot](/institutions/pilot) and bring the [buyer's checklist](/institutions/checklist).
 
 **[Talk to us: contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
 

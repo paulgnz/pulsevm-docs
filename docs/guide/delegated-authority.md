@@ -21,7 +21,14 @@ flowchart TD
   active -. "everything else" .-> rest["withdraw · pause · change limits · upgrade"]
 ```
 
-## Case study: trading vaults on XPR Network
+## Case study: a service key that can only do its job
+
+**The result first.** A live service holds a key on accounts its customers own. That key is permitted exactly one action. When the operator handed the real key to an attacker in a test exercise, 31 of 31 attempts to move funds out or take the account over were refused by the ledger itself. The customer can stop the service, or take everything back, with one signature.
+
+For a bank, the same shape is a payments processor that can only pay approved payees, a treasury sweep that can only move money between your own accounts, or an AI agent acting under a customer's mandate.
+
+### The service
+
 
 This runs in production today on XPR Network mainnet, which uses the same account model PulseVM runs unchanged: PulseVM has replayed all 401,005,383 XPR Network mainnet blocks.
 
@@ -35,7 +42,7 @@ This runs in production today on XPR Network mainnet, which uses the same accoun
 
 The first outside customer paid and had a built, verified, trading vault **146 seconds** later, with no person involved.
 
-## What a stolen bot key can do
+### What a stolen key can do
 
 The operator ran the real bot key, from its real keychain, against a delivered vault on testnet: exactly what someone who copied the key off the server would hold. The goal was to get money out or take the account over.
 

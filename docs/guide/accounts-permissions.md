@@ -18,7 +18,7 @@ Every account starts with two permissions: `owner`, the root used for recovery, 
 
 ```mermaid
 flowchart TD
-  owner["owner<br/>board, 3 of 5 keys"] --> active["active<br/>operations, 2 of 3"]
+  owner["owner<br/>treasury officers, 3 of 5"] --> active["active<br/>operations, 2 of 3"]
   active --> treasury["treasury<br/>2 of 3 named officers"]
   active --> payments["payments<br/>1 key, linked to token::transfer only"]
   active --> trader["trader<br/>bot key, linked to vault::trade only"]

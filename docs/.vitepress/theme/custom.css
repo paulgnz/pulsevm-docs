@@ -415,3 +415,18 @@
 .vp-doc a.pvm-button-alt { color: var(--vp-c-text-1); background: var(--vp-c-bg-soft); border-color: var(--vp-c-divider); }
 .vp-doc a.pvm-button-alt:hover { background: var(--vp-c-bg-soft); border-color: var(--vp-c-brand-1); }
 .vp-doc a.pvm-button:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 3px; }
+
+/* homepage: industries as one line instead of a card grid */
+.vp-doc .home-industries { margin: 56px 0 0; color: var(--vp-c-text-2); font-size: 0.98rem; line-height: 1.7; }
+.vp-doc .home-industries a { font-weight: 600; }
+/* nav: persistent "Talk to us" */
+.VPNavBarMenuLink[href="/institutions/pilot"] {
+  align-self: center; display: inline-flex; align-items: center;
+  margin-left: 6px; padding: 0 14px !important; height: 32px; line-height: 1; border-radius: 16px;
+  background: var(--vp-button-brand-bg); color: #fff !important; font-weight: 600;
+}
+.VPNavBarMenuLink[href="/institutions/pilot"]:hover { background: var(--vp-button-brand-hover-bg); }
+/* below 900px the menu is full; the hero carries the same call to action */
+@media (max-width: 900px) {
+  .VPNavBarMenuLink[href="/institutions/pilot"] { display: none; }
+}

@@ -32,7 +32,7 @@ export default withMermaid(defineConfig({
   sitemap: { hostname: 'https://pulsevm.dev' },
   transformPageData(pageData, { siteConfig }) {
     const desc = pageData.description || pageData.frontmatter.description || siteConfig.site.description
-    const title = pageData.frontmatter.titleTemplate === false && pageData.title ? pageData.title : pageData.title ? `${pageData.title} | PulseVM` : 'PulseVM — financial infrastructure you own'
+    const title = pageData.frontmatter.titleTemplate === false && pageData.title ? pageData.title : pageData.title ? `${pageData.title} | PulseVM` : 'PulseVM — tokenized deposits on a network you own'
     const path = pageData.relativePath.replace(/index\.md$/, '').replace(/\.md$/, '')
     const url = `https://pulsevm.dev/${path}`
     pageData.frontmatter.head ??= []
@@ -124,6 +124,7 @@ export default withMermaid(defineConfig({
           { text: 'Upgrade to metalgo 1.14 (Granite)', link: '/network/upgrade-metalgo-1-14' },
         ],
       },
+      { text: 'Talk to us', link: '/institutions/pilot' },
     ],
     sidebar: {
       '/guide/': [

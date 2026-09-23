@@ -4,7 +4,7 @@ description: "Finality on PulseVM: a transaction is final in about a second, wit
 
 # Finality and settlement
 
-PulseVM's most underrated property: **the head block is the last irreversible block.**
+On PulseVM **the head block is the last irreversible block.** A payment is settled the moment its block is accepted.
 
 - A transaction is final in about a second, as soon as its block is accepted.
 - **Finalized blocks do not reorganize** — there is no probabilistic-finality window. A transaction is either rejected immediately or, once finalized, settled with no reorg to design around.

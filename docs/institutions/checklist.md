@@ -81,6 +81,16 @@ The questions risk, security and procurement ask, with straight answers. Copy th
 | Can we freeze, claw back or restrict an account? | Yes, as policy you write into the token and system contracts you own, executed under multisig by named officers. The account model makes it possible; the reference contracts do not ship these controls today. |
 | Is KYC built in? | No. Your onboarding creates the named account after your KYC, so every account on the network is one you admitted. |
 
+## Regulatory and third-party risk
+
+| Question | Answer |
+|---|---|
+| What is Metallicus in our risk program? | A technology vendor. PulseVM is open-source software your institution or consortium operates, so it sits in your third-party risk program the way other core technology vendors do. |
+| Who holds customer funds? | You do. Tokens on your network are issued by your institution, against your own ledger, under your own controls. Neither PulseVM nor Metallicus holds customer money. |
+| How is a tokenized deposit treated by regulators? | That is your counsel's and your regulator's determination, and it depends on how you structure the product. PulseVM gives you the controls (named accounts, dual control, scoped keys, full history) to operate it inside your existing compliance program. |
+| What due-diligence material is available? | Ask Metallicus for the current vendor due-diligence package. The code, contract kits and system contracts are open for your own review. |
+| What happens if the vendor goes away? | The software is open source and runs on your validators. The network keeps running, and any team that knows the Antelope model can maintain it. See [Objections, answered](/institutions/objections). |
+
 ## Status and roadmap
 
 | Question | Answer |

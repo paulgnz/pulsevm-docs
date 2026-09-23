@@ -12,7 +12,7 @@ const more = [
   { title: 'Keep deposits at home', text: 'Issue tokenized dollars on Metal Dollar rails while the deposits stay on your balance sheet.', link: '/institutions/banks', label: 'For banks and fintechs' },
   { title: 'Native, not bolted on', text: 'Account abstraction, batched payments, fee sponsorship, and passkey (WebAuthn) and secure-enclave (R1) keys are part of the account model.', link: '/guide/native-by-design', label: 'What is built in' },
   { title: 'Build in Rust, C++ or TypeScript', text: 'Rust is the canonical contract kit. C++ carries the Antelope heritage. TypeScript suits teams who prefer it.', link: '/build/get-started', label: 'Start building' },
-  { title: 'Compliance and identity', text: 'Allow-listing, freeze and clawback under legal order are policy you set, and pair with Metal Identity.', link: 'https://identity.metallicus.com', label: 'Metal Identity' },
+  { title: 'Compliance and identity', text: 'Allow-lists, freeze and clawback under legal order are controls you implement in contracts you own, operated under dual control. Pairs with Metal Identity.', link: 'https://identity.metallicus.com', label: 'Metal Identity' },
 ]
 </script>
 
@@ -22,14 +22,14 @@ const more = [
     <div class="hf-row">
       <div class="hf-copy">
         <h2>Give a key one job</h2>
-        <p>Every account is a readable name with a tree of permissions: 3 of 5 for the board, 2 of 3 for operations, and a bot key that can only call <code>trade</code>. Two system actions set it up, and the chain enforces it on every transaction. On EVM chains the same controls need a contract wallet and a session-key module you audit yourself.</p>
+        <p>Every account is a readable name with its own approval structure: 3 of 5 treasury officers, 2 of 3 for operations, and a service key that can perform exactly one action. It is configuration, and the ledger enforces it on every transaction. On EVM chains the same controls are a contract wallet and a key module your team deploys and audits.</p>
         <div class="hf-links"><a href="/guide/accounts-permissions">Accounts and permissions</a><a href="/guide/delegated-authority">See it in production</a></div>
       </div>
       <figure class="hf-art" aria-label="Example permission tree for a treasury account">
         <div class="tree">
           <div class="tree-node tree-root"><strong>treasury.bank</strong></div>
           <ul>
-            <li><div class="tree-node"><strong>owner</strong><span>Board, 3 of 5 keys</span></div>
+            <li><div class="tree-node"><strong>owner</strong><span>Treasury officers, 3 of 5</span></div>
               <ul>
                 <li><div class="tree-node"><strong>active</strong><span>Operations, 2 of 3 keys</span></div>
                   <ul>
@@ -46,7 +46,7 @@ const more = [
 
     <a class="hf-proof" href="/guide/delegated-authority">
       <span class="hf-proof-figure">31 of 31</span>
-      <span class="hf-proof-text">attempts to misuse a trading bot's real key, in a testnet exercise, were refused by the chain. The key can call one action and cannot withdraw. The service runs on XPR Network mainnet, on the account model PulseVM runs.</span>
+      <span class="hf-proof-text">attempts to move funds or take over the account were refused by the ledger, using a live service's real key. That key was permitted exactly one action. The service runs in production on XPR Network; the attack exercise ran on its test network.</span>
       <span class="hf-proof-link">Read the case study</span>
     </a>
 

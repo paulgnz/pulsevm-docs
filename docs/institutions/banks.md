@@ -70,7 +70,7 @@ Every institution already runs on an authorization matrix: who can approve what,
 
 ```mermaid
 flowchart TD
-  owner["owner<br/>board, 3 of 5"] --> active["active<br/>operations, 2 of 3"]
+  owner["owner<br/>treasury officers, 3 of 5"] --> active["active<br/>operations, 2 of 3"]
   active --> treasury["treasury<br/>officers, 2 of 3"]
   active --> bot["payments.bot<br/>one HSM key"]
   treasury --> mint["mint<br/>treasury + risk officer, 2 of 2"]
@@ -81,7 +81,7 @@ flowchart TD
 - **The payments bot can pay and do nothing else.** If its key leaks, the attacker can call `transfer` within the limits your contract sets. It cannot mint, change keys or touch the treasury.
 - **Issuance is dual control by construction.** No single officer holds a key that can call `issue`.
 - **Rotation never moves assets.** Replace a departed officer's key with one `updateauth`; the account, balances and history stay put.
-- **The board is the recovery path.** `owner` sits above everything and can reset any permission below it.
+- **Senior officers are the recovery path.** `owner` sits above everything and can reset any permission below it.
 
 See [Accounts and permissions](/guide/accounts-permissions) for the full model.
 
@@ -157,6 +157,8 @@ Your validators are named institutions under legal agreements. The members admit
 | Public EVM chain | Customers pay gas in a volatile token, live at hex addresses and share blockspace with whatever is congested that day. Multisig, key rotation and sponsored users are wallet platforms you deploy and audit. See [PulseVM vs Ethereum](/compare/ethereum). |
 | Permissioned EVM or enterprise DLT | You control consensus but keep hex identities, contract-wallet multisig and paymasters, so your team builds and owns the institutional layer forever. See [PulseVM vs permissioned EVM](/compare/permissioned-evm). |
 | Existing rails | Batch windows, cutoff times and a permanent reconciliation department, with no programmability on top. The instant-payments ground is being claimed by fintechs and stablecoin issuers regardless. |
+| Instant payment rails (FedNow, RTP) | Instant interbank transfers, and PulseVM works alongside them. What they do not give you: a programmable deposit you issue, a vendor key limited to one action, or a live read-only ledger for your examiner. A common shape is customers transacting on your network, with net positions between institutions settled over FedNow or RTP. |
+| Another bank's or vendor's platform | Fast to start, but you settle on someone else's network, under their rules, roadmap and pricing, and the customer relationship runs through their rail. |
 
 The question is not whether 24/7 programmable settlement arrives, but whether your institution owns it or rents access to someone else's. More in [Objections, answered](/institutions/objections).
 

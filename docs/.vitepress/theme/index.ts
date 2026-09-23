@@ -6,6 +6,8 @@ import ProofBand from './ProofBand.vue'
 import HomeFeatures from './HomeFeatures.vue'
 import BanksLead from './BanksLead.vue'
 import FinalityTimeline from './FinalityTimeline.vue'
+import HomeVsEthereum from './HomeVsEthereum.vue'
+import HomeCta from './HomeCta.vue'
 import SidebarToggle from './SidebarToggle.vue'
 import './custom.css'
 
@@ -21,6 +23,8 @@ export default {
     app.component('BanksLead', BanksLead)
     app.component('ProofBand', ProofBand)
     app.component('FinalityTimeline', FinalityTimeline)
+    app.component('HomeVsEthereum', HomeVsEthereum)
+    app.component('HomeCta', HomeCta)
   },
   Layout() {
     return h(DefaultTheme.Layout, null, {

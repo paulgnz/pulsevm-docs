@@ -45,7 +45,7 @@ Multisig and [`linkauth`](/guide/accounts-permissions#give-a-key-one-job) compos
 
 | Permission | Who holds it | What it can do |
 |:---|:---|:---|
-| `owner` | Board, 3 of 5 | Replace any other permission |
+| `owner` | Treasury officers, 3 of 5 | Replace any other permission |
 | `active` | Operations, 2 of 3 | Everything day to day |
 | `payments` | One processor key | Only `token::transfer`, and only within limits your contract enforces |
 | `release` | Treasury, 2 of 3 | Only the large-payment release action |

@@ -4,7 +4,7 @@ description: "The hard questions institutions ask about PulseVM, answered straig
 
 # Objections, answered
 
-We steel-man these because credibility is the product.
+The hard questions institutions ask, with straight answers.
 
 ## "Permissions sound like central control"
 

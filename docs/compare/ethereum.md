@@ -20,11 +20,11 @@ The five points behind it, in the order a bank cares:
 
 ## Accounts and permissions
 
-Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, EIP-7702 delegation, the P-256 precompile for passkeys, session-key modules — to approximate what institutions need. Each of those works, and each is a contract or standard you adopt, deploy and audit ([the standard-by-standard comparison](/compare/smart-contract-wallets)). PulseVM ships it in the protocol: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), key rotation in one action, and R1 (secure enclave / HSM) and WebAuthn (passkey) keys verified by the chain itself. A permission can also be bound to one contract action with `linkauth`, so a key made for one job cannot do any other; the chain refuses it before contract code runs. On XPR Network mainnet, which runs the same model, a trading operator's bot key is limited this way; in a testnet exercise with that real key, 31 of 31 attempts to move money out or take the account over were refused by the chain ([case study](/guide/delegated-authority)). Your authorization matrix is a configuration, not a wallet platform you build and audit. For institutional control, this is not close.
+Ethereum's one-key-one-account (EOA) model has spent a decade being retrofitted — smart wallets, ERC-4337, EIP-7702 delegation, the P-256 precompile for passkeys, session-key modules — to approximate what institutions need. Each of those works, and each is a contract or standard you adopt, deploy and audit ([the standard-by-standard comparison](/compare/smart-contract-wallets)). PulseVM ships it in the protocol: **named accounts**, hierarchical permissions, [native multisig](/guide/multisig), key rotation in one action, and R1 (secure enclave / HSM) and WebAuthn (passkey) keys verified by the chain itself. A permission can also be bound to one contract action with `linkauth`, so a key made for one job cannot do any other; the chain refuses it before contract code runs. On XPR Network mainnet, which runs the same model, a trading operator's bot key is limited this way; in a testnet exercise with that real key, 31 of 31 attempts to move money out or take the account over were refused by the chain ([case study](/guide/delegated-authority)). Your authorization matrix is a configuration, not a wallet platform you build and audit.
 
 ## Finality and settlement
 
-PulseVM gives **irreversible finality in about a second**: a block is final when accepted — versus 12-second blocks and roughly 13 minutes to economic finality on Ethereum. No reorg handling, no confirmation-count policies, no probabilistic-settlement language in your risk memos. "When is it settled?" has a one-word answer. For payments and settlement, this is decisive.
+PulseVM gives **irreversible finality in about a second**: a block is final when accepted — versus 12-second blocks and roughly 13 minutes to economic finality on Ethereum. No reorg handling, no confirmation-count policies, no probabilistic-settlement language in your risk memos. "When is it settled?" has a one-word answer.
 
 ## Cost model
 
@@ -52,7 +52,7 @@ If you want an owned network but need the EVM, the fair comparison is [an EVM L1
 
 ## The bottom line
 
-Ethereum is a general-purpose, permissionless world computer. PulseVM is purpose-built financial infrastructure: the primitives banks actually use, settlement they can put in an SLA, costs they can forecast, governance they control, and privacy by default. For an institutional deployment, that is the better-fitting tool.
+Ethereum is a general-purpose, permissionless world computer. PulseVM is purpose-built financial infrastructure: the primitives banks actually use, settlement they can put in an SLA, costs they can forecast, governance they control, and privacy by default. For an institutional deployment, that is the fit.
 
 ## Next step
 
