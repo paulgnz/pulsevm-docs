@@ -10,7 +10,7 @@ This is the part of PulseVM that people who build on it talk about first.
 
 ## Named accounts
 
-Accounts are readable names of up to 12 characters (`a-z`, `1-5`, `.`): `acme.treas`, `branch.04`, `payroll`. Operations, audit and reconciliation already think in names, and so does the chain. Tokens, contracts and history are all addressed by name.
+Accounts are readable names of up to 12 characters (`a-z`, `1-5`, `.`): `acme.treas`, `branch.14`, `payroll`. Operations, audit and reconciliation already think in names, and so does the chain. Tokens, contracts and history are all addressed by name.
 
 ## A tree of permissions
 
@@ -37,7 +37,7 @@ A permission is satisfied by a weighted set of factors that must reach its thres
 { "account": "acme.treas", "code": "token", "type": "transfer", "requirement": "payments" }
 ```
 
-For every action in a transaction, the chain looks up the minimum permission for that contract and action. That is the linked permission if one exists, and `active` if not. A signature from a permission that does not reach that minimum is refused **before the contract runs**. So a key on `trader`, linked only to `vault::trade`, cannot transfer tokens, cannot change the account's keys and cannot link itself to anything else. PulseVM refuses it with the same message as XPR Network and every Antelope chain:
+For every action in a transaction, the chain looks up the minimum permission for that contract and action. That is the linked permission if one exists, and `active` if not. A signature from a permission that does not reach that minimum is refused **before the contract runs**. So a key on `trader`, linked only to `vault::trade`, cannot transfer tokens, cannot touch `active` or `owner`, and cannot link itself to any other action. It can still manage its own permission (rotate its own key, or remove its own link), which never widens its reach. PulseVM refuses it with the same message as XPR Network and every Antelope chain:
 
 ```
 action declares irrelevant authority 'vault@keeper'; minimum authority is vault@active

@@ -21,9 +21,9 @@ npm install
 ## 2. Build and deploy the example
 
 ```bash
-npm run build:hello                                   # writes the .wasm and .abi into ./target/
-pulse-ts set-code yourname1 ./target/hello.contract.wasm
-pulse-ts set-abi  yourname1 ./target/hello.contract.abi
+npm run build:hello                                   # writes the .wasm and .abi into ./hello/target/
+pulse-ts set-code yourname1 ./hello/target/hello.contract.wasm
+pulse-ts set-abi  yourname1 ./hello/target/hello.contract.abi
 pulse-ts push-action yourname1 say '{"text":"hello"}' -a yourname1
 ```
 

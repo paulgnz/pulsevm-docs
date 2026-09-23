@@ -233,8 +233,12 @@ Create the bot's key and import its private key (in production, it lives only on
 
 ```bash
 pulse-ts create-key          # the bot's PUB_K1_… / PVT_K1_… pair
-pulse-ts key:add             # import the bot's private key
+pulse-ts key:add             # import the bot's private key, on the bot's machine
 ```
+
+::: warning Keep the bot's key in its own keystore
+Import the bot key where the bot runs, not into the keystore that holds your owner key. Current `pulse-ts` releases sign with every matching key they hold, and the chain refuses the extra signature (`transaction bears irrelevant signatures`). A fix that signs with only the required keys is in review for `pulse-ts`.
+:::
 
 Create a `bot` permission under `active`. A new permission needs its parent's authority, so `active` signs:
 

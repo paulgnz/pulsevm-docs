@@ -2,7 +2,7 @@
 // Homepage: the decision a bank is actually making. Left column is what the
 // team would build and audit on Ethereum; right is how PulseVM accounts work.
 const rows = [
-  { need: 'Know who is on the other side of a payment', eth: 'Map hex addresses to customers in your own systems', pvm: 'Accounts carry names: acme.treas, branch.04, payroll' },
+  { need: 'Know who is on the other side of a payment', eth: 'Map hex addresses to customers in your own systems', pvm: 'Accounts carry names: acme.treas, branch.14, payroll' },
   { need: 'Require two officers to approve large payments', eth: 'Deploy a multisig wallet contract, then audit and maintain it', pvm: 'Set 2 of 3 on the account. The ledger enforces it' },
   { need: 'Let a processor or a bot do one thing only', eth: 'Add a session-key module and a guard contract, and audit both', pvm: 'Grant one permitted action. The ledger refuses that key for anything else' },
   { need: "Revoke a departed officer's authority", eth: 'Move assets to a new wallet, or build a recovery module', pvm: 'Replace the key in one approved change. Nothing moves' },

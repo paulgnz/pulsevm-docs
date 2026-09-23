@@ -41,7 +41,7 @@ Mission-critical software already runs on vendor relationships with commercial s
 
 ## "Is Avalanche, or Metal, a dependency?"
 
-Metal Blockchain (Avalanche lineage) provides the consensus engine: PulseVM runs as a VM plugin inside metalgo nodes and uses Snowman for block acceptance. What that does not mean: your network does not run on someone else's validators, pay someone else's fees, or take someone else's governance decisions. The network runs on your validators, under rules in contracts you own. The metalgo software is itself open source, and upgrades are coordinated events your validators choose to take.
+Metal Blockchain (Avalanche lineage) provides the consensus engine: PulseVM runs as a VM plugin inside metalgo nodes and uses Snowman for block acceptance. What that does not mean: your network does not run on someone else's validators, and its transactions do not pay someone else's fees or wait on someone else's governance. The one external link is validator registration on the Metal Blockchain P-Chain, which carries a small validator fee. The network runs on your validators, under rules in contracts you own. The metalgo software is itself open source, and upgrades are coordinated events your validators choose to take.
 
 ## "Single implementation risk"
 

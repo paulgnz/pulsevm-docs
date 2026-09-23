@@ -4,7 +4,7 @@ description: "PulseVM system contracts reference — the open-source token, syst
 
 # System Contracts
 
-A PulseVM network's behaviour — how accounts are created, how resources are paid for, how assets work, how governance happens — is defined by a small set of **system contracts**, not hard-coded in the VM. They are open-source Rust, written with [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust), and a deploying organization owns and can modify them. This is what "your network, your rules" means concretely: the rules are auditable source you control.
+A PulseVM network's behaviour — how accounts are created, how resources are paid for, how assets work, how governance happens — is defined by a small set of **system contracts** the network's owners can change. The core account and authorization rules (how permissions, links and signatures are checked) are native to the VM and cannot be altered by a contract. They are open-source Rust, written with [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust), and a deploying organization owns and can modify them. This is what "your network, your rules" means concretely: the rules are auditable source you control.
 
 Source: [`MetalBlockchain/pulse-cdt-rust/contracts`](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts)
 
@@ -52,7 +52,7 @@ The heart of the chain: account creation, the resource economy (CPU/NET/RAM), st
 **Governance**
 | Action | Purpose |
 |---|---|
-| `regproducer(...)` / `regproducer2(...)` | Register as a block producer / validator |
+| `regproducer(...)` / `regproducer2(...)` | Register an Antelope-style producer record (validator admission itself happens on the Metal P-Chain or your validator-manager contract) |
 | `unregprod(producer)` | Deregister |
 | `regproxy(proxy, is_proxy)` | Register a voting proxy |
 | `init(version, core)` | One-time chain initialization |
@@ -100,4 +100,4 @@ These actions express the full [permission model](/guide/accounts-permissions): 
 
 ## Customizing the rules
 
-Because these are contracts, not protocol internals, a deploying organization can modify them — account-creation policy, fee/resource economics, asset-level controls — or add new system-level contracts (e.g. a [compliance/policy registry](/guide/privacy)). The Antelope lineage has a decade of precedent for forking the system layer. See [Launch Your Own Network](/network/launch).
+Because these are contracts, a deploying organization can modify them — account-creation policy, fee/resource economics, asset-level controls — or add new system-level contracts (e.g. a [compliance/policy registry](/guide/privacy)). The Antelope lineage has a decade of precedent for forking the system layer. See [Launch Your Own Network](/network/launch).

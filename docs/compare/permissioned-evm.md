@@ -21,7 +21,7 @@ A permissioned EVM gives you control of **consensus** and membership. It does no
 | Asset-level policy (freeze or clawback under legal order) | Per-token contract code | Policy you write into the token and system contracts you own |
 | Settlement finality | QBFT and IBFT give immediate finality; Clique and some others do not. It is a configuration choice | Final when accepted, in about a second, with no configuration choice to get wrong |
 
-Each left-column row is code you deploy, audit and own forever. Each right-column row is protocol.
+Each left-column row is code you deploy, audit and own forever. On the right, identity, permissions, key binding, rotation and fee sponsorship are protocol; mandates and freeze or clawback are policy contracts you write on top, and far smaller ones.
 
 ## What permissioned EVM keeps
 

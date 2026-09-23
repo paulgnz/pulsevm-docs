@@ -244,7 +244,7 @@ pulse-ts push-action eosio unlinkauth \
 
 After this, `yourname1@bot` signing `trade` gets `action declares irrelevant authority 'yourname1@bot'; minimum authority is yourname1@active`.
 
-`unlinkauth` needs the permission currently linked, or an ancestor, so the linked key can unlink itself, which only removes its own access. Unlinking a pair that has no link returns success and changes nothing.
+`unlinkauth` needs the permission currently linked, or an ancestor, so the linked key can unlink itself, which only removes its own access. Unlinking a pair that has no link is refused: `cannot unlink non-existent permission link`.
 
 **Misuse:** trying to link one of the native account actions:
 

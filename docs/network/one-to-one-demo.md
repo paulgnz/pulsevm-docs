@@ -61,7 +61,7 @@ Because the state is real, the demo network is a sandbox with your own data in i
 Point [pulse-ts](/build/cli) at the RPC and work as you would on XPR testnet:
 
 ```bash
-pulse-ts endpoint:set https://xpr-rpc-testnet.pulsevm.dev
+pulse-ts chain:set pulse-1to1     # sets the endpoint and this network's chain ID
 pulse-ts chain:info
 pulse-ts account <your-account>
 pulse-ts table eosio.token accounts <your-account>

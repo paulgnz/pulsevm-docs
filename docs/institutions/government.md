@@ -13,7 +13,7 @@ head:
             "name": "Can a government agency run its own blockchain?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes — that is the design point. A PulseVM deployment is a permissioned network whose validators are named entities the deploying authority chooses: agencies, ministries, state institutions, or an inter-agency consortium. Validators run on standard Linux hosts inside your jurisdiction, the rule-set lives in system contracts the operator owns, and there is no dependency on a foreign public chain's governance, token, or fee market."
+              "text": "Yes — that is the design point. A PulseVM deployment is a permissioned network whose validators are named entities the deploying authority chooses: agencies, ministries, state institutions, or an inter-agency consortium. Validators run on standard Linux hosts inside your jurisdiction, the rule-set lives in system contracts the operator owns, and your own transactions do not depend on a foreign public chain's governance or fee market. Validators are registered on the Metal Blockchain P-Chain, the one external dependency, with a small validator fee."
             }
           },
           {
@@ -66,7 +66,7 @@ head:
 
 Registries, disbursements, inter-agency settlement and procurement audit trails need a shared record that no single agency can quietly change and no foreign network can govern. A PulseVM network gives the authority exactly that:
 
-- **Sovereignty.** The network, its data residency and its rule-set are operated inside the jurisdiction, with no dependency on a foreign public chain's governance, token or fee market.
+- **Sovereignty.** The network, its data residency and its rule-set are operated inside the jurisdiction, with no dependency on a foreign public chain's governance or fee market for its own transactions. The network still registers its validators on the Metal Blockchain P-Chain, which carries a small validator fee.
 - **Accountable validators.** Named operators the authority admits and can remove, which is how public institutions already work.
 - **Named entities and delegated authority.** Agencies, departments and officers are accounts and permissions. A disbursement key can be bound with `linkauth` to one contract action and refused on anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
 - **Irreversible records.** Final in about a second, with no reorganizations, and every action carries its authorization chain.
@@ -94,7 +94,7 @@ sequenceDiagram
   autonumber
   participant O as Case officer
   participant S as Supervisor
-  participant P as agency.social (policy contract)
+  participant P as agency.soc (policy contract)
   participant B as Beneficiary maria.g
   participant A as Auditor-general
   O->>P: Propose 840 UNITS, case 20931
@@ -103,7 +103,7 @@ sequenceDiagram
   A->>P: Query the full chain of who proposed, approved, executed
 ```
 
-A beneficiary is paid the moment eligibility is confirmed, at any hour, through the agency's existing portal, with no token to buy. The disbursement reads as `agency.social → maria.g, 840 UNITS, case 20931`, so an anomalous payment is legible the moment it appears. A freedom-of-information request or an auditor-general review becomes a query against Hyperion. If a court orders funds frozen, named officers execute a policy action in contracts the agency owns, on the audit trail. This is the designed capability, and the shape a pilot is built to prove.
+A beneficiary is paid the moment eligibility is confirmed, at any hour, through the agency's existing portal, with no token to buy. The disbursement reads as `agency.soc → maria.g, 840 UNITS, case 20931`, so an anomalous payment is legible the moment it appears. A freedom-of-information request or an auditor-general review becomes a query against Hyperion. If a court orders funds frozen, named officers execute a policy action in contracts the agency owns, on the audit trail. This is the designed capability, and the shape a pilot is built to prove.
 
 ## Why not something else?
 

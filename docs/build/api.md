@@ -18,16 +18,16 @@ PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API 
 |---|---|
 | `pulsevm.getInfo` | chain id, head block, LIB |
 | `pulsevm.getAccount` | account, permissions, resources |
-| `pulsevm.getABI` / `getRawABI` | contract ABI |
+| `pulsevm.getABI` | contract ABI |
 | `pulsevm.getBlock` | block by number or id |
 | `pulsevm.getTableRows` | contract table reads |
 | `pulsevm.getCurrencyBalance` / `getCurrencyStats` | token queries |
 | `pulsevm.getRequiredKeys` | signing key resolution |
-| `pulsevm.getBlockInfo` | block header by number |
 | `pulsevm.getRawBlock` | raw block |
-| `pulsevm.getCode` | contract code |
+| `pulsevm.getCodeHash` | hash of an account's contract code (not the WASM itself) |
 | `pulsevm.getTableByScope` | enumerate a table's scopes |
-| `pulsevm.getProducerSchedule` | active producer schedule |
+| `pulsevm.getProducers` | registered producers |
+| `pulsevm.getRawABI` | raw ABI bytes |
 | `pulsevm.issueTx` | submit a signed transaction |
 
 Example table read:

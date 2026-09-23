@@ -58,7 +58,7 @@ A parametric program maps onto a handful of named accounts. Nothing here is a wa
 | `stormco.pol` | Policy contract: triggers, limits, claims reserve | Its `pulse.code` grant lets it pay out of the reserve as itself |
 | `wxindex.orc` | Index provider | `feed`, linked to `stormco.pol::setindex` only |
 | `stormco.clm` | Claims operations | `payout` (the claims bot's key), linked to `stormco.pol::payclaim` only |
-| `reinsure.re` | Quota-share reinsurer | `cosign`, linked to `stormco.pol::payclaim`, required above the threshold |
+| `reinsure.re` | Quota-share reinsurer | `cosign`, linked to `pulse.msig::approve` so it can approve large-claim proposals and nothing else |
 | `farm.arnold` | A policyholder | Created and resourced by the carrier; holds no fee token |
 
 The carrier [stakes the resources](/guide/resources) for every account in the program, so the index provider, the reinsurer and every policyholder never buy a token to take part.
@@ -89,7 +89,7 @@ What the chain enforces at each step:
 
 - **The index key can only post the index.** If `wxindex.orc@feed` is used on any action other than `setindex`, the chain refuses it with `action declares irrelevant authority`, before contract code runs.
 - **The claims bot can only pay claims.** `payclaim` pays a policy the contract has marked triggered, to the account on the policy record, up to the policy limit, once. The bot cannot redirect a payout or touch the reserve any other way.
-- **Large claims need the reinsurer.** Above the threshold, `payclaim` also requires `reinsure.re@cosign`. The proposal sits in `pulse.msig` until the reinsurer approves it; nobody at the carrier can pay it alone.
+- **Large claims need the reinsurer.** Above the threshold, the payout is proposed through `pulse.msig` and needs the reinsurer's approval as well as the carrier's. The reinsurer approves with its `cosign` key, which can approve proposals and do nothing else. Nobody at the carrier can pay a large claim alone.
 - **The cession is not a separate process.** The reinsurer's share is written in the same transaction as the payout, so the loss position everyone reads is one record, not three copies.
 
 The threshold, the trigger data source and the sign-off rules are policy the carrier writes into a contract it owns, and can change under its own multisig.

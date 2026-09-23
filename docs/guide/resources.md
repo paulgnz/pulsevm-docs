@@ -20,7 +20,7 @@ PulseVM has no gas market. Capacity is provisioned, not auctioned.
 
 ## How an app pays for its users
 
-A transaction's CPU and NET are billed to its **first authorizer**. An application that adds its own account as the first authorizer, alongside the customer's signature, pays for the transaction. The customer signs with a passkey and never holds a fee token.
+With the `ONLY_BILL_FIRST_AUTHORIZER` protocol feature active, as on XPR Network and chains migrated from it, a transaction's CPU and NET are billed to its **first authorizer**. Without it, every authorizing account is billed. An application that adds its own account as the first authorizer, alongside the customer's signature, pays for the transaction. The customer signs with a passkey and never holds a fee token.
 
 ```mermaid
 sequenceDiagram
@@ -37,5 +37,5 @@ Sizing is capacity planning: stake enough CPU and NET for your peak daily volume
 
 ## Practical notes
 
-- RAM is sized per account; contracts pay for the table rows they create (the RAM payer is explicit in the API).
+- RAM is sized per account. When a contract writes a table row it names the RAM payer explicitly: the contract, the caller or another authorized account. Sponsoring your users' storage is a choice your contract makes.
 - Resource configuration (and pricing, where wanted) is system-contract policy — a deploying organization sets its own economics.

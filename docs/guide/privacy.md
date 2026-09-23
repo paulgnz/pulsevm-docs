@@ -8,7 +8,7 @@ Privacy on PulseVM is delivered through **architecture** — and the most powerf
 
 ## The network boundary
 
-A PulseVM network is a subnet with its own validator set. When you run a **private, permissioned network** — validators restricted to the member institutions, and no public RPC or explorer exposed — transaction data lives only among those members. It is not on a public chain, not in a public mempool, not in a public explorer.
+A PulseVM network is a subnet with its own validator set. When you run a **private, permissioned network** — validators restricted to the member institutions, every node configured to serve chain data only to other validators (metalgo's `validatorOnly` subnet setting), and no public RPC or explorer exposed — transaction data lives only among those members. It is not on a public chain, not in a public mempool, not in a public explorer.
 
 This is fundamentally different from a public L1, where every transaction is globally visible and confidentiality must be bolted on cryptographically. Here, confidentiality begins at the boundary: **only the people running the network see it.** (A public-facing network — like a testnet — simply chooses to expose RPC and an explorer; that exposure is a deployment decision you control.)
 
@@ -28,7 +28,7 @@ flowchart TB
 
 ## The trust boundary is the validator set
 
-It's worth being precise about who "sees" the data. On-chain data is held in plaintext by the validators. So the confidentiality boundary is the **validator set**: in a closed consortium where the members are the validators, the data is private from the outside world, and shared among the members — which is usually the point of a shared ledger.
+It's worth being precise about who "sees" the data. On-chain data is held in plaintext by the validators. So the confidentiality boundary is the **validator set**, provided every node refuses to sync chain data to non-validators (`validatorOnly` on each validator; it is off by default): in a closed consortium where the members are the validators, the data is private from the outside world, and shared among the members — which is usually the point of a shared ledger.
 
 ## Isolation by relationship
 

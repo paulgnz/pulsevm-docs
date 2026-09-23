@@ -9,7 +9,7 @@ Give someone, or something, the power to act for you, and let the chain enforce 
 ## The pattern
 
 1. **The customer owns the account.** Their wallet holds `owner`. Nobody else can change who controls it.
-2. **The operator gets one permission, bound to one action.** A named permission holds the operator's key and is linked with [`linkauth`](/guide/accounts-permissions#give-a-key-one-job) to a single contract action. Every other action refuses it before any contract code runs.
+2. **The operator gets one permission, bound to one action.** A named permission holds the operator's key and is linked with [`linkauth`](/guide/accounts-permissions#give-a-key-one-job) to a single contract action. Every other contract action refuses it before any contract code runs. The permission can still manage itself (change its own key, or remove its own link), but none of that reaches another action.
 3. **The contract holds the limits.** That one action checks a mandate stored in the account: how much per call, how much per day, at what prices, how often.
 4. **The owner can stop it with one signature.** Pause, change the limits or take everything out, at any time, without asking the operator.
 
@@ -56,7 +56,7 @@ The operator ran the real bot key, from its real keychain, against a delivered v
 | Link token transfers to the bot's permission | irrelevant authority; minimum is `active` |
 | Trade above the per-call cap, or below the oracle floor | `above per-call cap`, `limit below oracle sell floor` |
 
-The token transfer is refused by the protocol before the token contract is even consulted. That is the load-bearing result: the protection does not depend on the router contract being bug-free. One attempt, widening the bot's own permission, failed because the vault holds no bandwidth of its own rather than on authority. Even had it landed, it would not reach token transfers, which need `active`.
+The token transfer is refused by the protocol before the token contract is even consulted. That is the load-bearing result: a stolen key cannot move tokens directly, whatever it signs. What the permitted `trade` action does with the vault's funds is up to the router contract, which is why its code is published, pinned by hash and checked. One attempt, widening the bot's own permission, failed because the vault holds no bandwidth of its own rather than on authority. Even had it landed, it would not reach token transfers, which need `active`.
 
 ## Where else this applies
 

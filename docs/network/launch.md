@@ -165,13 +165,13 @@ This is also where your rules go in: KYC-gated account creation, fee models, res
 With [pulse-ts](/build/cli) pointed at your node, create the institution's accounts and give each one a permission tree:
 
 ```bash
-pulse-ts endpoint:set https://rpc.your-network.example
+pulse-ts endpoint:set https://rpc.your-network.example   # confirm `pulse-ts chain:get` shows your chain ID before signing
 # stakes CPU/NET in your core token (SYS here)
 pulse-ts create-account treasury PUB_K1_OWNER... PUB_K1_ACTIVE... -c pulse \
   --cpu "1.0000 SYS" --net "1.0000 SYS"
 
 # a permission for the payments bot, under active
-pulse-ts update-auth treasury payments active PUB_K1_BOT...
+pulse-ts update-auth treasury payments active PUB_K1_BOT... --sign-permission active
 
 # bind it to exactly one action: it can call token::transfer and nothing else
 pulse-ts push-action pulse linkauth \

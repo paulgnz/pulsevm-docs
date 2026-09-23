@@ -56,7 +56,7 @@ console.log(session.actor, session.permission)      // e.g. "protonnz" "active"
 ```ts
 const result = await session.transact({
   actions: [{
-    account: "pulse.token",
+    account: "eosio.token",          // the token contract on the 1:1 demo network
     name: "transfer",
     authorization: [{ actor: session.actor, permission: session.permission }],
     data: { from: session.actor, to: "pulse", quantity: "0.0001 XPR", memo: "hello" },

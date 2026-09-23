@@ -24,7 +24,7 @@ The chain resolves the minimum permission for each action before your contract r
 action declares irrelevant authority 'myacct@trader'; minimum authority is myacct@active
 ```
 
-Your contract never sees the refused action, so a bug in your code cannot widen what the key can do. Links are also how an account gives a bot, an auditor or an agent a narrow mandate; see [Delegated authority with hard limits](/guide/delegated-authority). The commands are in [Accounts and permissions](/guide/accounts-permissions#recipes).
+Your contract never sees the refused action, so the key cannot reach any other action. What it can do through the linked action is still up to your code, especially if your contract holds a `pulse.code` grant to act for the account. Links are also how an account gives a bot, an auditor or an agent a narrow mandate; see [Delegated authority with hard limits](/guide/delegated-authority). The commands are in [Accounts and permissions](/guide/accounts-permissions#recipes).
 
 ## Inline actions
 

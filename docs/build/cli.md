@@ -22,7 +22,7 @@ pulse-ts --help
 Then point it at a network and import a key:
 
 ```bash
-pulse-ts endpoint:set https://xpr-rpc-testnet.pulsevm.dev   # 1:1 demo network
+pulse-ts chain:set pulse-1to1                              # 1:1 demo network: endpoint and chain ID
 pulse-ts chain:info
 pulse-ts key:add                                            # stored in an encrypted local keystore
 ```
@@ -42,7 +42,7 @@ pulse wallet keys            # list keys in a wallet
 pulse wallet remove_key
 
 # accounts & keys
-pulse create key
+pulse create key --to-console
 pulse create account <creator> <name> <owner-key> <active-key>
 
 # chain state
@@ -80,7 +80,7 @@ pulse-ts push-action myacct greet '{"account":"myacct","text":"hi"}' --actor mya
 pulse-ts push-action escrow release '{"id":42}' -a 'buyer@active,seller@active'
 
 # endpoint management
-pulse-ts endpoint:set https://your-node/ext/bc/<chainID>/rpc
+pulse-ts endpoint:set https://your-node/ext/bc/<chainID>/rpc   # also check `pulse-ts chain:get` shows your network's chain ID before signing
 pulse-ts endpoint:default
 
 # tables

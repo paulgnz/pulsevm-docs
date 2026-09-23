@@ -45,7 +45,7 @@ pulse-ts key:add             # import the private key into the local, encrypted 
 ## 4. Point the CLI at the network
 
 ```bash
-pulse-ts endpoint:set https://xpr-rpc-testnet.pulsevm.dev      # 1:1 demo network
+pulse-ts chain:set pulse-1to1                                   # 1:1 demo network: endpoint and chain ID
 pulse-ts chain:info                                            # prints head block and chain ID
 pulse-ts account yourname1                                     # your permissions and resources
 ```
@@ -70,7 +70,7 @@ pulse-ts push-action eosio linkauth \
   -a yourname1@active
 ```
 
-Now `yourname1@bot` can call `greet` and nothing else. Try a token transfer with it and the chain refuses before any contract runs. On Alpine the system account is `pulse` rather than `eosio`. More in [Accounts and permissions](/guide/accounts-permissions#recipes).
+Now `yourname1@bot` can call `greet` and no other contract action. Try a token transfer with it and the chain refuses before any contract runs. On Alpine the system account is `pulse` rather than `eosio`. More in [Accounts and permissions](/guide/accounts-permissions#recipes).
 
 ## When it fails
 
@@ -78,6 +78,7 @@ Now `yourname1@bot` can call `greet` and nothing else. Try a token transfer with
 |---|---|---|
 | `pulse assert failed: <msg>` or `eosio assert failed: <msg>` | A contract check failed (Rust and C++ contracts word it differently) | Read the message. It names the failing check |
 | `action declares irrelevant authority` | You signed with a permission that is not linked to that action | Sign with the linked permission, or with `active` |
-| `missing authority of <account>` | The signing key is not on the permission you named | Check `-a account@permission` and `pulse-ts account <name>` |
+| `missing authority of <account>` | The action does not declare an authorization the contract requires | Add that account to `-a`, for example `-a yourname1@active` |
+| `transaction declares authority '…' but does not have signatures for it` | No key in your keystore satisfies the permission you named | Check `pulse-ts account <name>` and import the right key with `pulse-ts key:add` |
 | Insufficient RAM | The account is too small for the contract | Buy RAM, or ask for more on a testnet |
 | Connection error or empty response | Endpoint not set, or the network is down | Run step 4 and check [Network endpoints](/network/endpoints) |

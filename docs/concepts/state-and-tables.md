@@ -11,8 +11,8 @@ Contracts store state in **tables** — typed, multi-index collections, not arbi
 A table holds rows of a defined struct, identified by a **primary key**, and may have **secondary indexes** for lookups on other fields. PulseVM serves all Antelope secondary-index key types (`db_idx64_*`, `db_idx128_*`, `db_idx256_*`, `db_idx_double_*`, `db_idx_long_double_*`); see [host functions](/build/intrinsics).
 
 ```rust
-#[derive(Read, Write, NumBytes, Clone)]
-#[table(primary_key = row.account.value)]
+#[derive(Read, Write, NumBytes, Clone, PartialEq)]
+#[table(primary_key = row.account.raw())]
 pub struct Greeting { pub account: Name, pub text: String }
 
 const GREETINGS: MultiIndexDefinition<Greeting> = MultiIndexDefinition::new(name!("greetings"));
@@ -24,7 +24,7 @@ Every table is addressed by **(code, scope, table)** — the contract account, a
 
 ## RAM
 
-Table rows consume **RAM**, paid by an explicit payer at write time. Provisioning RAM is a [resource](/guide/resources) decision; the institution or app, not the end user, pays.
+Table rows consume **RAM**, paid by an explicit payer the contract names at write time. Provisioning RAM is a [resource](/guide/resources) decision; an institution or app can arrange to pay so its end users never do.
 
 ## Reads are free
 

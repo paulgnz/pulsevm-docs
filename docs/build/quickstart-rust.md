@@ -118,4 +118,4 @@ The last command prints the row you just wrote. Next, [bind a second key to `gre
 
 ## The best reference is the chain itself
 
-`pulse_token` (token semantics, `stat`/`accounts` tables) and `pulse_system` (accounts, resources, permissions) in [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust) are production system contracts — the most authoritative examples of the CDT in real use.
+`pulse_token` (token semantics, `stat`/`accounts` tables) and `pulse_system` (accounts, resources, permissions) in [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust) are the reference system contracts — the most authoritative examples of the CDT in real use.

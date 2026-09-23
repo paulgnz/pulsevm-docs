@@ -113,7 +113,7 @@ A shared ledger does not speed reconciliation up. It removes the reason it exist
 - **Authorization that mirrors your org chart.** Role keys, [weighted multisig](/guide/multisig) for approvals and delegation between subsidiaries and parents. A controller proposes, a treasurer approves, and a payment executes only at threshold.
 - **Keys scoped to one job.** An ERP integration key can be bound with `linkauth` to a single contract action, such as `settle`, and is refused by the protocol on anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
 - **Settlement you can reconcile against.** [Final in about a second](/guide/finality), with no reorganizations, so every counterparty and every auditor sees the same state with no confirmation window.
-- **Readable records.** An approved invoice settles as `northsteel.ap → apexparts.ar, 1,240,000 MUSD, PO-88231`, not a hex address emitting an event log.
+- **Readable records.** An approved invoice settles as `nsteel.ap → apexparts.ar, 1,240,000 MUSD, PO-88231`, not a hex address emitting an event log.
 
 Each member keeps its ERP as the internal system of record. The network settles between companies, and [Hyperion](/institutions/technical-evaluators) gives each member its reconciliation feed from the same free reads.
 

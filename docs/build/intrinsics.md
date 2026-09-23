@@ -51,7 +51,7 @@ As of **v0.5.0** (tagged 2026-07-22), PulseVM serves the full classic Antelope h
 **Privileged, resources & chain params** (system contracts)
 `is_privileged` · `set_privileged` · `get_resource_limits` · `set_resource_limits` · `get_blockchain_parameters_packed` · `set_blockchain_parameters_packed`
 
-**Producers & schedule** (system contracts — the on-chain half of producer election, since v0.6.x)
+**Producers and schedule** (Antelope-compatible producer records and schedules for system contracts, since v0.6.x; separate from validator admission)
 `get_active_producers` · `set_proposed_producers`
 
 **Math builtins** (compiler support)
