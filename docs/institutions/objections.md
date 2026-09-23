@@ -1,36 +1,72 @@
 ---
-description: "The hard questions institutions ask about PulseVM, answered: control, maturity, lock-in, privacy and production readiness."
+description: "The hard questions institutions ask about PulseVM, answered straight: central control, collusion, vendor risk, Avalanche dependency, account abstraction on public chains, privacy, maturity and what is left before production."
 ---
 
-# Objections, Answered
+# Objections, answered
 
 We steel-man these because credibility is the product.
 
 ## "Permissions sound like central control"
 
-Other way around — they are permissions **the account holder sets on their own account**: which of *your* keys can do what. Nothing protocol-level decides who transacts. And the rule-sets themselves are forkable: anyone can deploy their own network with their own validators. Opt-in rule-sets have no central authority to abuse.
+The other way around. Permissions are set **by the account holder on their own account**: which of their keys can do what, with whose countersignature. Nothing at the protocol level decides who may transact. And the rule-sets are forkable: anyone can run their own network with their own validators.
 
 ## "Small validator sets can collude"
 
-In a public-chain context, a real critique. In a consortium of legally-bound, named institutions, the validator set **is** the governance body — the same parties who would govern any shared financial infrastructure, now with cryptographic enforcement and replaceability.
+On a public chain, a real critique. In a consortium of named, legally bound institutions, the validator set **is** the governance body: the same parties who would govern any shared financial infrastructure, now with cryptographic enforcement. Validators are admitted by the members and can be removed by them.
 
-## "Single implementation / vendor risk"
+## "Why not a public chain with account abstraction?"
 
-Normal for institutional software — mission-critical systems are routinely run on vendor relationships with commercial support. Mitigations here are contractual (support, SLAs, escrow) plus open repositories and a reference implementation (Antelope/Leap) that anchors the semantics independently of any one codebase.
+Account abstraction rebuilds, in contracts, what PulseVM has in the protocol: a smart-contract wallet per user, a module for multisig, another for session keys, a paymaster for fees, a bundler to submit it all. Each piece is code you deploy, audit and keep upgrading, and each wallet vendor does it slightly differently.
+
+| Need | Public chain with account abstraction | PulseVM |
+|---|---|---|
+| Readable identity | Name service mapped to hex addresses | Named accounts |
+| Dual control | Multisig wallet contract | Weighted multisig on any permission |
+| A key for one job | Session-key module, per wallet vendor | `linkauth`, enforced before contract code runs |
+| No fee token for users | Paymaster and bundler | The institution stakes resources |
+| Settlement | Probabilistic, then finalized after a delay | Final in about a second, no reorganizations |
+| Who sets the rules | The public chain's governance | Your network's system contracts |
+
+And the data is public by default. See [PulseVM vs smart-contract wallets](/compare/smart-contract-wallets).
+
+## "What if Metallicus disappears?"
+
+Your network keeps running. It belongs to its operators: your validators, your system contracts, your data.
+
+- **The code is open.** The VM, the contract development kits and the system contracts are open source. You can build, audit and patch them yourself.
+- **The model is not one team's.** The Antelope execution model has been maintained by more than one organization, runs on several independent public networks and has a deep pool of engineers and operators who know it.
+- **Contracts are portable.** Contracts written for the Antelope model run on PulseVM, so your business logic is written to a model with more than one runtime, not to one vendor's platform.
+
+Mission-critical software already runs on vendor relationships with commercial support; this one has an open-source exit.
+
+## "Is Avalanche, or Metal, a dependency?"
+
+Metal Blockchain (Avalanche lineage) provides the consensus engine: PulseVM runs as a VM plugin inside metalgo nodes and uses Snowman for block acceptance. What that does not mean: your network does not run on someone else's validators, pay someone else's fees, or take someone else's governance decisions. The network runs on your validators, under rules in contracts you own. The metalgo software is itself open source, and upgrades are coordinated events your validators choose to take.
+
+## "Single implementation risk"
+
+PulseVM is one implementation of a model with others, and its behaviour is checked against the production reference rather than asserted. The mitigations are contractual (support, SLAs, escrow) plus open repositories and that reference model, which anchors the semantics independently of any one codebase.
 
 ## "Where's the privacy?"
 
-The most important privacy lever is one public chains lack: the **network boundary**. On a private subnet the ledger exists only among the member institutions — no public mempool, no public explorer, nothing on the public internet. Finer-grained confidentiality between members is an architecture choice (per-relationship subnets, application-layer encryption). See [Privacy & Confidentiality](/guide/privacy).
+The most important privacy lever is one public chains lack: the **network boundary**. On a private network the ledger exists only among the members: no public mempool, no public explorer, nothing on the public internet. Finer-grained confidentiality between members is an architecture choice (per-relationship networks, application-layer encryption). See [Privacy and confidentiality](/guide/privacy).
 
 ## "How mature is this, really?"
 
-Two honest parts.
+The semantics are a decade old and run in production; the implementation is new. PulseVM implements the Antelope execution model that [XPR Network](https://xprnetwork.org) runs today, in a Rust VM, and the full XPR Network mainnet history has been replayed on it. See [Migrating an Antelope chain](/guide/migrate-antelope-chain). Where PulseVM is new (the Rust execution host and the consensus integration), correctness is measured by replaying the same inputs through the reference and PulseVM and comparing state.
 
-**The semantics are a decade old and run in production; the implementation is modern.** PulseVM implements the Antelope execution model (Leap 5.0.3) that [XPR Network](https://xprnetwork.org) runs today — as a **Rust VM** checked **byte-for-byte against the reference implementation**: [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) replayed all 401,005,383 XPR Network mainnet blocks. Contracts execute as WebAssembly exactly as on any Antelope chain, so existing contract binaries run unchanged. The account model, permissions, and resource economics are not experiments.
+The account model itself is proven in production: see [Delegated authority with hard limits](/guide/delegated-authority).
 
-**Where PulseVM is new, correctness is measurable, not asserted.** The new surfaces are the Rust execution host and the consensus integration. Because a mature reference implementation exists and runs in production, hardening is mechanical:
+## "What's left before production?"
 
-- **Differential testing** replays identical action streams through Leap 5.0.3 and PulseVM and diffs the results — every divergence is a found bug with ground truth attached.
-- **Ported regression suites** inherit a decade of fixed bugs as executable assertions.
+Honestly: PulseVM is at test-network stage.
 
-Engineering is tracked openly and rigorously — serious counterparties get an **engineering-status register**, not adjectives. The combination of a decade-old execution model and differential testing against a production reference is what lets an institution move from evaluation to deployment with confidence.
+- **Releases.** Recent work is on the main branch ahead of the latest tagged release (v0.7.1). Production networks should run tagged releases.
+- **Surface still in development.** A `/v1/chain` API inside the node (a gateway serves it today), a set of newer cryptographic host functions, and support for the latest metalgo release.
+- **Pilots first.** The path to production is a pilot run with Metallicus engineering, with exit criteria agreed up front. See [Run a 90-day pilot](/institutions/pilot) and the [technical status table](/institutions/technical-evaluators#status-what-is-shipped-and-what-is-not).
+
+## Next step
+
+Take these questions, and the ones we have not answered, into a conversation. The [buyer's checklist](/institutions/checklist) is a good agenda.
+
+**[Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

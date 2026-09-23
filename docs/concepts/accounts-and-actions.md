@@ -2,7 +2,7 @@
 description: "PulseVM accounts and actions — named accounts, deploying a contract to an account, and the actions a contract exposes."
 ---
 
-# Accounts & Actions
+# Accounts and actions
 
 ## Everything is an account
 
@@ -17,7 +17,7 @@ You deploy a contract by setting its WASM and [ABI](/concepts/abi) onto an accou
 A contract exposes **actions** — named entry points with typed parameters. A transaction is a list of actions, executed atomically (all succeed or all roll back). For example, a token contract exposes `transfer(from, to, quantity, memo)`; calling it is sending that action to the token account.
 
 ```
-pulse-ts push-action fdxtoken transfer \
+pulse-ts push-action pulse.token transfer \
   '{"from":"alice","to":"bob","quantity":"10.0000 SYS","memo":"hi"}' --actor alice
 ```
 

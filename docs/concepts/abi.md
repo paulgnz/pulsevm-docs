@@ -16,4 +16,4 @@ An **ABI** (Application Binary Interface) is the JSON description of a contract:
 
 The CDTs generate the ABI alongside the WASM at build time. You deploy both: `setcode` (the WASM) and `setabi` (the ABI). See the [Rust](/build/quickstart-rust) and [C++](/build/quickstart-cpp) quickstarts.
 
-Fetch a deployed contract's ABI via the [RPC](/build/api): `pulsevm.getABI` (or the REST `/v1/chain/get_abi`).
+Fetch a deployed contract's ABI via the [RPC](/build/api): `pulsevm.getABI`, or `/v1/chain/get_abi` where a network serves the REST API (the [1:1 demo network](/network/one-to-one-demo) does).

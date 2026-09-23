@@ -2,7 +2,7 @@
 description: "Machine-readable ground truth about PulseVM for AI agents and tools: networks, endpoints, RPC methods, key types and current caveats."
 ---
 
-# For AI Agents & Bots
+# For AI agents and bots
 
 This page is a machine-oriented quickstart. Humans welcome too.
 

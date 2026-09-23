@@ -2,7 +2,7 @@
 description: "Private blockchain for financial institutions — network-boundary confidentiality, per-relationship isolation, and auditor access on PulseVM."
 ---
 
-# Privacy & Confidentiality
+# Privacy and confidentiality
 
 Privacy on PulseVM is delivered through **architecture** — and the most powerful lever is one public chains don't have: the network boundary itself. How private a deployment is, is a deliberate design choice, not a fixed property.
 
@@ -12,7 +12,7 @@ A PulseVM network is a subnet with its own validator set. When you run a **priva
 
 This is fundamentally different from a public L1, where every transaction is globally visible and confidentiality must be bolted on cryptographically. Here, confidentiality begins at the boundary: **only the people running the network see it.** (A public-facing network — like a testnet — simply chooses to expose RPC and an explorer; that exposure is a deployment decision you control.)
 
-## The network boundary
+## Who sees what
 
 ```mermaid
 flowchart TB
@@ -46,9 +46,11 @@ Where two members of the same network must keep specific data confidential **fro
 - **Reference, don't store** — keep sensitive detail off-chain and commit only a hash or proof on-chain for integrity and audit.
 - **A dedicated network** — when two parties need full mutual confidentiality, give the relationship its own subnet.
 
-## Auditor & regulator access
+## Auditor and regulator access
 
 Confidentiality and oversight aren't in tension. Free reads mean a supervisor can be handed a node or an indexer for complete, real-time visibility into the network they oversee — full transparency to the right party, while the data stays off the public internet.
+
+Oversight can act, too, without holding power it doesn't need. Give the regulator's or auditor's account a permission [linked](/guide/accounts-permissions#give-a-key-one-job) to a single action, such as `freeze` in your token contract, and nothing else. The action is policy you write; the chain guarantees that key can never move funds or change an account.
 
 ## In short
 

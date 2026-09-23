@@ -29,7 +29,7 @@ The standard fungible-token contract (the model every Antelope token follows). T
 
 ---
 
-## `pulse.system` — accounts, resources & governance
+## `pulse.system` — accounts, resources and governance
 
 The heart of the chain: account creation, the resource economy (CPU/NET/RAM), staking, and producer/validator governance.
 
@@ -79,7 +79,7 @@ Native, on-chain multi-party approval — the contract behind the [native multis
 
 ---
 
-## `pulse.bios` — account & permission management
+## `pulse.bios` — account and permission management
 
 The bootstrap/authority contract. Its actions manage the account permission model directly — these are the operations behind [accounts & permissions](/guide/accounts-permissions) and the CLI's `update-auth`.
 

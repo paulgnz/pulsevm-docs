@@ -2,15 +2,19 @@
 description: "Finality on PulseVM: a transaction is final in about a second, with no confirmation count and no reorganizations, because consensus is Snowman on Metal Blockchain."
 ---
 
-# Finality & Settlement
+# Finality and settlement
 
 PulseVM's most underrated property: **the head block is the last irreversible block.**
 
-- Blocks finalize in well under a second.
+- A transaction is final in about a second, as soon as its block is accepted.
 - **Finalized blocks do not reorganize** — there is no probabilistic-finality window. A transaction is either rejected immediately or, once finalized, settled with no reorg to design around.
 - No confirmation-count policies, no "wait N blocks" memos for your risk committee, no probabilistic language in your SLA.
 
 "When is this transfer settled?" has a one-word answer: *now*. (And if the validator set ever can't reach quorum, the network pauses and resumes rather than forking — see below.)
+
+## One payment, two kinds of chain
+
+<div class="hf-art"><FinalityTimeline /></div>
 
 ## The lifecycle
 
@@ -18,7 +22,7 @@ PulseVM's most underrated property: **the head block is the last irreversible bl
 flowchart LR
   s["Submit"] --> v{"Valid?"}
   v -- no --> r["Rejected immediately"]
-  v -- yes --> f["Finalized — sub-second"]
+  v -- yes --> f["Finalized — about a second"]
   f --> d["Settled · no reorg to handle"]
 ```
 

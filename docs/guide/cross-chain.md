@@ -52,14 +52,14 @@ head:
       }
 ---
 
-# Cross-Chain Messaging & Interoperability
+# Cross-chain messaging and interoperability
 
 PulseVM's premise is that an institution or consortium runs **its own network** — its own validators, its own rules, its own state. The obvious next question is the one this page answers: *then how does my network transact with the others?*
 
 The answer is not a bridge in the usual sense. It is **verified message passing between chains that already share validator infrastructure.**
 
 ::: warning Status: landing, not shipped
-Interchain messaging exists today at the **Metal / Avalanche ecosystem layer** and in EVM subnets. **Native support inside PulseVM is in review upstream** — [PR #64](https://github.com/MetalBlockchain/pulsevm/pull/64): real BLS12-381 signing (min-pk, via `blst`), stake-weighted signature aggregation, proof-of-possession, and a wire codec byte-compatible with AvalancheGo. The Metallicus team has publicly demonstrated asset transfer between a Subnet-EVM chain and PulseVM over Avalanche ICM as work in progress. Until it merges and ships in a release, treat this as a capability that is landing — not one to build production systems against.
+Interchain messaging exists today at the **Metal / Avalanche ecosystem layer** and in EVM subnets. **Native support inside PulseVM is in development:** real BLS12-381 signing (min-pk, via `blst`), stake-weighted signature aggregation, proof-of-possession, and a wire codec byte-compatible with AvalancheGo. The Metallicus team has publicly demonstrated asset transfer between a Subnet-EVM chain and PulseVM over Avalanche ICM as work in progress. Until it merges and ships in a release, treat this as a capability that is landing — not one to build production systems against.
 :::
 
 ## The model, plainly
@@ -116,7 +116,7 @@ Conceptually, from the contract author's side:
 - **Sending** — a contract emits a message with a payload and a destination chain. The chain's validators sign it as part of normal operation; the contract does not manage keys or signatures itself.
 - **Receiving** — the destination chain verifies the aggregate signature before any contract code runs, so a contract that receives a message can rely on its origin. What it *does* with that message — accept, reject, apply policy — is ordinary contract logic.
 
-The host-function surface that exposes this to WASM contracts is part of the work in review; this page will document the concrete API once it ships. Follow [PR #64](https://github.com/MetalBlockchain/pulsevm/pull/64) for the implementation, and [Updates](/network/updates) for release status.
+The host-function surface that exposes this to WASM contracts is part of the work in review; this page will document the concrete API once it ships. Follow [Updates](/network/updates) for release status.
 
 ## Related
 

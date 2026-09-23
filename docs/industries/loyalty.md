@@ -1,5 +1,5 @@
 ---
-description: "Blockchain loyalty program — tokenized points and gift-card balances on a network the issuer owns: coalition partners share one ledger, partner settlement is instant, and the float and program data stay home."
+description: "Blockchain loyalty program: points as a liability you can read to the unit at any moment, partner redemption with a key that can only redeem, breakage by rule, and the lowest-risk way for a bank to run its own network without moving a single deposit."
 head:
   - - script
     - type: application/ld+json
@@ -10,123 +10,100 @@ head:
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "Do loyalty members need cryptocurrency or a wallet?",
+            "name": "How does finance see the points liability?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. The program sponsors network resources entirely — members earn and redeem in the brand's existing app with no token to buy, no gas prompt, and no seed phrase. The ledger is invisible plumbing under a normal loyalty experience."
+              "text": "Outstanding supply is the liability. The points contract keeps issued, redeemed and expired totals in its state, so finance reads the live figure at any moment, by partner if the contract records it, instead of estimating it from several systems at quarter end."
             }
           },
           {
             "@type": "Question",
-            "name": "How does settlement work in a coalition loyalty program?",
+            "name": "What can a partner's point-of-sale key do?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "As instant transfers on one shared ledger instead of periodic invoicing between partners. When a member earns at one brand and redeems at another, the inter-partner obligation settles as a final transfer between the partners' named accounts the moment the redemption happens — so the monthly cycle of billing files, disputed counts, and net settlement between coalition members collapses into state every partner already agrees on."
+              "text": "Accept redemptions and nothing else. The key sits on a permission linked to the redeem action only, and a redemption also needs the member's own signature. The partner key cannot issue points, move a member's balance or change a rule."
             }
           },
           {
             "@type": "Question",
-            "name": "Who keeps the float and breakage in a tokenized loyalty program?",
+            "name": "Why is loyalty a good first project for a bank?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The issuer — that is the point. Points and gift-card balances are issuer-defined liabilities on a ledger the issuer operates, so the float, the breakage economics, and the program data stay with the brand rather than accruing to an outside platform. The rules that drive those economics — expiry, transferability, redemption — are contract code the issuer owns and can change under its own governance."
+              "text": "Because it exercises the whole stack, your own validators, named customer accounts, passkey signing, scoped partner keys and multisig governance, without moving deposits or issuing a payment token. Whether and how a particular program is regulated depends on its design and jurisdiction, so your counsel decides, but it is typically a lighter lift than tokenized deposits."
             }
           },
           {
             "@type": "Question",
-            "name": "Can we control expiry, transferability, and redemption rules?",
+            "name": "Is a points program running on PulseVM today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes — they are contract policy, enforced by the ledger on every transaction: expiry schedules, earn caps, whether points transfer between members, which partners can redeem what. In a coalition, the rules are what the partners agree on, in contracts the consortium governs together, and every rule change is an auditable action rather than a platform vendor's release note."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Why put a loyalty program on a blockchain at all?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Because a points balance is issuer-controlled value moving between many parties — the same shape as tokenized deposits, with a fraction of the regulatory surface. One authoritative ledger gives members instant earn and redeem, gives partners settlement without reconciliation, and gives finance a real-time liability position instead of a quarter-end estimate. It is also the lowest-risk way to prove the stack an institution can later extend to deposits or settlement."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is PulseVM running in production today?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and asset semantics are proven; correctness is measured by differential testing against that production reference. Pilot deployments are run with Metallicus engineering."
+              "text": "No. PulseVM is at the test-network stage, and program pilots are run with Metallicus. The account model it uses runs in production on XPR Network."
             }
           }
         ]
       }
 ---
 
-# Loyalty & Rewards
+# Loyalty: points you can account for, and a network you can start with
 
-The lowest-regulatory on-ramp to the whole stack — and a real business in its own right. Loyalty points and gift-card balances are issuer-controlled value with meaningful float; tokenizing them keeps the float and the program data with the issuer.
+Points are a liability on the balance sheet, yet most programs can only estimate it, partner settlement arrives as a month-end file, and breakage is a guess. On PulseVM every point is issued, redeemed and expired as an action on a ledger the issuer owns, so the liability is a number you read, not one you model.
 
-## Why the primitives fit
+## How it works on PulseVM
 
-- **Issuer-defined assets**: points/credits with the rules you set (expiry, transferability, redemption) in contract code you own.
-- **No gas for customers**: the program sponsors resources; members earn and redeem with no crypto mechanics — just an app.
-- **[Instant finality](/guide/finality)** for earn/redeem; **named accounts** and free reads for clean reconciliation and partner settlement.
-- **Multi-brand coalitions** as a [consortium network](/institutions/enterprises): partners share a points ledger with rules they agree on.
+| Account | Role | Permission that matters |
+| --- | --- | --- |
+| `hbank` | Program owner (a bank, retailer or coalition) | `owner` and `active`: 2 of 3 officers; rule changes under multisig |
+| `hbank.pts` | Points contract | Issue, redeem and expiry rules the owner writes |
+| `hbank` `issue` permission | Rewards engine | Linked to `hbank.pts::issue` only, with a daily issuance budget in the contract |
+| `hbank` `breakage` permission | Finance | Linked to `hbank.pts::expire` only; retires points per the program's expiry rule |
+| `coffee.co` | Partner merchant | `pos` permission, linked to `hbank.pts::redeem` only |
+| `m.ana` | Member | Signs with a passkey from the bank's app; never holds a fee token |
 
-A great way to prove the stack in production before extending the same infrastructure to deposits or settlement.
+The program owner [stakes the resources](/guide/resources) for every member and partner, so nobody outside the bank touches a token to earn or redeem.
 
-## What this looks like in practice
-
-Picture a coalition of an airline, a hotel group, and a fuel retailer running a shared points program for two million members on their own PulseVM network. A member could earn points at the pump and redeem them against a hotel night an hour later — both actions instant and final inside each brand's own app, with no crypto mechanics anywhere. Underneath, the redemption that used to trigger a month-end invoice between partners settles itself: the moment the hotel accepts the points, the inter-partner obligation moves as a final transfer between **named accounts** — `fuelco.loyal → grandstay.stl, 41,200 PTS, member #` — so the coalition's billing-file exchange, disputed redemption counts, and net-settlement cycle collapse into state everyone already agrees on. Each brand's finance team reads its points liability live from [Hyperion](/institutions/technical-evaluators) — issuance, redemptions, expiry, breakage, by partner, for free — instead of estimating it at quarter-end from three systems. The program rules — expiry schedules, earn rates, which partner can redeem what — are contract policy the coalition governs together, changed under [multisig](/guide/multisig) with every change on the audit trail, not a platform vendor's roadmap. And because points are the same asset machinery as tokenized deposits with a fraction of the regulatory surface, the coalition is quietly proving the exact stack a member bank or the retailer's finance arm could later extend to real money. This is the designed capability — the shape a program pilot is built to prove.
+## Points as a liability, end to end
 
 ```mermaid
 flowchart LR
-  app["Brand apps<br/>earn & redeem"] <--> v
-  subgraph net["Coalition PulseVM network"]
-    v["Named validators<br/>partner brands"]
-  end
-  v --> hy["Hyperion<br/>liability & history"]
-  hy --> gl["Each partner's finance<br/>& CRM systems"]
+  eng["Rewards engine<br/>hbank@issue"] -- "issue: liability up" --> m["Member m.ana<br/>passkey"]
+  m -- "redeem: signed by m.ana and coffee.co@pos" --> r["hbank.pts burns the points<br/>records what hbank owes coffee.co"]
+  r -- "settle at the agreed rate" --> p["Partner coffee.co"]
+  fin["Finance<br/>hbank@breakage"] -- "expire per rule: breakage" --> x["Expired points retired<br/>liability down"]
 ```
 
-One shared points ledger; each brand keeps its own app, CRM, and finance systems, fed by free reads instead of partner billing files.
+- **Issuance** raises outstanding supply, and outstanding supply is the liability. Finance reads it live from the contract.
+- **Redemption** needs two signatures in one transaction: the member's passkey and the partner's `pos` key. The points burn and the obligation to the partner is recorded in the same step, final in about a second. The partner can be paid through the bank's existing rails against that record, so no cash has to move on chain.
+- **Breakage** is an action, not an estimate. `hbank@breakage` can only call `expire`, and the contract only retires points that meet the rule members were shown.
+- **Coalitions** share one points ledger, with each partner on its own scoped key and rule changes under [multisig](/guide/multisig).
 
-## Why not something else?
+## The lowest-regulatory on-ramp
 
-**Why not a public EVM chain?** Because members would need gas in a volatile token to move points, balances would sit at hex addresses, and the program's economics — earn rates, redemption patterns, liability — would be legible to anyone watching the chain, competitors included. Sponsored users, expiry logic, and partner permissions are all bespoke contract infrastructure to build and audit, and fees float with unrelated congestion. See [PulseVM vs Ethereum](/compare/ethereum).
+A bank that wants its own network does not have to start with deposits. A points program exercises everything that matters: validators the bank runs and admits, named customer accounts, passkey signing, partner keys linked to one action, governance under multisig. It does all of this without moving a deposit or issuing a payment token. Whether and how a given program is regulated depends on its design and jurisdiction, so counsel decides, but it is typically a lighter lift than tokenized deposits.
 
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks put the coalition in control of consensus but keep hex identities and framework-built program mechanics the partners' engineers assemble and own forever. Consortium DLT toolkits without production public lineage offer a governance problem and an integration project rather than a working system with native accounts, issuer-defined assets, and free reads hardened by real usage. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
+When the bank is ready, the same accounts, keys and validators carry the next asset. See [PulseVM for banks](/institutions/banks).
 
-**Why not a conventional loyalty platform?** Rented platforms work — with the program data, the integration surface, and often the economics accruing to the platform, coalition settlement running on invoices, and every rule change waiting on a vendor roadmap. Owning the ledger keeps the float, the breakage, and the member relationship with the brands — and the infrastructure competency it builds is the same one that later runs deposits and settlement.
+## Delegated authority: the partner's redemption key
+
+Every partner terminal holds a key that can do one thing: co-sign a redemption the member has already signed. It cannot issue points, move a balance or change a rule; the chain refuses it on any other action before contract code runs. Lose a terminal, and the partner rotates that one key without touching anyone's points. The same pattern runs live on XPR Network; see the [delegated authority case study](/guide/delegated-authority).
 
 ## Frequently asked questions
 
-### Do loyalty members need cryptocurrency or a wallet?
+### How does finance see the points liability?
 
-No. The program sponsors network [resources](/guide/resources) entirely — members earn and redeem in the brand's existing app with no token to buy, no gas prompt, and no seed phrase. The ledger is invisible plumbing under a normal loyalty experience.
+Outstanding supply is the liability. The points contract keeps issued, redeemed and expired totals in its state, so finance reads the live figure at any moment, by partner if the contract records it, instead of estimating it from several systems at quarter end.
 
-### How does settlement work in a coalition loyalty program?
+### What can a partner's point-of-sale key do?
 
-As instant transfers on one shared ledger instead of periodic invoicing between partners. When a member earns at one brand and redeems at another, the inter-partner obligation settles as a [final transfer](/guide/finality) between the partners' named accounts the moment the redemption happens — so the monthly cycle of billing files, disputed counts, and net settlement between coalition members collapses into state every partner already agrees on.
+Accept redemptions and nothing else. The key sits on a permission linked to the `redeem` action only, and a redemption also needs the member's own signature. The partner key cannot issue points, move a member's balance or change a rule.
 
-### Who keeps the float and breakage in a tokenized loyalty program?
+### Why is loyalty a good first project for a bank?
 
-The issuer — that is the point. Points and gift-card balances are issuer-defined liabilities on a ledger the issuer operates, so the float, the breakage economics, and the program data stay with the brand rather than accruing to an outside platform. The rules that drive those economics — expiry, transferability, redemption — are contract code the issuer owns and can change under its own governance.
+Because it exercises the whole stack, your own validators, named customer accounts, passkey signing, scoped partner keys and multisig governance, without moving deposits or issuing a payment token. Whether and how a particular program is regulated depends on its design and jurisdiction, so your counsel decides, but it is typically a lighter lift than tokenized deposits.
 
-### Can we control expiry, transferability, and redemption rules?
+### Is a points program running on PulseVM today?
 
-Yes — they are contract policy, enforced by the ledger on every transaction: expiry schedules, earn caps, whether points transfer between members, which partners can redeem what. In a coalition, the rules are what the partners agree on, in contracts the consortium governs together, and every rule change is an auditable action rather than a platform vendor's release note.
+No. PulseVM is at the test-network stage, and program pilots are run with Metallicus. The account model it uses runs in production on XPR Network.
 
-### Why put a loyalty program on a blockchain at all?
+## Next step
 
-Because a points balance is issuer-controlled value moving between many parties — the same shape as tokenized deposits, with a fraction of the regulatory surface. One authoritative ledger gives members instant earn and redeem, gives partners settlement without reconciliation, and gives finance a real-time liability position instead of a quarter-end estimate. It is also the lowest-risk way to prove the stack an institution can later extend to [deposits or settlement](/institutions/banks).
-
-### Is PulseVM running in production today?
-
-PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and asset semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
-
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
-
-## For your engineering team
-
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+Pick one earn rule, one partner and one expiry rule, and run them on a test network with your own validators. **[Talk to Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

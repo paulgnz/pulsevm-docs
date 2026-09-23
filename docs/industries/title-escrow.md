@@ -1,5 +1,5 @@
 ---
-description: "Blockchain for title and escrow — property closings with escrow as multisig policy, instant and irreversible disbursement to named accounts, and a permanent recorded chain of every approval."
+description: "Blockchain for title and escrow: each closing gets its own escrow account whose release needs 2 of 3 of buyer, seller and title agent, payout destinations fixed at opening, and disbursement final in about a second."
 head:
   - - script
     - type: application/ld+json
@@ -10,121 +10,97 @@ head:
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How does escrow work as a multisig policy?",
+            "name": "Can a spoofed email redirect closing funds?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The escrow account is a named account whose release permission is a weighted threshold across the parties — for example, escrow officer plus lender sign-off before any disbursement executes. Funds physically cannot move without the required approvals, because the requirement is enforced by the ledger itself rather than by a firm's internal procedure. Every proposal, approval, and release is permanently recorded with the named signer."
+              "text": "Not by changing an account number in an email. Payees are named accounts written into the deal record when the escrow opens, and changing them needs the same 2-of-3 approval as the release itself. A message asking to send funds elsewhere has nothing to act on."
             }
           },
           {
             "@type": "Question",
-            "name": "How does this address wire fraud in closings?",
+            "name": "Can the title agent release funds alone?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "By making the payee a verified named account instead of wire instructions in an email. Disbursements go to accounts established and verified before closing — a last-minute 'updated wire instructions' message has nothing to attack, because payment routing is ledger state under the escrow policy, not free-text a fraudster can substitute. Any change to a payout account is itself an auditable, multisig-controlled action."
+              "text": "No. The release permission needs two of three signatures from buyer, seller and title agent, and the escrow account's owner and active permissions need the same, so no single party, including the agent, can release funds or rewrite the rules mid-deal."
             }
           },
           {
             "@type": "Question",
-            "name": "Does this replace the county recorder or legal title?",
+            "name": "What happens if the deal falls through?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No — legal title remains with the recording jurisdiction. The network is the settlement and evidence layer: it holds the escrow, executes the disbursements, and keeps a tamper-evident, ordered record of every document fingerprint, approval, and payment in the closing. That record makes the recorder filing and the title-insurance file a read from one authoritative history rather than a reconstruction from emails and wire receipts."
+              "text": "The refund is a separate permission linked to a separate action. It returns the deposit to the buyer's named account and needs its own signers, set when the escrow opens; a contract deadline can also let the buyer reclaim an unreleased deposit after a date both sides agreed."
             }
           },
           {
             "@type": "Question",
-            "name": "When is a disbursement final?",
+            "name": "Is this used for closings today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The moment it executes — settlement is instant and irreversible, with no confirmation window, no reversal risk, and no waiting on wire cutoffs. A closing can complete at 6pm on a Friday with seller proceeds, payoffs, commissions, and fees all final in the same minute, each as a separate transfer to a named account on the permanent record."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do buyers, sellers, and agents need cryptocurrency?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. The title company or network operator stakes resources and sponsors all participants — parties interact through the closing portal they already use, funds move as tokenized settlement balances, and nobody buys a token, sees a gas prompt, or manages keys beyond their approval credential."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is PulseVM running in production today?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and settlement semantics are proven; correctness is measured by differential testing against that production reference. Pilot deployments are run with Metallicus engineering."
+              "text": "Not on PulseVM yet; it is at the test-network stage and pilots are run with Metallicus. Weighted multisig and linkauth, the two pieces this design rests on, run in production on XPR Network."
             }
           }
         ]
       }
 ---
 
-# Title & Escrow
+# Title and escrow: no single party can move the money
 
-Real-estate settlement is multi-party, dual-control, audit-everything, and painfully slow — exactly the workload deterministic settlement was made for.
+Closing funds are a target: a spoofed email with new wiring instructions, a disbursement sent to the wrong account, a release nobody can later prove was authorized. On PulseVM each closing gets its own escrow account whose rules are enforced by the chain: release needs two of the three parties, payees are fixed when the escrow opens, and disbursement is final in about a second.
 
-## Why the primitives fit
+## How it works on PulseVM
 
-- **[Multisig & dual control](/guide/multisig)** are native: escrow release requiring buyer, seller, and agent approvals is a permission threshold, not a custom contract platform.
-- **Named accounts** map to the parties — title company, lender, buyer, seller, agent — with delegated authority where a firm acts for a client.
-- **[Instant, irreversible finality](/guide/finality)**: funds and title records move together and settle permanently, with no reorg or confirmation-window ambiguity.
-- **Complete audit trail** with named identities — every proposal, approval, and disbursement, permanently recorded for compliance.
+| Account | Role | Permission that matters |
+| --- | --- | --- |
+| `esc.maple12` | Escrow account for one closing | `owner`, `active`, `release` and `refund`, shown below |
+| `escrow.ttl` | Escrow contract | Holds the deposit and the deal record (price, payees, payoff and fee lines); acts only when `esc.maple12` authorizes it, then pays with its `pulse.code` grant |
+| `buyer.jones` | Buyer | Signs with a passkey from the agent's app |
+| `seller.lee` | Seller | Signs with a passkey |
+| `titleco` | Title agent | `closer` permission held by the closing officer; `titleco@active` creates and resources each escrow account |
 
-## What this looks like in practice
+The title agent [stakes the resources](/guide/resources) for every account, so buyers and sellers sign with a passkey ([WebAuthn keys are verified by the chain](/guide/accounts-permissions)) and never hold a token.
 
-Picture a title company handling 400 closings a month on a network operated with its underwriter and partner lenders. For each closing, escrow could be a **named account** — `esc.4417elm` — whose release rules are the deal itself: no disbursement executes without the escrow officer and the lender's named sign-off, because the threshold is enforced by the ledger, not by office procedure. The buyer's funds arrive as tokenized settlement balances and sit visibly in escrow, so "did the wire land?" is a free read instead of a phone call. On closing day, the settlement statement becomes a proposed batch of transfers — seller proceeds, loan payoff, commissions, recording fees — each to an account verified days earlier; the officer proposes, the lender approves, and every disbursement executes [instantly and irreversibly](/guide/finality) in the same minute, at 6pm on a Friday if that's when the deal signs. The classic wire-fraud vector — a spoofed email with "updated" instructions — has nothing to attack, because payees are ledger state under [multisig](/guide/multisig) control, and changing one is itself an auditable action. Afterward, the closing file assembles itself: every document fingerprint, approval, and payment in one ordered history on [Hyperion](/institutions/technical-evaluators), read for free by the auditor, the underwriter, and the regulator examining the escrow account. Legal title still records with the county; the network is the settlement and evidence layer underneath it. This is the designed capability — the shape a pilot is built to prove.
+## The escrow account's permission tree
 
 ```mermaid
-flowchart LR
-  p["Closing portal<br/>buyer / seller / agents"] <--> v
-  subgraph net["Title-network PulseVM"]
-    v["Named validators<br/>title co + underwriter + lenders"]
-  end
-  v --> hy["Hyperion<br/>closing history & audit"]
-  hy --> gl["Escrow accounting<br/>& recorder filing"]
+flowchart TD
+  owner["owner<br/>threshold 2<br/>buyer.jones 1 · seller.lee 1 · titleco@closer 1"] --> active["active<br/>threshold 2<br/>same three signers"]
+  active --> rel["release<br/>threshold 2<br/>buyer.jones 1 · seller.lee 1 · titleco@closer 1"]
+  active --> ref["refund<br/>threshold 2<br/>seller.lee 1 · titleco@closer 1"]
+  rel -. "linkauth" .-> ra["escrow.ttl::release<br/>pays seller, lender payoff and fees<br/>to payees fixed at opening"]
+  ref -. "linkauth" .-> fa["escrow.ttl::refund<br/>returns the deposit to buyer.jones"]
 ```
 
-Escrow, approvals, and disbursement finality live on the ledger; the county recorder and the firm's escrow accounting consume its history rather than reconstructing it.
+How that reads at the closing table:
 
-## Why not something else?
+- **Any two of three release.** Buyer and seller, or either with the title agent. The chain counts weights and refuses a release with one signature.
+- **Refund is its own permission, linked to its own action.** Signatures on `release` do not authorize `refund`, and `refund` cannot pay the seller: each permission is refused on the other's action before contract code runs. Only the parent permissions sit above both, and they need 2 of 3 as well.
+- **Nobody rewrites the rules mid-deal.** `owner` and `active` need the same 2 of 3, so the agent cannot swap a key or edit payees alone.
+- **Payees are named accounts, fixed at opening.** An email asking for "updated wiring instructions" has nothing to change.
+- **Every signature is on the record.** Who approved, when, and what was paid to whom is permanent and readable by the underwriter or auditor at any time.
 
-**Why not a public EVM chain?** Because a closing needs accountable named parties, dual control, and settlement certainty — and a public chain offers hex addresses, contract-wallet multisig you deploy and audit yourself, fees that spike with unrelated congestion, and probabilistic settlement language no escrow instruction should inherit. Client funds on infrastructure nobody in the transaction governs is a hard conversation with a regulator. See [PulseVM vs Ethereum](/compare/ethereum).
+## Delegated authority: the closing officer
 
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks give the operator consensus control but keep the primitives that fight this workload — identity, approval thresholds, and delegation all become framework code the title company's integrators build and own forever. Consortium DLT toolkits without production public lineage deliver a governance problem and a project, not a working escrow system with native accounts, weighted permissions, and audit-grade history. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
-
-**Why not keep wires and escrow accounts as they are?** They work — through cutoff times, same-day-wire anxiety, fraud exposure in emailed instructions, and a closing file assembled after the fact from receipts and PDFs. Escrow's control model is already dual-control and audit-everything; today it is enforced by procedure and reconstructed by paperwork. A ledger enforces it by construction and records it as a side effect.
+The agent's closing officer, or a closing system, signs as `titleco@closer`. That permission counts as one vote on this closing's `release` and `refund`, and does nothing on its own. It is the same idea as the operator key in the [delegated authority case study](/guide/delegated-authority): power scoped to one job, enforced by the chain.
 
 ## Frequently asked questions
 
-### How does escrow work as a multisig policy?
+### Can a spoofed email redirect closing funds?
 
-The escrow account is a named account whose release permission is a [weighted threshold](/guide/multisig) across the parties — for example, escrow officer plus lender sign-off before any disbursement executes. Funds physically cannot move without the required approvals, because the requirement is enforced by the ledger itself rather than by a firm's internal procedure. Every proposal, approval, and release is permanently recorded with the named signer.
+Not by changing an account number in an email. Payees are named accounts written into the deal record when the escrow opens, and changing them needs the same 2-of-3 approval as the release itself. A message asking to send funds elsewhere has nothing to act on.
 
-### How does this address wire fraud in closings?
+### Can the title agent release funds alone?
 
-By making the payee a verified named account instead of wire instructions in an email. Disbursements go to accounts established and verified before closing — a last-minute "updated wire instructions" message has nothing to attack, because payment routing is ledger state under the escrow policy, not free-text a fraudster can substitute. Any change to a payout account is itself an auditable, multisig-controlled action.
+No. The release permission needs two of three signatures from buyer, seller and title agent, and the escrow account's `owner` and `active` permissions need the same, so no single party, including the agent, can release funds or rewrite the rules mid-deal.
 
-### Does this replace the county recorder or legal title?
+### What happens if the deal falls through?
 
-No — legal title remains with the recording jurisdiction. The network is the settlement and evidence layer: it holds the escrow, executes the disbursements, and keeps a tamper-evident, ordered record of every document fingerprint, approval, and payment in the closing. That record makes the recorder filing and the title-insurance file a read from one authoritative history rather than a reconstruction from emails and wire receipts.
+The refund is a separate permission linked to a separate action. It returns the deposit to the buyer's named account and needs its own signers, set when the escrow opens; a contract deadline can also let the buyer reclaim an unreleased deposit after a date both sides agreed.
 
-### When is a disbursement final?
+### Is this used for closings today?
 
-The moment it executes — settlement is [instant and irreversible](/guide/finality), with no confirmation window, no reversal risk, and no waiting on wire cutoffs. A closing can complete at 6pm on a Friday with seller proceeds, payoffs, commissions, and fees all final in the same minute, each as a separate transfer to a named account on the permanent record.
+Not on PulseVM yet; it is at the test-network stage and pilots are run with Metallicus. [Weighted multisig](/guide/multisig) and `linkauth`, the two pieces this design rests on, run in production on XPR Network.
 
-### Do buyers, sellers, and agents need cryptocurrency?
+## Next step
 
-No. The title company or network operator stakes [resources](/guide/resources) and sponsors all participants — parties interact through the closing portal they already use, funds move as tokenized settlement balances, and nobody buys a token, sees a gas prompt, or manages keys beyond their approval credential.
-
-### Is PulseVM running in production today?
-
-PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and settlement semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
-
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
-
-## For your engineering team
-
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+Take one closing type and model its escrow permissions on a test network. **[Talk to Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

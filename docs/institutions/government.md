@@ -60,39 +60,54 @@ head:
       }
 ---
 
-# For Government & Governance Networks
+# For government and governance networks
 
-Registries, disbursements, inter-agency settlement, and procurement audit trails want exactly what this environment provides:
+**Public infrastructure the authority owns: its nodes, its jurisdiction, its rules.**
 
-- **Named entities and delegated authority** — agencies, departments, and officers as accounts and permissions
-- **Irreversible records** with complete, freely readable audit trails
-- **Rules set by the deploying authority** — system contracts the operator owns
-- **Accountable validators** — named operators the authority admits and can remove, which is how public institutions already work
-- **Sovereignty** — the network, its data residency, and its rule-set are domestically operated; no dependency on a foreign public chain's governance
+Registries, disbursements, inter-agency settlement and procurement audit trails need a shared record that no single agency can quietly change and no foreign network can govern. A PulseVM network gives the authority exactly that:
 
-## What this looks like in practice
+- **Sovereignty.** The network, its data residency and its rule-set are operated inside the jurisdiction, with no dependency on a foreign public chain's governance, token or fee market.
+- **Accountable validators.** Named operators the authority admits and can remove, which is how public institutions already work.
+- **Named entities and delegated authority.** Agencies, departments and officers are accounts and permissions. A disbursement key can be bound with `linkauth` to one contract action and refused on anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
+- **Irreversible records.** Final in about a second, with no reorganizations, and every action carries its authorization chain.
+- **Rules set by the deploying authority.** System contracts the operator owns and updates when the law changes.
 
-Picture a state agency running a disbursement program for 1.2 million beneficiaries on its own PulseVM network. A beneficiary could receive a payment the moment eligibility is confirmed — instant, irreversible, at any hour — through the agency's existing portal, with no token to buy and no crypto mechanics to explain. Program operations would watch a ledger of **named accounts** performing human-readable actions: a disbursement reads as `agency.social → maria.g, 840 UNITS, case 20931`, not a hex address emitting an event log, so an anomalous payment is legible the moment it appears. Every disbursement carries its authorization chain — the officer who proposed it, the supervisor who approved it under [multisig](/guide/multisig), the policy contract that executed it — permanently recorded, which turns a freedom-of-information request or an auditor-general review into a query against [Hyperion](/institutions/technical-evaluators) instead of a records project. If a court orders funds frozen, compliance executes a policy action in contracts the agency owns, by named officers, on the audit trail — not a support ticket to someone else's chain. The validators are the agency and its peer institutions — a treasury node, a comptroller node, a state-audit node — so the infrastructure, the data residency, and the rule-set stay inside the jurisdiction. This is the designed capability — the shape a pilot deployment is built to prove.
+## Who runs what, and who can read it
+
+A sovereign network is a list of named operators, each in a known place. An example for a state disbursement program:
+
+| Node | Operated by | Hosted | Role | Can read |
+|---|---|---|---|---|
+| Validator 1 | Treasury | Government data centre, in-state | Validates, holds disbursement accounts | Everything on the network |
+| Validator 2 | Program agency | Government data centre, in-state | Validates, proposes disbursements | Everything on the network |
+| Validator 3 | Comptroller | Separate in-state site | Validates, co-approves above a threshold | Everything on the network |
+| Validator 4 | State audit office | Separate in-state site | Validates, independent copy of the record | Everything on the network |
+| History node (Hyperion) | Treasury or its contractor | Domestic cloud region under contract | Serves history and reporting APIs | What each read grant allows |
+| Transparency feed | Program agency | Public web | Publishes the aggregates policy calls for | The public, aggregates only |
+
+Data residency is wherever the validators are. No transaction leaves that [privacy boundary](/guide/privacy) unless the authority publishes it. Oversight bodies get a read grant, not a records project.
+
+## A disbursement, with its authorization chain
 
 ```mermaid
-flowchart LR
-  app["Agency portal<br/>citizens & officers"] <--> v
-  subgraph net["Sovereign PulseVM network"]
-    v["Named validators<br/>agencies & audit bodies"]
-  end
-  v --> hy["Hyperion<br/>history & oversight"]
-  hy --> gl["Treasury & program<br/>systems of record"]
+sequenceDiagram
+  autonumber
+  participant O as Case officer
+  participant S as Supervisor
+  participant P as agency.social (policy contract)
+  participant B as Beneficiary maria.g
+  participant A as Auditor-general
+  O->>P: Propose 840 UNITS, case 20931
+  S->>P: Approve (multisig threshold met)
+  P->>B: Payment, final in about a second
+  A->>P: Query the full chain of who proposed, approved, executed
 ```
 
-The chain is the authoritative disbursement and registry ledger; existing treasury and case-management systems remain in place; Hyperion feeds oversight, reporting, and public transparency from the same free reads.
+A beneficiary is paid the moment eligibility is confirmed, at any hour, through the agency's existing portal, with no token to buy. The disbursement reads as `agency.social → maria.g, 840 UNITS, case 20931`, so an anomalous payment is legible the moment it appears. A freedom-of-information request or an auditor-general review becomes a query against Hyperion. If a court orders funds frozen, named officers execute a policy action in contracts the agency owns, on the audit trail. This is the designed capability, and the shape a pilot is built to prove.
 
 ## Why not something else?
 
-**Why not a public EVM chain?** Because a public program would then depend on a foreign network's governance, fee market, and validator set — payment costs spike with someone else's speculation, records live at hex addresses, and settlement is probabilistic until enough blocks pass. A government cannot ask a neutral global protocol to honor a court order, and every institutional control becomes bespoke smart-contract infrastructure to build and audit. See [PulseVM vs Ethereum](/compare/ethereum).
-
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks give you consensus control but inherit primitives that fight public administration — hex identities, contract-wallet multisig, paymaster frameworks — so your integrators build and own the institutional layer forever. Consortium DLT toolkits without production public lineage hand an agency a governance problem and a multi-year integration project, not a working system: no native account and permission model, no battle-tested system contracts, no ecosystem hardened by real usage. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
-
-**Why not stay with existing systems?** Existing registries and disbursement rails work — through batch cycles, inter-agency file exchange, and reconciliation departments, with audit assembled after the fact from separate systems that can disagree. A shared, irreversible ledger makes the record and the settlement the same event: audit is a property of the infrastructure rather than a periodic exercise, and inter-agency reconciliation ceases to exist as a category of work.
+A public chain makes a public program depend on a foreign network's governance, fee market and validators, and a neutral global protocol cannot honour a court order. Generic permissioned DLTs leave integrators to build accounts, multisig and fee sponsorship and own them forever. Existing systems work, through batch cycles and inter-agency file exchange, with audit assembled after the fact from systems that can disagree. On a shared ledger the record and the settlement are the same event, so audit becomes a property of the infrastructure. More in [Objections, answered](/institutions/objections).
 
 ## Frequently asked questions
 
@@ -120,10 +135,14 @@ Complete, human-readable history — every action, by named account, queryable i
 
 PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and contract semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
+## Next step
+
+Start with a pilot between two or three agencies: named validators in-jurisdiction, a test program with synthetic beneficiaries, and an oversight body holding a read grant from day one. See [Run a 90-day pilot](/institutions/pilot) and the [buyer's checklist](/institutions/checklist).
+
+**[Talk to us: contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
 
 ## For your engineering team
 
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+- **[For technical evaluators](/institutions/technical-evaluators)**: architecture, integration surface, operations and what is shipped today.
+- **[Privacy and confidentiality](/guide/privacy)**: the network boundary and what sits inside it.
+- **[Get started](/build/get-started)**: stand up against the public test network and deploy a first contract.

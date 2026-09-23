@@ -2,7 +2,7 @@
 description: "Native multisig on PulseVM — weighted, threshold approvals on any account as a protocol primitive, not a smart-contract wallet you deploy and audit."
 ---
 
-# Native Multisig
+# Native multisig
 
 On-chain multisig in PulseVM is not a smart-contract product — it is a protocol citizen, and arguably the most institution-shaped feature in the stack.
 
@@ -35,10 +35,22 @@ sequenceDiagram
 
 - Wire-release requiring 2-of-3 treasury officers
 - System-contract upgrades requiring a majority of consortium members
-- Parameter changes requiring league/board sign-off
-- Risk committee or board approval with time-delayed (wait-weighted) execution
+- Risk committee or board approval before a sensitive change executes
 
 All the same primitive. No separate smart-contract multisig platform to deploy, audit, and maintain — and no calldata-blob signing ceremonies.
+
+## Combine it with a one-job key
+
+Multisig and [`linkauth`](/guide/accounts-permissions#give-a-key-one-job) compose. A common institutional shape:
+
+| Permission | Who holds it | What it can do |
+|:---|:---|:---|
+| `owner` | Board, 3 of 5 | Replace any other permission |
+| `active` | Operations, 2 of 3 | Everything day to day |
+| `payments` | One processor key | Only `token::transfer`, and only within limits your contract enforces |
+| `release` | Treasury, 2 of 3 | Only the large-payment release action |
+
+Small payments flow with one key that can do nothing else. Large ones need two officers. The chain enforces both. See [Delegated authority with hard limits](/guide/delegated-authority) for this pattern in production.
 
 ---
 

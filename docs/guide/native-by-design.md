@@ -2,7 +2,7 @@
 description: "Native account abstraction, multisig, batched payments and passkey keys — built into PulseVM, not retrofitted onto Ethereum like EVM chains."
 ---
 
-# Native by Design
+# Native by design
 
 Account abstraction has been the EVM world's decade-long retrofit project — smart-contract wallets, bundlers, paymasters, signature precompiles, each a layer bolted on to approximate what financial applications need. Newer payments chains are now *enshrining* those same features one by one.
 
@@ -21,8 +21,8 @@ PulseVM didn't retrofit them. They are the base model.
 | **Batched atomic operations** | Native — a transaction is many actions, all-or-nothing | `multicall` / 4337 batching |
 | **Fee sponsorship** | Native — apps stake resources for their users | Paymaster contracts + relayers |
 | **No gas for end users** | Native — staked resources, users hold nothing | Gas required (even when paid in a stablecoin) |
-| **Passkey / hardware-key sign-in** | R1 (secure enclave, HSM) and WebAuthn (passkey) keys verified by the chain ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), on `main`) | A contract-wallet verifier or the P-256 precompile |
-| **Asset-level controls** | Policy at the system-contract layer | Per-token bespoke contract code |
+| **Passkey / hardware-key sign-in** | R1 (secure enclave, HSM) and WebAuthn (passkey) keys verified by the chain itself | A contract-wallet verifier or the P-256 precompile |
+| **Asset-level controls** | Policy you write once into the system and token contracts you own | Per-token bespoke contract code |
 
 ## Why "native" matters beyond elegance
 
@@ -34,6 +34,6 @@ Every "bolted on" cell in that table is **infrastructure your team owns and audi
 
 The difference isn't cosmetic. It's the difference between *configuring* your institution's authorization, settlement, and onboarding model — and *building and maintaining a platform* to express it.
 
-## The short version
+## See it working
 
-What other chains are still adding, PulseVM has had from the start. Account abstraction isn't a feature here — it's the foundation.
+What other chains are still adding, PulseVM has had from the start. The clearest example: a trading service that gives its bot a key able to call one action, with limits the chain enforces and no way to withdraw. [Read the case study](/guide/delegated-authority), or go straight to the [permission recipes](/guide/accounts-permissions#recipes).

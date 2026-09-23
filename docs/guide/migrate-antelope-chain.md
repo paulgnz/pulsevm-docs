@@ -59,11 +59,11 @@ Any Antelope chain on the **Leap 5.0.3 lineage** — a public network or a priva
 This page describes the capability and the evidence behind it. It is a technical demonstration of what PulseVM can do — not an announcement about any production network's plans.
 
 ::: warning Status: proposed process
-The cutover ceremony described here is a **proposed migration flow**, built and rehearsed by the community ([block producer protonnz](https://github.com/paulgnz)). The cutover agent is open source — **[github.com/paulgnz/pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — and core pieces are merged upstream ([snapshot reader — PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)); the core-team import path merged as [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) on 2026-09-14. The **authoritative migration plan and documentation will come from Metallicus** (PulseVM's core team); this page and tooling are a community demonstration in the meantime. Any production use on a real network is subject to Metallicus and that network's own governance — nothing here schedules or commits any network to migrate.
+The cutover ceremony described here is a **proposed migration flow**, built and rehearsed by the community ([block producer protonnz](https://github.com/paulgnz)). The cutover agent is open source — **[github.com/paulgnz/pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — and the core pieces are now part of PulseVM: the snapshot reader, and the core team's own import path, merged on 2026-09-14. The **authoritative migration plan and documentation will come from Metallicus** (PulseVM's core team); this page and tooling are a community demonstration in the meantime. Any production use on a real network is subject to Metallicus and that network's own governance — nothing here schedules or commits any network to migrate.
 :::
 
 <ProofBand :items="[
-  { figure: '401,005,383', text: 'XPR Network mainnet blocks replayed on PulseVM, genesis to tip, before the migration path was merged.', source: 'Pull request #61', href: 'https://github.com/MetalBlockchain/pulsevm/pull/61' },
+  { figure: '401,005,383', text: 'XPR Network mainnet blocks replayed on PulseVM, genesis to tip, before the migration path was merged.', source: 'Where each piece stands', href: '#where-each-piece-stands' },
   { figure: '822,887', text: 'table rows imported from one XPR snapshot by two independent implementations, with identical hashes.', source: 'Cross-verification', href: '#the-living-proof' },
   { figure: '0.75 s', text: 'to move live traffic from nodeos to PulseVM behind the same URL. Reads stayed 99.8% available across 22 rehearsals.', source: 'Rehearsal results', href: '#rehearsed-again-—-on-a-real-chain-s-state-from-the-operator-s-side' },
   { figure: '1:1', text: 'A public network running an exact import of XPR testnet state. Existing keys sign and existing contracts run.', source: 'Demo network', href: '/network/one-to-one-demo' },
@@ -94,11 +94,11 @@ flowchart TB
   d -- no --> f["Refuse — before ever joining the network"]
 ```
 
-**Snapshot in, chain out.** PulseVM boots a chain directly from an Antelope portable chainstate snapshot: point the node's config at the file (`snapshot_path`) and genesis *is* the imported state. The snapshot reader is upstream PulseVM code ([`pulsevm_snapshot`, PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) — merged).
+**Snapshot in, chain out.** PulseVM boots a chain directly from an Antelope portable chainstate snapshot: point the node's config at the file (`snapshot_path`) and genesis *is* the imported state. The snapshot reader (`pulsevm_snapshot`) is part of PulseVM.
 
 **Every node verifies; nobody is trusted.** Each validator computes **state fingerprints** (the cutover agent's 19 tables, plus upstream's 21-table gate) over its imported state and compares them against published goldens before joining consensus. There is no trusted snapshot publisher anywhere in the flow: a node whose import disagrees with the network **fails its own verification first**, before it can ever contribute a block. In a multi-validator ceremony, each operator takes the snapshot from their *own* source node — the fingerprints prove that everyone starts from identical state, byte for byte.
 
-**Cross-verified by two independent implementations.** The strongest evidence for import correctness now comes from outside this project: the PulseVM core team built [their own import pipeline](https://github.com/MetalBlockchain/pulsevm/pull/61) — different authors, different source encoding (SHiP state deltas vs. the portable snapshot, no shared import code) — and running both against the same XPR testnet snapshot produced **byte-identical state, including row order, on every table both pipelines carry**: all 32,496 accounts, 633 contracts, 822,887 contract rows and 1.13 million index rows, with identical SHA-256s measured by the upstream tooling ([full results](https://github.com/MetalBlockchain/pulsevm/pull/61#issuecomment-5485633926)). Two independently-written importers agreeing byte-for-byte is the kind of correctness evidence no single implementation can provide.
+**Cross-verified by two independent implementations.** The strongest evidence for import correctness now comes from outside this project: the PulseVM core team built their own import pipeline — different authors, different source encoding (SHiP state deltas vs. the portable snapshot, no shared import code) — and running both against the same XPR testnet snapshot produced **byte-identical state, including row order, on every table both pipelines carry**: all 32,496 accounts, 633 contracts, 822,887 contract rows and 1.13 million index rows, with identical SHA-256s measured by the upstream tooling ([published results](https://github.com/MetalBlockchain/pulsevm/pull/61#issuecomment-5485633926)). Two independently-written importers agreeing byte-for-byte is the kind of correctness evidence no single implementation can provide.
 
 **History before the cut federates.** The new chain doesn't carry old blocks; it doesn't need to. Explorers and history APIs query the source chain's Hyperion for everything up to the snapshot block and the new chain's hyperion-rs for everything after, stitched into one timeline.
 
@@ -204,18 +204,18 @@ the honest claim is repeatability and anatomy, not a universal constant.
 
 | Component | Status |
 |---|---|
-| Snapshot reader (`pulsevm_snapshot`) | **Merged upstream** — [PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53) |
-| Core-team state import + multi-node boot | **Merged upstream** — [PR #61](https://github.com/MetalBlockchain/pulsevm/pull/61) (Metallicus, 2026-09-14): chainbase→Arena migration, a 21-table verification gate (including the unexpired-transaction replay-protection set), and a five-node boot path. The same branch replayed **all 401,005,383 blocks of XPR Network mainnet** on PulseVM before merging — the strongest 1:1 execution proof to date. The community bulk writer ([PR #58](https://github.com/MetalBlockchain/pulsevm/pull/58)) is superseded by it |
+| Snapshot reader (`pulsevm_snapshot`) | **In PulseVM** |
+| Core-team state import + multi-node boot | **In PulseVM** (Metallicus, 2026-09-14): chainbase→Arena migration, a 21-table verification gate (including the unexpired-transaction replay-protection set), and a five-node boot path. The same branch replayed **all 401,005,383 blocks of XPR Network mainnet** on PulseVM before merging — the strongest 1:1 execution proof to date. |
 | 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
 | Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
-| R1 / WebAuthn key verification | **Merged upstream** — [PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69) (2026-09-01), closes [#54](https://github.com/MetalBlockchain/pulsevm/issues/54) |
+| R1 / WebAuthn key verification | **In PulseVM** (2026-09-01) |
 | Multi-validator cutover ceremony | Next milestone — each validator snapshots and verifies independently |
 
 ## FAQ
 
 **Do users need new keys?**
-No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the demo network. K1, R1, and WebAuthn passkey keys are all supported — R1/WebAuthn verification merged upstream in [#69](https://github.com/MetalBlockchain/pulsevm/pull/69) (2026-09-01).
+No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the demo network. K1, R1 and WebAuthn passkey keys are all supported.
 
 **Do dapps need code changes?**
 The endpoint URL. That's the list. chain_id, keys, contracts, ABIs, and table shapes are unchanged; `/v1/chain` REST is served through a compatibility gateway so eosjs/WharfKit clients work as-is; hyperion-rs serves drop-in Hyperion v2 history shapes.
@@ -233,7 +233,7 @@ No. The migration imports chain **state** — accounts, permissions, contracts, 
 Yes — same path, same result. Savanna changed Antelope's *consensus* state (finalizer policies, finality core), and that is exactly the part the import discards; the *contract* state is the same chainbase rows. Three things are specific to a Savanna source and are tracked as roadmap work rather than demonstrated today: reading the Spring snapshot format (chainstate version 8), serving the `bls_*` host functions of `BLS_PRIMITIVES2` (they share the BLS12-381 code PulseVM's Warp support brings in), and accepting the system contract's `set_finalizers` / `set_proposed_producers_ex` calls, which have no consensus meaning on Snowman and are recorded rather than acted on. Deferred transactions are already disabled on Savanna chains, which makes that import simpler, not harder. Finality after the move is at least what Savanna provides: about a second, with no reversible window at all. Where each Antelope mainnet stands today is tabulated on [Antelope Chain Status](/compare/antelope-chains).
 
 **Is this production-ready today?**
-The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path ([#61](https://github.com/MetalBlockchain/pulsevm/pull/61), merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The demo network is live and the ceremony is rehearsed with automatic rollback. Not yet done: a tagged release carrying these merges (v0.7.1 predates them), and a multi-validator cutover rehearsal. This page will keep pace as each lands.
+The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path (merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The demo network is live and the ceremony is rehearsed with automatic rollback. Not yet done: a tagged release carrying these merges (v0.7.1 predates them), and a multi-validator cutover rehearsal. This page will keep pace as each lands.
 
 ## Related
 

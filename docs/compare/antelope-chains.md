@@ -3,7 +3,7 @@ description: "Where each Antelope mainnet stands today — node software, Savann
 aside: false
 ---
 
-# Antelope Chain Status
+# Antelope chain status
 
 What each Antelope mainnet is running today, measured from its own public API nodes, and what that means for the [state-import migration path](/guide/migrate-antelope-chain). This is a compatibility reference, not a roadmap of who is migrating.
 
@@ -52,11 +52,15 @@ The migration imports chain **state**: accounts, permissions, contract code, tab
 ## Reading the numbers
 
 - **Finality** is head minus last-irreversible block as reported by the nodes. Around 330 blocks is classic DPoS finality, about 165 s at 0.5 s blocks; 2 blocks is Savanna.
-- **Features** is the count from `get_activated_protocol_features`. One of XPR's, `CRYPTO_PRIMITIVES`, is activated on XPR and WAX but its host functions are not yet served by PulseVM; an audit of every contract deployed on XPR testnet found none that import them, and serving them is tracked work. (`GET_BLOCK_NUM` has been served since [#61](https://github.com/MetalBlockchain/pulsevm/pull/61), 2026-09-14.)
+- **Features** is the count from `get_activated_protocol_features`. One of XPR's, `CRYPTO_PRIMITIVES`, is activated on XPR and WAX but its host functions are not yet served by PulseVM; an audit of every contract deployed on XPR testnet found none that import them, and serving them is tracked work. (`GET_BLOCK_NUM` is served.)
 - **Node software** mixes are normal on a live network. A chain can run Spring-based nodes without activating Savanna, as WAX does today.
+
+## Next step
+
+If your chain is in the **Demonstrated** or **Same path as XPR** rows, the import path exists today: your accounts, keys, contracts and balances arrive intact on a network with finality in about a second. Read the [migration guide](/guide/migrate-antelope-chain), see the result live on the [1:1 demo network](/network/one-to-one-demo), or [talk to Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) about a rehearsal against your chain's state.
 
 ## Related
 
 - [Migrating an Antelope Chain to PulseVM](/guide/migrate-antelope-chain) — the path, the rehearsed ceremony, and the FAQ
-- [Antelope Compatibility](/compare/antelope) — host-function and tooling surface
-- [The 1:1 Demo Network](/network/one-to-one-demo) — the demonstrated import, live
+- [Antelope compatibility](/compare/antelope) — host-function and tooling surface
+- [The 1:1 demo network](/network/one-to-one-demo) — the demonstrated import, live

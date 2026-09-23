@@ -4,7 +4,7 @@ description: "PulseVM accounts are readable names with a tree of permissions. An
 
 # Accounts and permissions
 
-On PulseVM an account is a name, not a key. Each account holds a tree of permissions. Each permission is a threshold over keys, other accounts and time delays, and any permission can be bound to exactly one contract action. Multisig, scoped bot keys, key rotation and recovery are things you configure with two system actions. You do not deploy or audit a contract to get them.
+On PulseVM an account is a name, not a key. Each account holds a tree of permissions. Each permission is a threshold over keys and other accounts, and any permission can be bound to exactly one contract action. Multisig, scoped bot keys, key rotation and recovery are things you configure with two system actions. You do not deploy or audit a contract to get them.
 
 This is the part of PulseVM that people who build on it talk about first.
 
@@ -26,9 +26,8 @@ flowchart TD
 
 A permission is satisfied by a weighted set of factors that must reach its threshold:
 
-- **Keys**: K1 (secp256k1), R1 (secp256r1, for HSMs and secure enclaves) and WebAuthn (passkeys). R1 and WebAuthn are verified by the chain itself ([#69](https://github.com/MetalBlockchain/pulsevm/pull/69), on `main`).
+- **Keys**: K1 (secp256k1), R1 (secp256r1, for HSMs and secure enclaves) and WebAuthn (passkeys). R1 and WebAuthn are verified by the chain itself, so a passkey can sign for an account directly.
 - **Other accounts**: `subsidiary@owner` can be satisfied by `parent@active`, which is how institutional recovery and delegation work.
-- **Time delays**: a factor that only counts after a wait, for changes that should never be instant.
 
 ## Give a key one job
 

@@ -39,7 +39,7 @@ pulse-ts key:add             # import the private key into the local, encrypted 
 ```
 
 - **On the demo network**, import the key of an XPR Network testnet account you already own and skip the next step.
-- **On Alpine**, account creation is an authorized action. Ask in the [Telegram group](https://t.me/protonnz) or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) with your public key. You get back a named account, such as `yourname1`, with `owner` and `active` set to your key and starter resources.
+- **On Alpine**, account creation is an authorized action. Ask in the [Telegram group](https://t.me/+N1mAvoUDbtVmNTBh) or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) with your public key. You get back a named account, such as `yourname1`, with `owner` and `active` set to your key and starter resources.
 - **On your own network**, you hold the creator authority and create accounts yourself.
 
 ## 4. Point the CLI at the network
@@ -76,7 +76,7 @@ Now `yourname1@bot` can call `greet` and nothing else. Try a token transfer with
 
 | Error | Cause | Fix |
 |---|---|---|
-| `eosio assert failed: <msg>` | A contract check failed | Read the message. It names the failing check |
+| `pulse assert failed: <msg>` or `eosio assert failed: <msg>` | A contract check failed (Rust and C++ contracts word it differently) | Read the message. It names the failing check |
 | `action declares irrelevant authority` | You signed with a permission that is not linked to that action | Sign with the linked permission, or with `active` |
 | `missing authority of <account>` | The signing key is not on the permission you named | Check `-a account@permission` and `pulse-ts account <name>` |
 | Insufficient RAM | The account is too small for the contract | Buy RAM, or ask for more on a testnet |

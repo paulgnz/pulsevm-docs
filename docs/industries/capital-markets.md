@@ -1,5 +1,5 @@
 ---
-description: "Blockchain for tokenized securities and capital markets — instrument issuance with native transfer controls, atomic delivery-versus-payment settlement with instant finality, and corporate actions as auditable contract actions."
+description: "Blockchain for capital markets: atomic delivery-versus-payment where the security leg and the cash leg settle in one transaction or not at all, final in about a second, with transfer rules the issuer writes and a matching agent whose key can only settle matched trades."
 head:
   - - script
     - type: application/ld+json
@@ -10,121 +10,113 @@ head:
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How does atomic delivery-versus-payment settlement work?",
+            "name": "What makes delivery-versus-payment atomic on PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The security and the cash leg live on the same ledger, so a trade settles as one transaction: the instrument moves to the buyer and the tokenized cash moves to the seller in a single atomic action that either fully executes or doesn't happen. There is no settlement window between the legs, so principal risk — delivering the asset and waiting for the payment — is removed by construction, and finality is instant and irreversible."
+              "text": "Both legs execute inside one transaction. If any action in it fails, including an eligibility check on the security or a short cash balance, the whole transaction is rolled back and nothing moves. Once accepted it is final in about a second, with no reorganization that could unwind one leg later."
             }
           },
           {
             "@type": "Question",
-            "name": "How are transfer restrictions and investor eligibility enforced?",
+            "name": "Can the issuer enforce transfer restrictions such as allow-lists and lock-ups?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "As system-contract policy the issuer or operator owns, not per-token bespoke code. Allow-lists, lock-ups, jurisdiction gates, and holder caps are rules checked on every transfer at the ledger level; because every holder is a named, permissioned account rather than an anonymous address, eligibility is a property of the account, and a non-compliant transfer simply cannot execute."
+              "text": "Yes, as policy the issuer writes into the token contract it owns. Because the check runs inside the transfer, an ineligible buyer does not just fail compliance review afterwards: the security leg fails, and with it the cash leg. Freeze or clawback under legal order is also policy the issuer writes; it is not built into the reference contracts."
             }
           },
           {
             "@type": "Question",
-            "name": "How do corporate actions work — coupons, distributions, redemptions?",
+            "name": "What can the matching agent's key do?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "As contract actions against the authoritative register. A coupon run is one action that pays every holder of record instantly and finally, under multisig approval by named officers; a redemption retires the instrument and returns cash in the same atomic step. Because the ledger is the register, there is no record-date reconciliation across custodian chains — entitlement is read directly from state, and the full history of every action is permanently auditable."
+              "text": "Only call settle on the settlement contract. Its permission is linked to that one action, so the chain refuses the key on transfers, withdrawals or permission changes before contract code runs, and the contract only pairs legs whose terms match what both sides locked."
             }
           },
           {
             "@type": "Question",
-            "name": "What happens under a court order or regulatory action?",
+            "name": "Is this in production?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Freeze, clawback, and account restriction are first-class policy in system contracts the operator owns, executed under multisig by named officers with every step on the audit trail. A legal order against a holding is an auditable ledger operation with a documented authorization chain — not an exception request to a protocol that cannot comply."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Who can see the cap table and holdings?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Exactly the parties the network admits. A deployment is private and permissioned — issuer, transfer agent, custodians, and investors as named accounts — so holdings are visible inside that boundary and to whomever the operator grants read access, such as auditors or regulators, not to the public internet. Reads are free, so oversight and reporting impose no cost or rate pressure."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is PulseVM running in production today?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and contract semantics are proven; correctness is measured by differential testing against that production reference. Pilot deployments are run with Metallicus engineering."
+              "text": "No. PulseVM is at the test-network stage, and pilot issuances are run with Metallicus. The account, permission and multisig model it runs is the one XPR Network runs in production today."
             }
           }
         ]
       }
 ---
 
-# Capital Markets
+# Capital markets: both legs settle, or neither does
 
-The tokenized-deposit logic extends directly to tokenized instruments: private securities, fund shares, money-market instruments, and the cap-table and fund-admin plumbing around them.
+Settlement cycles exist because delivery and payment live on different ledgers, and someone has to carry the risk in between. When the security and the cash are on the same PulseVM network, delivery-versus-payment is one transaction: both legs settle together in about a second, or the whole thing is refused and nothing moves.
 
-## Why the primitives fit
+## How it works on PulseVM
 
-- **Asset issuance with controls you define** — transfer restrictions, allow-listing, lock-ups, and freeze/clawback under legal order as system-contract policy, not per-token bespoke code.
-- **Named accounts** for issuers, transfer agents, custodians, and investors; **[multisig](/guide/multisig)** for corporate actions and treasury.
-- **[Instant, irreversible finality](/guide/finality)** removes settlement-window risk; atomic delivery-versus-payment is native when cash and asset are on the same ledger.
-- **[Private networks](/guide/privacy)** keep the cap table and holdings among the right parties, with auditor/regulator read-access on demand.
+| Account | Role | Permission that matters |
+| --- | --- | --- |
+| `acme` | Issuer | `issue`: 2 of 3 officers, linked to `acme.shr::issue` |
+| `acme.shr` | Security token contract | Transfer rules the issuer writes: holder allow-list, lock-ups, holder caps |
+| `acme.ta` | Transfer agent | `register`, linked to `acme.shr::allow` (adds verified holders) |
+| `usd.cash` | Cash token on the same network (for example a tokenized deposit) | Standard transfers |
+| `mkt.dvp` | Settlement contract | Holds locked legs per trade; `pulse.code` grant lets it deliver both legs itself |
+| `mkt.match` | Matching agent | `settle`, linked to `mkt.dvp::settle` only |
+| `fund.alpha`, `fund.beta` | Buyer and seller | Their own `owner` and `active`; they lock legs and can reclaim unsettled ones |
 
-## What this looks like in practice
+The network operator [stakes resources](/guide/resources) for issuers and investors, so no fund needs a fee token to hold a security. The register is the contract's state: the cap table and the settlement venue are the same object.
 
-Picture a private-credit manager issuing a $250 million tokenized note program on a network it operates with its transfer agent and two custodian banks. Issuance could be a contract action: the instrument is created with its terms — lock-up, allow-list, holder cap — encoded as ledger-level policy, and the 80 institutional investors hold it at **named accounts** the transfer agent has verified, so the register and the cap table are the same live object rather than a spreadsheet reconciled against custodian records. Secondary transfers between eligible holders settle as atomic delivery-versus-payment — note and tokenized cash swap in one [instant, final](/guide/finality) transaction, so neither side ever holds principal risk in a settlement window, and an ineligible buyer simply cannot receive the instrument because the policy check is in the transfer itself. On coupon day, operations proposes the distribution, a second officer approves under [multisig](/guide/multisig), and one action pays every holder of record from state — no record-date snapshot, no payment-agent file, no breaks to chase, and the entire run is on the permanent audit trail. The fund administrator and the auditor read the same [Hyperion](/institutions/technical-evaluators) history for free; a regulator granted access sees every issuance, transfer, and corporate action by named account. If a court orders a position frozen, compliance executes it as policy in contracts the operator owns. This is the designed capability — the shape a pilot issuance is built to prove.
+## Atomic delivery-versus-payment
 
 ```mermaid
-flowchart LR
-  inv["Investors & desks<br/>via custodians"] <--> v
-  subgraph net["Issuance PulseVM network"]
-    v["Named validators<br/>issuer + custodians + TA"]
+sequenceDiagram
+  participant S as fund.beta (seller)
+  participant B as fund.alpha (buyer)
+  participant D as mkt.dvp (settlement contract)
+  participant M as mkt.match (matching agent)
+  S->>D: lock 1,000 ACME for trade T1 (fund.beta@active)
+  B->>D: lock 50,000 USD for trade T1 (fund.alpha@active)
+  M->>D: settle T1 (mkt.match@settle)
+  alt both legs locked, terms match, buyer eligible
+    D->>B: deliver 1,000 ACME
+    D->>S: pay 50,000 USD
+    Note over S,M: one transaction, final in about a second
+  else any check fails
+    Note over S,M: transaction refused, neither leg moves
   end
-  v --> hy["Hyperion<br/>register & history"]
-  hy --> gl["Fund admin & GL<br/>reporting feed"]
 ```
 
-The ledger is the register and the settlement venue in one; fund administration, custody records, and the GL consume it as a free read instead of reconciling against it.
+What makes it hold:
 
-## Why not something else?
+- **One transaction, two legs.** The security transfer and the cash transfer are inline actions of the same transaction. If either fails, the chain rolls back both. There is no state in which the seller has delivered and not been paid.
+- **The issuer's rules run inside the leg.** `acme.shr` checks the buyer against the allow-list during the transfer. An ineligible buyer fails the security leg, which fails the cash leg.
+- **Final means final.** Accepted blocks are final in about a second, with no reorganization that could unwind a leg after the fact ([finality](/guide/finality)).
+- **Bilateral option.** Two counterparties can also put both transfers in one transaction and both sign it, proposed through `pulse.msig`, with no settlement contract at all.
 
-**Why not a public EVM chain?** Because a securities register on a public chain lives at anonymous hex addresses on infrastructure the issuer doesn't govern — eligibility and transfer restrictions become bespoke token code, settlement is probabilistic until enough blocks pass, and fees float with unrelated network congestion. A legal order against a holding has no native path, and confidentiality of the cap table is gone by default. See [PulseVM vs Ethereum](/compare/ethereum).
+## Corporate actions under multisig
 
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks give the operator consensus control but keep the EVM's primitives — hex identities, contract-wallet multisig, per-token restriction frameworks — so the institutional layer is something your engineers assemble, audit, and own forever. Consortium DLT toolkits without production public lineage deliver a framework and a governance problem rather than a working register with native accounts, permissions, and system contracts hardened by real usage. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
+A coupon or dividend is one action on `acme.shr` that pays every holder of record from state. Operations proposes it, a second officer approves under [weighted multisig](/guide/multisig), and the run is on the permanent record with both names on it. No record-date extract, no paying-agent file.
 
-**Why not stay with existing post-trade infrastructure?** For listed markets, existing infrastructure is deep and works; the case here starts where that infrastructure doesn't reach — private securities, fund shares, and bespoke instruments whose registers live in spreadsheets and whose settlement is emails, wires, and multi-day reconciliation between transfer agent, custodian, and administrator records. Tokenizing those instruments on a ledger the issuer operates makes the register authoritative, settlement atomic, and corporate actions one auditable step — without asking anyone else's market infrastructure for permission.
+## Delegated authority: the matching agent
+
+The matching agent runs unattended, so its key gets exactly one job. `mkt.match@settle` can call `mkt.dvp::settle` and nothing else, and `settle` only pairs legs whose terms both sides locked. A compromised agent key cannot transfer, withdraw or change a permission. This is the pattern live on XPR Network for trading bots; see the [delegated authority case study](/guide/delegated-authority).
+
+Evaluating a permissioned EVM network for tokenization? See [PulseVM vs permissioned EVM](/compare/permissioned-evm).
 
 ## Frequently asked questions
 
-### How does atomic delivery-versus-payment settlement work?
+### What makes delivery-versus-payment atomic on PulseVM?
 
-The security and the cash leg live on the same ledger, so a trade settles as one transaction: the instrument moves to the buyer and the tokenized cash moves to the seller in a single atomic action that either fully executes or doesn't happen. There is no settlement window between the legs, so principal risk — delivering the asset and waiting for the payment — is removed by construction, and [finality is instant and irreversible](/guide/finality).
+Both legs execute inside one transaction. If any action in it fails, including an eligibility check on the security or a short cash balance, the whole transaction is rolled back and nothing moves. Once accepted it is final in about a second, with no reorganization that could unwind one leg later.
 
-### How are transfer restrictions and investor eligibility enforced?
+### Can the issuer enforce transfer restrictions such as allow-lists and lock-ups?
 
-As system-contract policy the issuer or operator owns, not per-token bespoke code. Allow-lists, lock-ups, jurisdiction gates, and holder caps are rules checked on every transfer at the ledger level; because every holder is a named, [permissioned account](/guide/accounts-permissions) rather than an anonymous address, eligibility is a property of the account, and a non-compliant transfer simply cannot execute.
+Yes, as policy the issuer writes into the token contract it owns. Because the check runs inside the transfer, an ineligible buyer does not just fail compliance review afterwards: the security leg fails, and with it the cash leg. Freeze or clawback under legal order is also policy the issuer writes; it is not built into the reference contracts.
 
-### How do corporate actions work — coupons, distributions, redemptions?
+### What can the matching agent's key do?
 
-As contract actions against the authoritative register. A coupon run is one action that pays every holder of record instantly and finally, under [multisig](/guide/multisig) approval by named officers; a redemption retires the instrument and returns cash in the same atomic step. Because the ledger is the register, there is no record-date reconciliation across custodian chains — entitlement is read directly from state, and the full history of every action is permanently auditable.
+Only call `settle` on the settlement contract. Its permission is linked to that one action, so the chain refuses the key on transfers, withdrawals or permission changes before contract code runs, and the contract only pairs legs whose terms match what both sides locked.
 
-### What happens under a court order or regulatory action?
+### Is this in production?
 
-Freeze, clawback, and account restriction are first-class policy in system contracts the operator owns, executed under [multisig](/guide/multisig) by named officers with every step on the audit trail. A legal order against a holding is an auditable ledger operation with a documented authorization chain — not an exception request to a protocol that cannot comply.
+No. PulseVM is at the test-network stage, and pilot issuances are run with Metallicus. The account, permission and multisig model it runs is the one XPR Network runs in production today.
 
-### Who can see the cap table and holdings?
+## Next step
 
-Exactly the parties the network admits. A deployment is [private and permissioned](/guide/privacy) — issuer, transfer agent, custodians, and investors as named accounts — so holdings are visible inside that boundary and to whomever the operator grants read access, such as auditors or regulators, not to the public internet. Reads are free, so oversight and reporting impose no cost or rate pressure.
-
-### Is PulseVM running in production today?
-
-PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and contract semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
-
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
-
-## For your engineering team
-
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+Pick one instrument and one cash leg. A pilot issues it, settles DvP trades between named holders and runs a corporate action under multisig. **[Talk to Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

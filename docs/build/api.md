@@ -4,7 +4,7 @@ description: "PulseVM RPC reference: the native pulsevm.* JSON-RPC methods, the 
 
 # RPC and REST API
 
-PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API inside the node is in review ([#98](https://github.com/MetalBlockchain/pulsevm/pull/98)); until it lands, a small gateway serves `/v1/chain` for eosjs and @proton/js, as on the [1:1 demo network](/network/one-to-one-demo). Full history comes from [Hyperion](https://github.com/MetalBlockchain/hyperion-rs).
+PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API inside the node is in development; until it lands, a small gateway serves `/v1/chain` for eosjs and @proton/js, as on the [1:1 demo network](/network/one-to-one-demo). Full history comes from [Hyperion](https://github.com/MetalBlockchain/hyperion-rs).
 
 ::: warning The one difference that trips people up
 `issueTx` (and `push_transaction` through the gateway) returns the transaction id once the node accepts it into the pool, not an execution trace. The transaction executes when a block is built. Read the outcome back from Hyperion, or poll for the transaction, before treating it as done.

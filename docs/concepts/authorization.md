@@ -2,7 +2,7 @@
 description: "PulseVM authorization — require_auth, permission checks, and inline actions where a contract acts under its own authority."
 ---
 
-# Authorization & Inline Actions
+# Authorization and inline actions
 
 ## Permission checks
 
@@ -34,6 +34,6 @@ A contract can send further actions as part of the same transaction — **inline
 
 For a contract to send an inline action under its *own* account's authority, that account's permission must include a `pulse.code` authority for the contract. It's the native, auditable equivalent of "this contract is allowed to act as this account" — granted with one `updateauth`. The [CLI](/build/cli) exposes this via `update-auth --code`.
 
-## Key rotation & recovery
+## Key rotation and recovery
 
 Because authority is account-level, a compromised or lost key is a **rotation**, not a lost account: `owner` can replace `active`, and a delegated owner permission gives institutional recovery — all without moving any assets.

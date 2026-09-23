@@ -66,6 +66,6 @@ Two families aren't served yet. They're uncommon outside zk / EVM-bridge and spe
 | **Advanced crypto primitives** | `alt_bn128_add` · `alt_bn128_mul` · `alt_bn128_pair` · `mod_exp` · `blake2_f` · `sha3` · `k1_recover` | pairing / zk / EVM-bridge use cases |
 | **Spring / Savanna** | `bls_*` · `set_finalizers` | used by the current EOS and Telos system contracts; not needed by XPR Network contracts |
 
-Now served on `main`, not yet in a tagged release (moved out of this table in September 2026): the context accessors `get_sender`, nodeos-exact `get_code_hash`, `get_block_num` and `publication_time` ([#66](https://github.com/MetalBlockchain/pulsevm/pull/66) / [#61](https://github.com/MetalBlockchain/pulsevm/pull/61)); `is_feature_activated` / `preactivate_feature`; and `send_deferred` / `cancel_deferred` — the last three families landed with #61. Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
+Now served on `main`, not yet in a tagged release (moved out of this table in September 2026): the context accessors `get_sender`, nodeos-exact `get_code_hash`, `get_block_num` and `publication_time`; `is_feature_activated` / `preactivate_feature`; and `send_deferred` / `cancel_deferred` — the last three families are recent additions. Deferred transactions remain deprecated in Antelope; prefer inline actions in new code.
 
 If your design depends on something here, [get in touch](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) — intrinsic coverage is actively expanding.

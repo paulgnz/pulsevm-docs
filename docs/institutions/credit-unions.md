@@ -60,40 +60,53 @@ head:
       }
 ---
 
-# For Credit Unions & Leagues
+# For credit unions and leagues
 
-A credit union movement is already a consortium: leagues, corporates, CUSOs, and member institutions that trust each other, govern together, and settle with each other constantly. That is precisely the shape a permissioned blockchain needs — which is why the model fits the movement natively:
+**A league already governs like a consortium. Give it a ledger it owns.**
 
-- **A league operates the validator set**; member credit unions are named accounts with their own permission trees.
-- **Shared branching and member-to-member settlement** become intra-chain transfers — instant, auditable, fee-free at the member level.
-- **Smaller institutions inherit enterprise-grade custody** — multisig, key rotation, HSM-backed keys — without building any of it.
-- **Deposits stay home**: league- or CU-issued tokenized dollars on Metal Dollar rails give members modern money movement while the funding stays on member balance sheets.
+Leagues, corporates, CUSOs and member credit unions already trust each other, govern together and settle with each other every day. That is the governance a permissioned network needs, so the movement does not have to invent a new one. It maps its existing structure onto the network and keeps the deposits, and the technology, inside the movement.
 
-The economics and primitives are the same as the [banks case](/institutions/banks) — the governance shape (league as operator, members as participants) is what makes it especially natural here.
+## Your structure, mapped onto the network
 
-## What this looks like in practice
+| Movement role | Network role | What it does |
+|---|---|---|
+| League | Validator set and governance | Admits and removes validators, owns the system contracts that hold the network's rules |
+| CUSO | Operator | Runs nodes, Hyperion and monitoring for members who do not want to run infrastructure |
+| Corporate credit union | Settlement and liquidity account | Holds the settlement positions members fund and draw on, under its own multisig |
+| Member credit union | A named account with its own permission tree | Issues its own tokenized deposits, runs its own approvals, keeps its own balance sheet |
+| Member | An account the CU sponsors | Uses the CU's app; never holds a fee token or a seed phrase |
 
-Picture a mid-sized credit union with 40,000 members, participating in a league-operated PulseVM network alongside thirty other member CUs. A member could send money to their daughter at a credit union two states away on a Sunday morning and see it arrive instantly and finally — inside the CU's own branded app, with no gas fee, no crypto, nothing to explain. The ops team would see the transfer as a human-readable action between **named accounts** — `alice.acmecu → beth.pinecu` — on a shared ledger every participating CU can verify, instead of an ACH batch that settles Tuesday. Inter-CU settlement that used to be end-of-day net positions and corporate wires becomes the transfer itself: final at the moment it happens, so there is no break file to work the next morning. The GL reconciliation looks like reading [Hyperion](/institutions/technical-evaluators) — the chain is the authoritative subledger, and the feed into each CU's core is a free API read, not a reconciliation project. The dollars stay where they belong: each CU issues its own tokenized deposits, so the liability — and the margin — remain on that CU's balance sheet. Compliance controls look like the movement already works: issuance under [2-of-3 multisig](/guide/multisig) by named officers, court-order freezes as auditable policy actions, and an examiner handed free read access to complete history. This is the designed capability — the shape a league pilot is built to prove.
+No single credit union carries the infrastructure alone, and no member gives up control of its own accounts to do it.
 
 ```mermaid
-flowchart LR
-  m["Member app<br/>your CU's brand"] <--> v
+flowchart TD
   subgraph net["League-operated PulseVM network"]
-    v["Named validators<br/>league + member CUs"]
+    league["League<br/>validators + system contracts"]
+    cuso["CUSO<br/>operates nodes + Hyperion"]
+    corp["corporate.cu<br/>settlement account"]
+    a["acme.cu<br/>owner: board · active: ops 2 of 3"]
+    p["pine.cu<br/>owner: board · active: ops 2 of 3"]
   end
-  v --> hy["Hyperion<br/>history & audit"]
-  hy --> gl["Each CU's core & GL<br/>reconciliation feed"]
+  a <-->|"shared branching,<br/>final in about a second"| p
+  a --- corp
+  p --- corp
+  cuso -.->|"operates for"| league
 ```
 
-Each credit union keeps its core as the system of record; the network settles between them; Hyperion feeds every member's reconciliation and reporting. One shared rail, thirty sovereign balance sheets.
+## What changes for a member credit union
 
-## Why not something else?
+- **Shared branching settles as it happens.** A member of `pine.cu` served at an `acme.cu` branch is a single transfer between named accounts, final in about a second. No end-of-day net position, no break file the next morning.
+- **Member-to-member payments work at any hour.** A member sends money to their daughter at a credit union two states away on a Sunday morning, inside the CU's own app, with no gas fee and nothing to explain.
+- **Smaller institutions get enterprise-grade custody.** [Weighted multisig](/guide/multisig), key rotation without moving funds, and R1 (HSM, secure enclave) and WebAuthn (passkey) keys verified by the chain are how every account works, not a platform to buy.
+- **A key can be limited to one job.** A bill-pay service key can be bound with `linkauth` to one contract action, so it cannot do anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
+- **Deposits stay home.** Each CU issues its own tokenized deposits on Metal Dollar rails, so the liability and the margin stay on that CU's balance sheet. The economics are the same as the [banks case](/institutions/banks).
+- **Examiners get a read grant, not a data request.** Full, human-readable history through Hyperion, at no per-query cost.
 
-**Why not a public EVM chain?** Your members would need gas in a volatile token, hold assets at hex addresses, and share blockspace with the open internet — fees spike when someone else's speculation is busy, and settlement stays probabilistic until enough blocks pass. Every institutional control — dual approval, key recovery, sponsored members — is extra smart-contract infrastructure the movement would have to build, audit, and maintain. See [PulseVM vs Ethereum](/compare/ethereum).
+Each credit union keeps its core as the system of record. The network settles between them, and Hyperion feeds every member's reconciliation. One shared rail, many sovereign balance sheets.
 
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks put you in control of consensus but leave identity as hex addresses and every institutional feature as a framework your (or your CUSO's) engineers assemble and own forever. Consortium DLT toolkits without production public lineage offer a governance problem and an integration project, not a working system — no native account and permission model, no battle-tested system contracts, no wallet and indexer ecosystem hardened by real usage. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
+## Why the movement should own the rail
 
-**Why not stay on existing rails?** Shared branching and inter-CU settlement work today — through batch windows, cutoff times, per-transaction network fees, and a standing reconciliation workload, with no programmability to build member products on. Meanwhile the instant-money experience members increasingly expect is being delivered by fintechs and stablecoin apps that pull deposits out of the movement. Owning the rail — as a league, collectively — is the version of modernization where the deposits and the technology competency stay home.
+Shared branching and inter-CU settlement work today, through batch windows, cutoff times, per-transaction network fees and a standing reconciliation workload. Meanwhile the instant-money experience members expect is being delivered by fintechs and stablecoin apps that pull deposits out of the movement. Owning the rail as a league is the version of modernization where the deposits and the technology competency stay home. For the comparison with public chains and generic DLTs, see [Objections, answered](/institutions/objections).
 
 ## Frequently asked questions
 
@@ -121,10 +134,14 @@ Complete, human-readable history — every action, by named account, queryable i
 
 PulseVM is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and settlement semantics are proven. The recommended entry point is a small league-operated pilot with Metallicus engineering.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
+## Next step
+
+The right first project is a league pilot: a handful of member CUs, a CUSO running the nodes, a tokenized test deposit and real shared-branching flows for 90 days. See [Run a 90-day pilot](/institutions/pilot) and bring the [buyer's checklist](/institutions/checklist).
+
+**[Talk to us: contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
 
 ## For your engineering team
 
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+- **[For technical evaluators](/institutions/technical-evaluators)**: architecture, integration surface, operations and what is shipped today.
+- **[Accounts and permissions](/guide/accounts-permissions)**: the permission tree each member CU gets.
+- **[Get started](/build/get-started)**: stand up against the public test network and deploy a first contract.

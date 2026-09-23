@@ -6,9 +6,9 @@ description: "PulseVM glossary — named accounts, permissions, multisig, CPU/NE
 
 **Account** — a named, human-readable on-chain identity (≤12 chars, `a-z`/`1-5`), e.g. `acme.treasury`. Holds permissions, balances, and (optionally) a contract.
 
-**Permission** — a named authority on an account (`owner`, `active`, or custom), defined as a threshold over weighted keys, other accounts, and time-waits. The unit of authorization.
+**Permission** — a named authority on an account (`owner`, `active`, or custom), defined as a threshold over weighted keys and other accounts. The unit of authorization.
 
-**Authority** — the structure a permission requires: keys, account-permissions, weights, threshold, waits.
+**Authority** — the structure a permission requires: keys, account-permissions, weights and a threshold. (Antelope's time-wait factors exist in the format but PulseVM does not accept delayed transactions, so they cannot be used.)
 
 **`updateauth` / `deleteauth`** — the native actions that create, change and remove a permission. Rotating a key is one `updateauth`.
 

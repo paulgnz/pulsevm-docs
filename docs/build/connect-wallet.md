@@ -51,7 +51,7 @@ console.log(session.actor, session.permission)      // e.g. "protonnz" "active"
 
 `ConnectWallet()` restores an existing session if one is saved, otherwise it shows the wallet selector and opens the desktop wallet to authorize.
 
-## Sign & broadcast a transfer
+## Sign and broadcast a transfer
 
 ```ts
 const result = await session.transact({
@@ -77,7 +77,7 @@ import { handleCallback } from "@pulsevm/pulse-web-sdk"
 handleCallback()
 ```
 
-## Notes & limits
+## Notes and limits
 
 - This SDK build serializes the `transfer` action. For arbitrary actions, serialize with [pulsevm-js](https://github.com/MetalBlockchain/pulsevm-js) and pass the packed transaction to the wallet.
 - Transport is the `pulsevm://` URL scheme, so the desktop wallet must be installed. A browser-extension / mobile transport can be added later behind the same `ConnectWallet()` API.

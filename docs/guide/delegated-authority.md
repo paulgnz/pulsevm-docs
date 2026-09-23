@@ -23,7 +23,7 @@ flowchart TD
 
 ## Case study: trading vaults on XPR Network
 
-This runs in production today on XPR Network mainnet, which uses the same account model PulseVM runs unchanged ([401,005,383 mainnet blocks replayed](https://github.com/MetalBlockchain/pulsevm/pull/61) to prove it).
+This runs in production today on XPR Network mainnet, which uses the same account model PulseVM runs unchanged: PulseVM has replayed all 401,005,383 XPR Network mainnet blocks.
 
 [Vaults](https://vaults.protonnz.com), built by the XPR Network block producer protonnz, is a trading bot you hire without handing over your money. A customer picks a strategy and pays a setup fee. The system creates a vault: an account of their own, running a small router contract.
 

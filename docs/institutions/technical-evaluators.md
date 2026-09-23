@@ -1,48 +1,88 @@
 ---
-description: "PulseVM for technical evaluators — architecture, integration, operations, security posture and the failure model for a sovereign institutional blockchain."
+description: "PulseVM for CTOs and technical evaluators: what the account model gives you, where PulseVM sits in your architecture, how a network is operated, the failure model, and an honest status of what is shipped, at test-network stage and in development."
 ---
 
-# For Technical Evaluators
+# For technical evaluators
 
-CTO-to-CTO. The value proposition is elsewhere on this site; this page answers the question a technical decision-maker actually asks: *can I operate this, integrate it, and stand behind it?*
+**The institutional layer you would otherwise build is already the protocol.**
+
+On most chains, named identities, role-based keys, dual control, key rotation, fee sponsorship and scoped service keys are a stack of contracts and services your team designs, audits and maintains. On PulseVM they are how accounts work. This page answers the question a CTO actually asks: can we operate this, integrate it and stand behind it?
+
+## What the account model removes from your backlog
+
+| You would build | PulseVM gives you |
+|---|---|
+| An identity registry mapping addresses to entities | Named accounts, up to 12 characters (`acme.treas`) |
+| Role-based access control | A tree of permissions per account, each with its own keys and threshold |
+| A multisig wallet contract | [Weighted multisig](/guide/multisig) on any permission, plus proposal-based approvals |
+| Scoped service credentials | `linkauth`: bind a permission to one contract action; the protocol refuses it on anything else before contract code runs |
+| Key rotation and recovery flows | `updateauth` on the account; assets never move; the parent permission recovers the child |
+| HSM and passkey signing support | R1 (secure enclave, HSM) and WebAuthn (passkey) signatures verified by the chain, alongside K1 |
+| A paymaster | Resource staking: the institution stakes, users never hold a fee token |
+
+`linkauth` is the one to look at first. A bot key bound to a single action cannot transfer, re-key or call any other contract, whatever its holder tries. A service on XPR Network mainnet runs customer trading this way, on the same account model, and in a testnet exercise 31 of 31 attempts by the real bot key to move money out or take an account over were refused. Read [Delegated authority with hard limits](/guide/delegated-authority) and [Accounts and permissions](/guide/accounts-permissions).
 
 ## Where it sits in your architecture
 
-PulseVM is a settlement and record layer, not a replacement for your systems of record — it sits alongside them.
+PulseVM is a settlement and record layer alongside your systems of record, not a replacement for them.
 
-- **Integration surface**: a native JSON-RPC API today. A nodeos-style `/v1/chain` REST API inside the node is in review ([#98](https://github.com/MetalBlockchain/pulsevm/pull/98)); until it lands, a small gateway serves eosjs and @proton/js, as on the [1:1 demo network](/network/one-to-one-demo). See the [API reference](/build/api).
-- **System-of-record bridge**: [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) provides full, queryable history — the natural integration point for reconciliation, reporting, and feeding your existing ledger/GL. Reads are free, so analytics and audit impose no cost or rate pressure.
-- **Contracts as your business logic**: rules live in [Rust](/build/quickstart-rust), C++, or [TypeScript](/build/quickstart-typescript) contracts you write and own — versioned, reviewed, and deployed on your schedule.
+```mermaid
+flowchart LR
+  app["Your apps and services"] -->|"JSON-RPC: pulsevm.*"| node
+  subgraph net["Your PulseVM network"]
+    node["metalgo + PulseVM plugin<br/>named validators"]
+  end
+  node --> hy["Hyperion<br/>full history API"]
+  hy --> core["Core, ERP, GL<br/>reconciliation and reporting"]
+```
+
+- **Write and read path.** A native JSON-RPC API (`pulsevm.*` methods). `issueTx` returns a transaction id on admission; confirm execution from history. A small gateway serves the nodeos-style `/v1/chain` API for eosjs and `@proton/js` clients, as on the [1:1 demo network](/network/one-to-one-demo). See the [API reference](/build/api).
+- **History.** [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) indexes every action into queryable, human-readable history. It is the natural feed for reconciliation and reporting. Reads are free, so analytics and audit add no cost or rate pressure.
+- **Business logic.** Contracts in [Rust](/build/quickstart-rust), C++ or [TypeScript](/build/quickstart-typescript), compiled to WebAssembly, that you write, version, review and deploy on your schedule.
+
+## Status: what is shipped and what is not
+
+PulseVM is at test-network stage. Here is where each piece stands.
+
+| Area | In PulseVM today | At test-network stage | In development |
+|---|---|---|---|
+| Execution | Antelope execution model in a Rust VM; about 180 Antelope host functions; WebAssembly contracts from C++, Rust and TypeScript | Whole-system operation on public test networks | `CRYPTO_PRIMITIVES` host functions (alt_bn128, mod_exp, blake2_f, sha3, k1_recover); BLS functions and `set_finalizers` |
+| Accounts and keys | Named accounts, permission trees, `linkauth`, weighted multisig, K1, R1 and WebAuthn keys | | |
+| Consensus | Snowman on metalgo; final when accepted, no reorganizations | | Support for metalgo 1.14.2 (RPC protocol v45) |
+| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway, as on the demo network | `/v1/chain` served inside the node |
+| History | Hyperion indexing | Hyperion on the public demo network | |
+| Migration | Antelope snapshot import path | Public 1:1 demo network with imported XPR testnet state | A tagged release carrying the latest merges (latest tag: v0.7.1) |
+
+Maturity in one line: the full XPR Network mainnet history has been replayed on PulseVM. See [Migrating an Antelope chain](/guide/migrate-antelope-chain).
 
 ## Operating a network
 
-A network is a set of validator nodes (metalgo + the PulseVM plugin) and the system contracts that define its rules. See [Launch Your Own Network](/network/launch).
+A network is a set of validator nodes (metalgo plus the PulseVM plugin) and the system contracts that define its rules. See [Launch your own network](/network/launch).
 
-- **Nodes** run on standard Linux hosts under a service manager; a consortium starts with a small, named validator set.
-- **Observability**: each node reports head and last-irreversible block and standard node metrics — health is a simple, continuous signal.
-- **Upgrades**: consensus-affecting plugin upgrades roll out across the validator set in coordinated windows — standard BFT-network practice, and a governance event the consortium controls.
-- **Backup & recovery**: staking keys are backed up out of band; chain state is deterministically reproducible — a node can rebuild its state by replaying the chain, so recovery is resumption, not reconstruction.
+- **Nodes** run on standard Linux hosts under a service manager. A consortium starts with a small, named validator set that the members admit and can remove.
+- **Observability.** Each node reports head and last irreversible block plus standard node metrics.
+- **Upgrades.** Consensus-affecting upgrades roll out across the validator set in coordinated windows, a governance event the consortium controls.
+- **Backup and recovery.** Staking keys are backed up out of band. Chain state is deterministic, so a node rebuilds by replaying the chain: recovery is resumption, not reconstruction.
 
 ## Failure model
 
-Finality is a **safety guarantee**: the network never produces two conflicting final states. If the validator set could not reach quorum, the protocol favors safety over liveness — it waits for quorum and resumes rather than forking. For a settlement system this is the correct trade: there is never a reconciliation problem to clean up, only resumption. There are no reorgs to handle and no probabilistic-finality windows to design around.
+Finality is a safety guarantee: the network never produces two conflicting final states. If validators cannot reach quorum, the protocol waits and resumes rather than forking. For a settlement system that is the correct trade. There is no reconciliation mess to clean up afterwards, no reorg handling and no probabilistic-finality window to design around. See [Finality and settlement](/guide/finality).
 
-## Security & correctness posture
+## Security and correctness
 
-- **Open source — including the chain's own rules.** The VM ([pulsevm](https://github.com/MetalBlockchain/pulsevm)), the CDTs, and the **system contracts themselves** are public and reviewable: the token, system, multisig, and bios contracts live in [pulse-cdt-rust/contracts](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts). The logic that governs accounts, resources, and assets is auditable source, not a closed binary — no black-box trust required.
-- **Proven execution model, modern implementation.** PulseVM implements the Antelope model (formerly EOSIO) running [XPR Network](https://xprnetwork.org), WAX, and Telos in production — in a Rust VM whose state and execution are checked **byte-for-byte against the reference implementation**: the migration path merged in [#61](https://github.com/MetalBlockchain/pulsevm/pull/61) replayed all 401,005,383 XPR Network mainnet blocks and compares 21 state tables. Contracts execute as WebAssembly (compiled from C++, Rust, or TypeScript), so binaries from existing Antelope chains run unchanged. The semantics are not new; the engineering is.
-- **Differential testing against a production reference.** Because a mature reference implementation exists, correctness is *measured*: identical action streams are replayed through the reference and through PulseVM and the results diffed — every divergence is a concrete bug with ground truth attached, rather than a judgment call. The system is hardened through real-world operation, not adjectives.
-- **Responsible disclosure.** Security concerns can be raised privately — [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs).
+- **Open source, including the chain's own rules.** The VM ([pulsevm](https://github.com/MetalBlockchain/pulsevm)), the CDTs and the system contracts (token, system, multisig, bios in [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts)) are public and reviewable.
+- **Measured against a production reference.** Because the Antelope model runs in production on XPR Network, correctness is checked by replaying the same inputs through the reference implementation and PulseVM and comparing state. Every divergence is a bug with ground truth attached.
+- **Responsible disclosure.** Raise security concerns privately with [Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs).
 
-## Continuity & support
+## Continuity and support
 
-PulseVM is built and maintained by **Metallicus**, with commercial support, SLAs, and deployment engineering available — the vendor relationship model institutions already run their core systems on. Because the stack is open source and anchored to a public reference implementation (Antelope/Leap), it is not locked to a single codebase or a single team: the semantics survive independently of any one vendor.
+PulseVM is built and maintained by Metallicus, with commercial support and deployment engineering available. Because the VM, contracts and CDTs are open source and the execution model has independent implementations, the semantics survive independently of any one vendor.
 
-## A sensible evaluation path
+## An evaluation path
 
-1. **Read** the [architecture](/guide/what-is-pulsevm) and [security model](/guide/accounts-permissions).
-2. **Prototype** against the [public test network](/network/endpoints) — deploy a contract, exercise the permission and multisig model, integrate a read path via Hyperion.
-3. **Pilot** a small sovereign network: a handful of validators, a tokenized test asset, real settlement flow for a defined period — small, isolated, measurable.
-4. **Engineering-status register** and deployment runbooks are available to counterparties under NDA.
+1. **Read** [What is PulseVM](/guide/what-is-pulsevm) and [Accounts and permissions](/guide/accounts-permissions).
+2. **Prototype** against the [public test network](/network/endpoints): deploy a contract, build a permission tree, bind a key with `linkauth`, read history through Hyperion.
+3. **Check** your requirements against the [buyer's checklist](/institutions/checklist).
+4. **Pilot** a small network for 90 days. See [Run a 90-day pilot](/institutions/pilot).
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
+**[Talk to us: contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

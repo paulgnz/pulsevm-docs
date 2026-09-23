@@ -50,24 +50,47 @@ The same reads work REST-style: `POST /v1/chain/get_info`, `POST /v1/chain/get_t
 | Core token | XPR (4 decimals) |
 | Snapshot | XPR Network testnet, 2026-09-02 00:00 UTC, head block 403,625,033 |
 
+## Use it as a developer sandbox
+
+Because the state is real, the demo network is a sandbox with your own data in it.
+
+- **Your XPR testnet account is already here.** Any XPR Network testnet account created before 2026-09-02 exists on this network with the same permissions and the same keys it had at the snapshot. There is nothing to register.
+- **Reads are free.** Table queries, account lookups and chain info cost nothing and need no key.
+- **Writes use the account's imported resources.** Transactions are billed to the CPU, NET and RAM the account held at the snapshot, just as on the source chain.
+
+Point [pulse-ts](/build/cli) at the RPC and work as you would on XPR testnet:
+
+```bash
+pulse-ts endpoint:set https://xpr-rpc-testnet.pulsevm.dev
+pulse-ts chain:info
+pulse-ts account <your-account>
+pulse-ts table eosio.token accounts <your-account>
+
+# import your XPR testnet key, then sign as usual (the token contract here is eosio.token)
+pulse-ts key:add
+pulse-ts transfer <your-account> <other-account> "1.0000 XPR" "hello from PulseVM" --contract eosio.token
+```
+
+Existing eosjs-style code works too, through the `/v1/chain` REST gateway on the same host. Remember this is a demo network: balances here are copies, and changes here never reach XPR Network.
+
 ## How it works
 
-PulseVM can boot a chain **directly from an Antelope portable chainstate snapshot** — the same `.bin` snapshots nodeos produces. Point the node's config at the file (`snapshot_path`) and genesis *is* the imported state; the import itself takes seconds. The snapshot reader is upstream PulseVM code ([`pulsevm_snapshot`, PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)).
+PulseVM can boot a chain **directly from an Antelope portable chainstate snapshot**, the same `.bin` snapshots nodeos produces. On this network the node was pointed at the snapshot file, and genesis *is* the imported state. The import itself takes seconds. The snapshot reader is upstream PulseVM code. For a production migration, PulseVM's official path first converts the snapshot into a verified checkpoint and cross-checks it table by table against the source. See [Migrating an Antelope chain](/guide/migrate-antelope-chain).
 
-History from before the snapshot block isn't on the new chain — it federates: the explorer queries the source chain's Hyperion for pre-import actions and the new chain's [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) for everything after, stitched at the snapshot block.
+History from before the snapshot block isn't on the new chain. It federates: the explorer queries the source chain's Hyperion for pre-import actions and the new chain's [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs) for everything after, stitched together at the snapshot block.
 
 ## Honest caveats
 
 ::: warning What this is and isn't
 - **A community-operated demonstration**, run by [XPR Network block producer protonnz](https://github.com/paulgnz) — not an official XPR Network or Metallicus service.
 - **Single validator**, and it may be re-imported from newer snapshots as tooling evolves. The chain id and state persist across restarts, but treat it as a demo, not a service.
-- **All three Antelope key types sign here.** The node runs upstream's R1/WebAuthn verification ([PR #69](https://github.com/MetalBlockchain/pulsevm/pull/69)); the import carries every imported R1 and WebAuthn authority (6 R1 and 1,020 WebAuthn keys in this snapshot), and R1- and WebAuthn-signed transactions have been executed on this network under `protonnz@r1sign` / `protonnz@wasign`.
+- **All three Antelope key types sign here.** The node runs PulseVM's native R1 and WebAuthn verification. The import carries every imported R1 and WebAuthn authority (6 R1 and 1,020 WebAuthn keys in this snapshot), and R1- and WebAuthn-signed transactions have been executed on this network under `protonnz@r1sign` / `protonnz@wasign`.
 :::
 
 ## Related
 
 - [Migrating an Antelope Chain to PulseVM](/guide/migrate-antelope-chain) — the capability this network demonstrates, including the rehearsed cutover ceremony
-- [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) — the VM · [snapshot reader PR #53](https://github.com/MetalBlockchain/pulsevm/pull/53)
+- [Launch your own network](/network/launch): the same stack, for your institution
 - [Network Endpoints](/network/endpoints) — this network and Alpine, side by side
 - [Updates](/network/updates) — the development timeline that made this possible
 - [Antelope Compatibility](/compare/antelope) — the capability snapshot this network demonstrates

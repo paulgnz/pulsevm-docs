@@ -2,7 +2,7 @@
 description: "PulseVM contract state — multi-index tables, scopes, primary and secondary indexes, and free reads."
 ---
 
-# State & Tables
+# State and tables
 
 Contracts store state in **tables** — typed, multi-index collections, not arbitrary key/value blobs.
 

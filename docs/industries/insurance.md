@@ -1,5 +1,5 @@
 ---
-description: "Blockchain for insurance — claims and reinsurance settlement on a private permissioned network: parametric payouts with instant finality, a shared loss ledger between carrier, reinsurer, and broker, and approvals under multisig."
+description: "Blockchain for insurance: parametric cover that pays in about a second once the index crosses the trigger, a claims key that can only pay claims, and reinsurer co-signature above a threshold, on a network the carrier and its reinsurers own."
 head:
   - - script
     - type: application/ld+json
@@ -10,121 +10,114 @@ head:
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How does a parametric insurance payout settle on a blockchain?",
+            "name": "What stops the index feed or the claims bot from paying the wrong party?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "When the trigger condition is met — an oracle-attested index value, a verified event — the policy contract executes the payout as a transfer between named accounts, and settlement is instant and irreversible. 'When does the claim pay?' becomes a one-word answer: immediately. The trigger logic, the data source, and any human sign-off threshold are all policy the carrier defines in contract code it owns."
+              "text": "Each key sits on a permission linked with linkauth to exactly one contract action. The index provider's key can call setindex and nothing else; the claims bot's key can call payclaim and nothing else. The chain refuses any other action before contract code runs. Inside payclaim, the policy contract pays only a triggered policy, only to the policyholder account on record, only up to the limit, and only once."
             }
           },
           {
             "@type": "Question",
-            "name": "Can a carrier and its reinsurers share a ledger without exposing the whole book?",
+            "name": "How does the reinsurer see its share of a loss?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. The network is scoped to the treaty relationship — the participants are the cedent, the reinsurers, and the broker, and data never leaves that boundary. Cessions and recoveries post to the shared ledger the moment the underlying claim settles, so every party reads the same loss position in real time instead of reconciling bordereaux weeks later. Business outside the treaty stays outside the network, isolated per relationship or encrypted at the application layer."
+              "text": "The cession is written in the same transaction as the payout, so the reinsurer reads its share of the loss the second the claim pays, from a ledger its own validator helps run. The quarterly bordereau becomes a report over records every party already holds."
             }
           },
           {
             "@type": "Question",
-            "name": "How are claims approvals controlled?",
+            "name": "Do policyholders need a crypto wallet or a fee token?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Through native weighted multisig on named accounts. An adjuster proposes, a supervisor approves, and the payout executes only at threshold — with escalation tiers for claim size expressed as permission weights, not workflow-tool configuration. Every proposal, approval, and disbursement is permanently on the audit trail with the named officer who signed it."
+              "text": "No. The carrier creates each policyholder's named account and stakes the network resources for it. The policyholder uses the carrier's app, can sign with a passkey, and never sees a fee."
             }
           },
           {
             "@type": "Question",
-            "name": "What does the regulator see?",
+            "name": "Can a carrier run this today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Whatever the network grants — up to complete, human-readable history of every action by named account, queryable in real time at no per-query cost. A market-conduct examiner can be given read access to the claims ledger without touching operational systems, and asset-level controls such as freeze under legal order are policy in contracts the consortium owns, executed under multisig on the audit trail."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do policyholders need cryptocurrency or a wallet?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "No. The carrier stakes network resources and sponsors participants entirely — a policyholder sees the carrier's app and a payout arriving, never a gas prompt or a token. The blockchain is invisible plumbing behind the claims experience."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Is PulseVM running in production today?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as XPR Network, WAX, and Telos for years, so the account, permission, and settlement semantics are proven; correctness is measured by differential testing against that production reference. Pilot deployments are run with Metallicus engineering."
+              "text": "PulseVM is at the test-network stage. Carriers can build and exercise the full flow on a test network now, and pilots are run with Metallicus engineering. The account and permission model it uses already runs in production on XPR Network."
             }
           }
         ]
       }
 ---
 
-# Insurance
+# Insurance: pay the claim the moment the trigger fires
 
-Claims settlement, reinsurance treaties, and parametric products are multi-party processes that today run on reconciliation between separate systems of record. PulseVM gives every party one authoritative ledger with instant, final settlement.
+Parametric cover promises speed, then waits on a claims run, a payment file and a bordereau that takes a quarter to agree. On PulseVM the trigger, the payout and the reinsurance cession are one transaction, final in about a second, and every key involved can do exactly one job.
 
-## Why the primitives fit
+## How it works on PulseVM
 
-- **Named accounts** for insurers, reinsurers, brokers, MGAs, and TPAs — identity is legible, not a hex address.
-- **[Multisig](/guide/multisig)** for claims approval and treaty execution: an adjuster proposes, supervisors approve, the payout executes only at threshold — every step on an immutable audit trail.
-- **[Instant finality](/guide/finality)** turns "when does the claim pay?" into a one-word answer; parametric triggers (with an [oracle](/build/api)) can settle automatically the moment conditions are met.
-- **[Private networks](/guide/privacy)** keep treaty terms and claims data among the participating carriers, never on a public chain.
+A parametric program maps onto a handful of named accounts. Nothing here is a wallet library or middleware: permissions, `linkauth` and weighted multisig are part of the protocol ([accounts and permissions](/guide/accounts-permissions)).
 
-## What this looks like in practice
+| Account | Role | Permission that matters |
+| --- | --- | --- |
+| `stormco` | The carrier | `owner` and `active` held by treasury officers, 2 of 3 |
+| `stormco.pol` | Policy contract: triggers, limits, claims reserve | Its `pulse.code` grant lets it pay out of the reserve as itself |
+| `wxindex.orc` | Index provider | `feed`, linked to `stormco.pol::setindex` only |
+| `stormco.clm` | Claims operations | `payout` (the claims bot's key), linked to `stormco.pol::payclaim` only |
+| `reinsure.re` | Quota-share reinsurer | `cosign`, linked to `stormco.pol::payclaim`, required above the threshold |
+| `farm.arnold` | A policyholder | Created and resourced by the carrier; holds no fee token |
 
-Picture a specialty carrier writing parametric weather cover for 30,000 agricultural policyholders, ceding half the risk to two reinsurers under a quota-share treaty — all four parties (carrier, two reinsurers, broker) on one PulseVM network. When a verified rainfall index crosses the trigger, the policy contract could pay the affected policyholders the same hour — instant, irreversible transfers from the carrier's claims account, with no adjuster visit, no cheque run, no "processing" limbo, just the payout arriving in the carrier's app. Claims operations would watch **named accounts** performing human-readable actions — `stormco.claims → farm.arnold, 12,000 MUSD, event #2107` — with large or exception payouts held at a [multisig](/guide/multisig) threshold until a supervisor co-signs. The reinsurance side settles on the same ledger: each payout posts its cession automatically, so the reinsurers read their share of the loss in real time rather than reconciling a bordereau six weeks later, and the quarterly treaty settlement becomes a single final transfer against a loss position all four parties already agree on — because there was only ever one. The broker sees the flows it intermediates; the regulator, granted read access through [Hyperion](/institutions/technical-evaluators), sees the whole claims history for free without touching any operational system. This is the designed capability — the shape a pilot is built to prove.
+The carrier [stakes the resources](/guide/resources) for every account in the program, so the index provider, the reinsurer and every policyholder never buy a token to take part.
+
+## Trigger to payout, in one sequence
 
 ```mermaid
-flowchart LR
-  app["Policyholder app<br/>+ claims ops"] <--> v
-  subgraph net["Treaty PulseVM network"]
-    v["Named validators<br/>carrier + reinsurers"]
+sequenceDiagram
+  participant O as wxindex.orc (index feed)
+  participant P as stormco.pol (policy contract)
+  participant B as stormco.clm (claims bot)
+  participant R as reinsure.re (reinsurer)
+  participant H as farm.arnold (policyholder)
+  O->>P: setindex, rainfall below trigger (wxindex.orc@feed)
+  P->>P: mark affected policies triggered
+  B->>P: payclaim for farm.arnold (stormco.clm@payout)
+  alt amount under the co-sign threshold
+    P->>H: pay from claims reserve, final in about a second
+  else amount over the threshold
+    B->>R: proposal waits in pulse.msig
+    R->>P: approve (reinsure.re@cosign)
+    P->>H: pay from claims reserve, final in about a second
   end
-  v --> hy["Hyperion<br/>loss history & audit"]
-  hy --> gl["Policy admin & GL<br/>bordereau feed"]
+  P->>R: cession recorded in the same transaction
 ```
 
-The chain is the shared loss ledger; each party's policy-admin and GL systems stay in place; Hyperion replaces the bordereau exchange with a free read everyone trusts.
+What the chain enforces at each step:
 
-## Why not something else?
+- **The index key can only post the index.** If `wxindex.orc@feed` is used on any action other than `setindex`, the chain refuses it with `action declares irrelevant authority`, before contract code runs.
+- **The claims bot can only pay claims.** `payclaim` pays a policy the contract has marked triggered, to the account on the policy record, up to the policy limit, once. The bot cannot redirect a payout or touch the reserve any other way.
+- **Large claims need the reinsurer.** Above the threshold, `payclaim` also requires `reinsure.re@cosign`. The proposal sits in `pulse.msig` until the reinsurer approves it; nobody at the carrier can pay it alone.
+- **The cession is not a separate process.** The reinsurer's share is written in the same transaction as the payout, so the loss position everyone reads is one record, not three copies.
 
-**Why not a public EVM chain?** Because claims and treaty data would live on the open internet at hex addresses, payouts would compete for blockspace with whatever is congesting the network, and settlement would stay probabilistic until enough blocks pass — language no claims-handling policy wants to inherit. Approval thresholds, key rotation, and sponsored policyholders are all wallet infrastructure a carrier would build and audit itself. See [PulseVM vs Ethereum](/compare/ethereum).
+The threshold, the trigger data source and the sign-off rules are policy the carrier writes into a contract it owns, and can change under its own multisig.
 
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks give the consortium consensus control but leave identity as hex addresses and every institutional feature — dual approval, delegation, sponsored users — as a framework the carriers' engineers assemble and own forever. Consortium DLT toolkits without production public lineage offer a governance problem and an integration project rather than a working system; several insurance-industry ledger efforts have already found that ceiling. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
+## Delegated authority: the claims bot
 
-**Why not keep the status quo?** Bordereaux, quarterly statements, and cash-call reconciliation work — as a standing cost and a standing lag: every party keeps its own loss ledger and pays people to make the copies agree, while recoveries wait on the cycle. A shared ledger removes the plurality that makes that work exist — the claim, the cession, and the recovery are the same final event, read by everyone at once.
+The claims bot is the same pattern that runs live on XPR Network today for trading bots: a key on a permission linked to one action, inside limits the contract enforces, removable by the owner with one signature. In a testnet exercise with a real bot key built this way, 31 of 31 attempts to move money out or take over the account were refused by the chain. Read the [delegated authority case study](/guide/delegated-authority).
+
+Comparing with a permissioned EVM consortium? See [PulseVM vs permissioned EVM](/compare/permissioned-evm).
 
 ## Frequently asked questions
 
-### How does a parametric insurance payout settle on a blockchain?
+### What stops the index feed or the claims bot from paying the wrong party?
 
-When the trigger condition is met — an [oracle](/build/api)-attested index value, a verified event — the policy contract executes the payout as a transfer between named accounts, and settlement is [instant and irreversible](/guide/finality). "When does the claim pay?" becomes a one-word answer: immediately. The trigger logic, the data source, and any human sign-off threshold are all policy the carrier defines in contract code it owns.
+Each key sits on a permission linked with [`linkauth`](/guide/accounts-permissions#give-a-key-one-job) to exactly one contract action. The index provider's key can call `setindex` and nothing else; the claims bot's key can call `payclaim` and nothing else. The chain refuses any other action before contract code runs. Inside `payclaim`, the policy contract pays only a triggered policy, only to the policyholder account on record, only up to the limit, and only once.
 
-### Can a carrier and its reinsurers share a ledger without exposing the whole book?
+### How does the reinsurer see its share of a loss?
 
-Yes. The network is scoped to the treaty relationship — the participants are the cedent, the reinsurers, and the broker, and data never leaves that [boundary](/guide/privacy). Cessions and recoveries post to the shared ledger the moment the underlying claim settles, so every party reads the same loss position in real time instead of reconciling bordereaux weeks later. Business outside the treaty stays outside the network, isolated per relationship or encrypted at the application layer.
+The cession is written in the same transaction as the payout, so the reinsurer reads its share of the loss the second the claim pays, from a ledger its own validator helps run. The quarterly bordereau becomes a report over records every party already holds.
 
-### How are claims approvals controlled?
+### Do policyholders need a crypto wallet or a fee token?
 
-Through native [weighted multisig](/guide/multisig) on named accounts. An adjuster proposes, a supervisor approves, and the payout executes only at threshold — with escalation tiers for claim size expressed as permission weights, not workflow-tool configuration. Every proposal, approval, and disbursement is permanently on the audit trail with the named officer who signed it.
+No. The carrier creates each policyholder's named account and stakes the network resources for it. The policyholder uses the carrier's app, can sign with a passkey, and never sees a fee.
 
-### What does the regulator see?
+### Can a carrier run this today?
 
-Whatever the network grants — up to complete, human-readable history of every action by named account, queryable in real time at no per-query cost. A market-conduct examiner can be given read access to the claims ledger without touching operational systems, and asset-level controls such as freeze under legal order are policy in contracts the consortium owns, executed under multisig on the audit trail.
+PulseVM is at the test-network stage. Carriers can build and exercise the full flow on a test network now, and pilots are run with Metallicus engineering. The account and permission model it uses already runs in production on XPR Network.
 
-### Do policyholders need cryptocurrency or a wallet?
+## Next step
 
-No. The carrier stakes network [resources](/guide/resources) and sponsors participants entirely — a policyholder sees the carrier's app and a payout arriving, never a gas prompt or a token. The blockchain is invisible plumbing behind the claims experience.
-
-### Is PulseVM running in production today?
-
-PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and settlement semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
-
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
-
-## For your engineering team
-
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+Bring one parametric product and one reinsurance treaty. A pilot proves the trigger, the payout keys and the co-sign threshold end to end. **[Talk to Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**

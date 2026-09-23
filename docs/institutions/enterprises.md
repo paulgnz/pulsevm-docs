@@ -60,41 +60,82 @@ head:
       }
 ---
 
-# For Enterprises & Consortia
+# For enterprises and consortia
 
-Supply-chain provenance, loyalty and rewards, inter-company settlement, B2B invoicing — wherever multiple organizations need a shared, authoritative record with rules they agree on, the per-consortium model fits.
+**Six companies that trade with each other keep fifteen reconciliations. On a shared ledger they keep one.**
 
-- **A network per business relationship.** A consortium operates its own chain with its own validator set; member companies are named accounts with their own permission trees. Data is shared among the members, not the world.
-- **Rules that match the agreement.** Settlement terms, access policy, asset definitions, and fee models live in system contracts the consortium owns — not hard-coded by a platform vendor.
-- **Authorization that mirrors your org chart.** Role keys, [weighted multisig](/guide/multisig) for approvals, delegation between subsidiaries and parents — your existing authority structure expressed directly.
-- **Settlement you can reconcile against.** [Instant, irreversible finality](/guide/finality) and free reads mean every counterparty (and every auditor) sees the same authoritative state with no confirmation-window ambiguity.
-- **Interoperate by choice.** Networks in the Metal ecosystem share consensus infrastructure and can exchange verified messages as the business relationship requires — connection is a decision, never a default exposure. See [Cross-Chain Messaging](/guide/cross-chain).
-
-The same primitives that make this work for banks — named accounts, native permissions, deterministic settlement, owner-defined rules — apply directly to any multi-party enterprise process.
-
-## What this looks like in practice
-
-Picture a consortium of six manufacturers and their two shared logistics providers settling inter-company invoices on their own PulseVM network. Today that relationship is a mesh of bilateral reconciliations: each pair exchanges invoice files, matches statements, and trues up net positions at month-end, with a dispute queue for everything that doesn't match. On the shared ledger, an approved invoice could settle as a single transfer between **named accounts** — `northsteel.ap → apexparts.ar, 1,240,000 MUSD, PO-88231` — instant, irreversible, and visible to exactly the two parties and the auditors, at any hour. Each member's AP clerk works in their existing ERP; the chain sits underneath as the settlement layer between companies, so what used to be eight sets of books agreeing eventually becomes one authoritative state everyone reads for free. High-value payments run under [dual control](/guide/multisig) — a controller proposes, a treasurer approves, the transfer executes at threshold — with every step on the permanent audit trail. Competing suppliers on the same network see their own flows and nothing else: sensitive lanes are isolated per relationship, and the consortium's rules — membership, fees, dispute handling — live in contracts the members govern together. Month-end close looks like reading [Hyperion](/institutions/technical-evaluators): the inter-company subledger is already agreed, because it was never plural. This is the designed capability — the shape a consortium pilot is built to prove.
+Every pair of counterparties today keeps its own books and periodically proves they agree: invoice files, statement matching, dispute queues, month-end true-ups. With N parties that is N×(N−1)/2 relationships to reconcile, and the count grows with the square of the membership. A PulseVM network collapses the mesh into one authoritative state that every member reads for free, because the transfer and the record are the same final event.
 
 ```mermaid
 flowchart LR
-  erp["Member ERPs<br/>AP / AR teams"] <--> v
-  subgraph net["Consortium PulseVM network"]
-    v["Named validators<br/>member companies"]
+  subgraph before["Today: 15 bilateral reconciliations"]
+    A1((A)) --- B1((B))
+    A1 --- C1((C))
+    A1 --- D1((D))
+    A1 --- E1((E))
+    A1 --- F1((F))
+    B1 --- C1
+    B1 --- D1
+    B1 --- E1
+    B1 --- F1
+    C1 --- D1
+    C1 --- E1
+    C1 --- F1
+    D1 --- E1
+    D1 --- F1
+    E1 --- F1
   end
-  v --> hy["Hyperion<br/>history & audit"]
-  hy --> gl["Each member's GL<br/>reconciliation feed"]
+  subgraph after["On PulseVM: one shared ledger"]
+    L[("Consortium<br/>ledger")]
+    A2((A)) --- L
+    B2((B)) --- L
+    C2((C)) --- L
+    D2((D)) --- L
+    E2((E)) --- L
+    F2((F)) --- L
+  end
+  before ==> after
 ```
 
-Each member keeps its ERP as the internal system of record; the network settles between companies; Hyperion feeds every member's reconciliation from the same free reads. One shared rail, sovereign books on every side.
+| Members | Bilateral reconciliations | Shared-ledger connections |
+|---|---|---|
+| 4 | 6 | 4 |
+| 6 | 15 | 6 |
+| 10 | 45 | 10 |
+| 20 | 190 | 20 |
+
+A shared ledger does not speed reconciliation up. It removes the reason it exists.
+
+## How it works for the consortium
+
+- **A network per business relationship.** The consortium operates its own chain with its own validators. Member companies are named accounts with their own permission trees, and data is shared among the members, not the world.
+- **Rules that match the agreement.** Settlement terms, access policy, asset definitions and fee models live in system contracts the consortium owns, not in a platform vendor's code.
+- **Authorization that mirrors your org chart.** Role keys, [weighted multisig](/guide/multisig) for approvals and delegation between subsidiaries and parents. A controller proposes, a treasurer approves, and a payment executes only at threshold.
+- **Keys scoped to one job.** An ERP integration key can be bound with `linkauth` to a single contract action, such as `settle`, and is refused by the protocol on anything else. See [Delegated authority with hard limits](/guide/delegated-authority).
+- **Settlement you can reconcile against.** [Final in about a second](/guide/finality), with no reorganizations, so every counterparty and every auditor sees the same state with no confirmation window.
+- **Readable records.** An approved invoice settles as `northsteel.ap → apexparts.ar, 1,240,000 MUSD, PO-88231`, not a hex address emitting an event log.
+
+Each member keeps its ERP as the internal system of record. The network settles between companies, and [Hyperion](/institutions/technical-evaluators) gives each member its reconciliation feed from the same free reads.
+
+## Membership is governance, not a vendor ticket
+
+| Event | What happens on the network |
+|---|---|
+| A company joins | The consortium creates its named account and grants permissions under the agreement |
+| A company leaves | Its permissions are revoked; its history stays on the audit trail |
+| A validator is added | The members admit it through the system contracts they own |
+| A validator misbehaves or exits | The members remove it; the network continues on the rest |
+| The rules change | The members approve a contract update under multisig, recorded like any other action |
+
+Validators are named, admitted by the members and removable, which is how consortium governance already works.
+
+## Connecting to other networks
+
+Isolation is the default. Networks in the Metal ecosystem share consensus infrastructure, and validator-signed messaging between networks (Avalanche Warp/ICM) is the direction for connecting them where a business relationship requires it: Metallicus has demonstrated asset transfer between an EVM chain and PulseVM as work in progress. Plan a pilot around one network. See [Cross-chain messaging](/guide/cross-chain).
 
 ## Why not something else?
 
-**Why not a public EVM chain?** Because your inter-company settlement would share blockspace with the open internet — fees spike with someone else's speculation, counterparties live at hex addresses, and settlement stays probabilistic until enough blocks pass. Commercial confidentiality is gone by default, and every institutional control — approval thresholds, key rotation, sponsored participants — is smart-contract infrastructure your consortium builds and audits itself. See [PulseVM vs Ethereum](/compare/ethereum).
-
-**Why not a generic permissioned or enterprise DLT?** Permissioned EVM stacks give the consortium consensus control but inherit primitives that fight enterprise process — hex identities, contract-wallet multisig, paymaster frameworks — so the members' engineers assemble and own the institutional layer forever. Consortium DLT toolkits without production public lineage are where a generation of enterprise-blockchain projects stalled: a framework and a governance problem, not a working system with native accounts, battle-tested system contracts, and tooling hardened by real usage. See [PulseVM vs Permissioned EVM](/compare/permissioned-evm) and the [full comparison](/compare/).
-
-**Why not keep the status quo?** Bilateral reconciliation works — as a permanent cost center: N counterparties means N reconciliation relationships, each with its own file formats, matching runs, and dispute queue, and net positions that carry counterparty exposure until the periodic true-up. A shared ledger doesn't speed that process up; it removes the reason it exists. The record and the settlement become the same event, and the mesh collapses to one state.
+Public chains put inter-company settlement on shared blockspace, with volatile fees, hex addresses and no commercial confidentiality. Generic permissioned DLTs hand the consortium a toolkit and leave its engineers to build accounts, multisig and fee sponsorship themselves. The longer answers are in [Objections, answered](/institutions/objections) and the [comparisons](/compare/).
 
 ## Frequently asked questions
 
@@ -122,10 +163,14 @@ The bilateral reconciliation mesh. Today every pair of counterparties keeps its 
 
 PulseVM itself is at the test-network stage, in active development by Metallicus. The execution model it implements — Antelope, formerly EOSIO — has run public production chains such as [XPR Network](https://xprnetwork.org), WAX, and Telos for years, so the account, permission, and contract semantics are proven; correctness is measured by [differential testing against that production reference](/institutions/technical-evaluators). Pilot deployments are run with Metallicus engineering.
 
-**[Talk to us — Contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
+## Next step
+
+A consortium pilot is small: a few members, a validator each, a test settlement asset and real inter-company flows for 90 days, with the reconciliation count measured before and after. See [Run a 90-day pilot](/institutions/pilot) and the [buyer's checklist](/institutions/checklist).
+
+**[Talk to us: contact Metallicus →](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs)**
 
 ## For your engineering team
 
-- **[For Technical Evaluators](/institutions/technical-evaluators)** — architecture, integration surface, operations, and the failure model, CTO-to-CTO.
-- **[Get Started](/build/get-started)** — stand up against the public test network and deploy a first contract.
-- **[Finality & Settlement](/guide/finality)** — why "when is it settled?" has a one-word answer.
+- **[For technical evaluators](/institutions/technical-evaluators)**: architecture, integration surface, operations and what is shipped today.
+- **[Accounts and permissions](/guide/accounts-permissions)**: the permission tree each member company gets.
+- **[Get started](/build/get-started)**: stand up against the public test network and deploy a first contract.
