@@ -4,41 +4,6 @@
   "outputDirectory": "docs/.vitepress/dist",
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "header",
-          "key": "accept",
-          "value": "(.*)text/markdown(.*)"
-        }
-      ],
-      "destination": "/index.md"
-    },
-    {
-      "source": "/:section(compare|concepts|industries)",
-      "has": [
-        {
-          "type": "header",
-          "key": "accept",
-          "value": "(.*)text/markdown(.*)"
-        }
-      ],
-      "destination": "/:section/index.md"
-    },
-    {
-      "source": "/:path((?!.*\\.md$).*)",
-      "has": [
-        {
-          "type": "header",
-          "key": "accept",
-          "value": "(.*)text/markdown(.*)"
-        }
-      ],
-      "destination": "/:path.md"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
