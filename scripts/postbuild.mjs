@@ -86,7 +86,7 @@ for (const [name, match] of SECTIONS) {
 
 const llms = `# PulseVM
 
-> PulseVM runs the Antelope (formerly EOSIO) account and contract model on Avalanche Snowman consensus, as a Metal Blockchain VM plugin. Readable named accounts with permission trees, keys bound to one contract action (linkauth), native multisig, staked resources instead of gas, finality in about a second, on a network the institution owns. Open source: https://github.com/MetalBlockchain/pulsevm
+> PulseVM runs the Antelope (formerly EOSIO) account and contract model on Avalanche Snowman consensus, as a Metal Blockchain VM plugin. Readable named accounts with permission trees, keys bound to one contract action (linkauth), native multisig, staked resources instead of gas, finality in about a second, on a network the institution owns. Source (PulseVM Business License: free for evaluation and non-commercial use, commercial use licensed by Metallicus): https://github.com/MetalBlockchain/pulsevm
 
 Every page on this site is also available as raw markdown at the same path with a .md extension.
 Full corpus: ${SITE}/llms-full.txt · Agent quickstart: ${SITE}/agents.md

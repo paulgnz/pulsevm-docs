@@ -17,12 +17,6 @@ head:
                 "codeRepository": "https://github.com/MetalBlockchain/pulsevm",
             "creator": {
               "@id": "https://metallicus.com/#org"
-            },
-            "offers": {
-              "@type": "Offer",
-              "price": "0",
-              "priceCurrency": "USD",
-              "description": "Open source"
             }
           },
           {

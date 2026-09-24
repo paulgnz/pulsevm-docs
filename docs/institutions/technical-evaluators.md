@@ -70,13 +70,13 @@ Finality is a safety guarantee: the network never produces two conflicting final
 
 ## Security and correctness
 
-- **Open source, including the chain's own rules.** The VM ([pulsevm](https://github.com/MetalBlockchain/pulsevm)), the CDTs and the system contracts (token, system, multisig, bios in [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts)) are public and reviewable.
+- **Source available, including the chain's own rules.** The VM's source ([pulsevm](https://github.com/MetalBlockchain/pulsevm)) is public under the PulseVM Business License: free for evaluation and non-commercial use, with commercial use licensed by Metallicus. The CDTs and system contracts (token, system, multisig, bios in [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust/tree/master/contracts)) are open source (MIT).
 - **Measured against a production reference.** Because the Antelope model runs in production on XPR Network, correctness is checked by replaying the same inputs through the reference implementation and PulseVM and comparing state. Every divergence is a bug with ground truth attached.
 - **Responsible disclosure.** Raise security concerns privately with [Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs).
 
 ## Continuity and support
 
-PulseVM is built and maintained by Metallicus, with commercial support and deployment engineering available. Because the VM, contracts and CDTs are open source and the execution model has independent implementations, the semantics survive independently of any one vendor.
+PulseVM is built and maintained by Metallicus, with commercial support and deployment engineering available. Because the VM's source is available, the contracts and CDTs are open source and the execution model has independent implementations, the semantics survive independently of any one vendor. Continuity terms belong in the commercial agreement.
 
 ## An evaluation path
 

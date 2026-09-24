@@ -85,4 +85,5 @@ In order: `updateauth`, `linkauth`, `unlinkauth`, `deleteauth`. Recipes: [/build
 - **Host functions:** about 180 Antelope host functions. Not yet served: the CRYPTO_PRIMITIVES set (`alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover`), `bls_*`, `set_finalizers`.
 - **Freeze, clawback, account restrictions:** policy an operator writes into the contracts it owns; not in the reference contracts.
 - **Case study:** a production service on XPR Network gives its bot a key linked to one action; in a testnet exercise with that real key, 31 of 31 attempts to move funds or take over the account were refused. [/guide/delegated-authority.md](/guide/delegated-authority.md).
+- **License:** PulseVM's source is public under the PulseVM Business License: free for evaluation, testing, research and other non-commercial use; commercial use (for example reselling or hosting it as a service) is licensed by Metallicus. The contract kits (pulse-cdt-rust) are MIT; pulsevm-js and metalgo are BSD-3-Clause.
 - **Company:** Metallicus, founded 2015; live on the Federal Reserve's FedNow Service since 2024. [/institutions/metallicus.md](/institutions/metallicus.md).

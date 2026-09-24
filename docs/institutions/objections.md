@@ -33,11 +33,11 @@ And the data is public by default. See [PulseVM vs smart-contract wallets](/comp
 
 Your network keeps running. It belongs to its operators: your validators, your system contracts, your data.
 
-- **The code is open.** The VM, the contract development kits and the system contracts are open source. You can build, audit and patch them yourself.
+- **The code is open to you.** The VM's source is public for review, and the contract development kits and system contracts are open source. Put continuity terms, such as source-code escrow, in your commercial agreement with Metallicus.
 - **The model is not one team's.** The Antelope execution model has been maintained by more than one organization, runs on several independent public networks and has a deep pool of engineers and operators who know it.
 - **Contracts are portable.** Contracts written for the Antelope model run on PulseVM, so your business logic is written to a model with more than one runtime, not to one vendor's platform.
 
-Mission-critical software already runs on vendor relationships with commercial support; this one has an open-source exit.
+Mission-critical software already runs on vendor relationships with commercial support. This one comes with its source in view and a contract model that is not tied to a single runtime.
 
 ## "Is Avalanche, or Metal, a dependency?"
 

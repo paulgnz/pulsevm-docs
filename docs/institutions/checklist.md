@@ -85,11 +85,12 @@ The questions risk, security and procurement ask, with straight answers. Copy th
 
 | Question | Answer |
 |---|---|
-| What is Metallicus in our risk program? | A technology vendor. PulseVM is open-source software your institution or consortium operates, so it sits in your third-party risk program the way other core technology vendors do. |
+| What is Metallicus in our risk program? | A technology vendor. PulseVM is software your institution or consortium operates under a commercial license from Metallicus, so it sits in your third-party risk program the way other core technology vendors do. |
 | Who holds customer funds? | You do. Tokens on your network are issued by your institution, against your own ledger, under your own controls. Neither PulseVM nor Metallicus holds customer money. |
 | How is a tokenized deposit treated by regulators? | That is your counsel's and your regulator's determination, and it depends on how you structure the product. PulseVM gives you the controls (named accounts, dual control, scoped keys, full history) to operate it inside your existing compliance program. |
 | What due-diligence material is available? | Ask Metallicus for the current vendor due-diligence package. Metallicus announced a SOC 2 audit by an independent auditor in 2023, and is a certified service provider on the Federal Reserve's FedNow Service. The code, contract kits and system contracts are open for your own review. See [Who is behind PulseVM](/institutions/metallicus). |
-| What happens if the vendor goes away? | The software is open source and runs on your validators. The network keeps running, and any team that knows the Antelope model can maintain it. See [Objections, answered](/institutions/objections). |
+| What happens if the vendor goes away? | The network runs on your validators and keeps running. The source code is available for your review, and continuity terms such as source-code escrow belong in your commercial agreement. Contracts written for the Antelope model are portable. See [Objections, answered](/institutions/objections). |
+| How is PulseVM licensed? | Under the PulseVM Business License: free for evaluation, testing, research and other non-commercial use; commercial use is licensed by Metallicus. The contract development kits and system contracts are separately MIT-licensed. |
 
 ## Status and roadmap
 
@@ -105,7 +106,7 @@ The questions risk, security and procurement ask, with straight answers. Copy th
 | Question | Answer |
 |---|---|
 | How do we report a vulnerability? | Privately, to [Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs). |
-| Is the code reviewable? | Yes. The VM, the contract development kits and the system contracts are open source. |
+| Is the code reviewable? | Yes. The VM's source is public, and the contract development kits and system contracts are open source (MIT). |
 | Is commercial support available? | Yes, from Metallicus, including deployment engineering. |
 
 ## Next step

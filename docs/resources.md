@@ -4,7 +4,7 @@ description: "PulseVM repositories and tools: the VM, contract kits, SDKs, CLIs,
 
 # Repositories and resources
 
-Everything you need to build on, run or evaluate PulseVM is open source. The canonical home is **[github.com/MetalBlockchain](https://github.com/MetalBlockchain)**. The latest tagged PulseVM release is **v0.7.1**; `main` is ahead of it.
+Everything you need to evaluate and build on PulseVM is public. The VM is source-available under the PulseVM Business License (free for evaluation and non-commercial use; commercial use licensed by Metallicus); the contract kits, SDKs and tools listed here are open source. The canonical home is **[github.com/MetalBlockchain](https://github.com/MetalBlockchain)**. The latest tagged PulseVM release is **v0.7.1**; `main` is ahead of it.
 
 ## PulseVM core
 

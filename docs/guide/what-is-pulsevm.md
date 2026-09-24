@@ -1,5 +1,5 @@
 ---
-description: "What is PulseVM — an open-source, non-EVM, Antelope-based blockchain on Avalanche Snowman consensus: named accounts, native permissions, instant finality."
+description: "What is PulseVM — a source-available, non-EVM, Antelope-based blockchain on Avalanche Snowman consensus: named accounts, native permissions, instant finality."
 ---
 
 # What is PulseVM?
@@ -50,7 +50,7 @@ A detail worth being precise about, because it answers a common question — *"A
 
 Contracts on Antelope chains are never executed as C++. Authors compile their contract — written in **C++, Rust, or TypeScript** — into a **WebAssembly (WASM)** binary once, and the chain stores and executes that binary. Any node that (a) runs a WASM engine and (b) serves the same host functions the contract imports will execute it identically. PulseVM does both: a production Rust WASM runtime, plus about 180 Antelope host functions, which covers every contract on XPR Network mainnet (all 401,005,383 blocks replay). The Spring-era crypto and BLS sets are still to come ([status](/build/intrinsics)). The result: **contract binaries from existing Antelope chains run unchanged, byte-identical code hashes and all.**
 
-PulseVM is **open source** ([MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm)), created by Metallicus CTO **Glenn Mariën** ([@MlennGarien](https://github.com/MlennGarien)).
+PulseVM's code is open to read and build on ([MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm)), created by Metallicus CTO **Glenn Mariën** ([@MlennGarien](https://github.com/MlennGarien)). Evaluation, testing and non-commercial use are free under the PulseVM Business License; commercial deployments are licensed by Metallicus.
 
 ## Where to go next
 
