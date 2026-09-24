@@ -36,7 +36,7 @@ Alpine upgrades frequently as development ships. Most recent genesis: **2026-08-
 Alpine is the public test network for A-Chain. Core/staking token is SYS (4 decimals); an XPR token is issued on `pulse.token` as well.
 :::
 
-> Antelope-style `/v1/chain` REST is not exposed on Alpine today; a nodeos-style `/v1/chain` API inside the node is in development. Use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table. (The [XPR 1:1 demo network](#xpr-1-1-demo-network-community-operated) below does serve `/v1` REST.)
+> Antelope-style `/v1/chain` REST is not exposed on Alpine today; a nodeos-style `/v1/chain` API inside the node is merged and ships in the next release. Use the native JSON-RPC above (`pulsevm.getInfo`, `pulsevm.getTableRows`, …) or the Hyperion `/v2` API for history. See [/build/api](/build/api) for the method table. (The [XPR 1:1 demo network](#xpr-1-1-demo-network-community-operated) below does serve `/v1` REST.)
 
 ## XPR 1:1 demo network (community-operated)
 

@@ -17,7 +17,7 @@ If you have shipped on an Antelope chain, these carry over directly:
 - **Your contract binaries** — the same `.wasm` built with the standard CDT (Rust or C++). No re-architecting.
 - **Your ABIs** — identical ABI format; the same `.abi` files describe your actions and tables.
 - **Accounts and permissions** — named accounts, hierarchical `owner`/`active`/custom permissions, `linkauth`, and **native multisig**, enforced by the same rules and refused with the same messages. See [Accounts and permissions](/guide/accounts-permissions).
-- **Your tooling** — CDT for builds, and client libraries that follow Antelope conventions. The node speaks JSON-RPC today; a nodeos-style `/v1/chain` API inside the node is in development, and today a small gateway serves `/v1/chain` for eosjs and @proton/js, as on the demo network. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
+- **Your tooling** — CDT for builds, and client libraries that follow Antelope conventions. The node speaks JSON-RPC today; a nodeos-style `/v1/chain` API inside the node is merged and ships in the next release, and today a small gateway serves `/v1/chain` for eosjs and @proton/js, as on the demo network. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
 - **Your chain state** — PulseVM boots directly from an Antelope **portable chainstate snapshot** (the nodeos `.bin` format), importing accounts, permissions, contract code, and tables byte-exact. Running on the [XPR 1:1 demo network](/network/one-to-one-demo), and proven at full scale: PulseVM has replayed all 401,005,383 XPR Network mainnet blocks.
 
 ## Host-function surface

@@ -62,7 +62,7 @@ The account model itself is proven in production: see [Delegated authority with 
 Honestly: PulseVM is at test-network stage.
 
 - **Releases.** Recent work is on the main branch ahead of the latest tagged release (v0.7.1). Production networks should run tagged releases.
-- **Surface still in development.** A `/v1/chain` API inside the node (a gateway serves it today), a set of newer cryptographic host functions, and support for the latest metalgo release.
+- **Surface still in development.** A set of newer cryptographic host functions. A `/v1/chain` API inside the node and support for metalgo 1.14.2 are merged and ship in the next release.
 - **Pilots first.** The path to production is a pilot run with Metallicus engineering, with exit criteria agreed up front. See [Run a 90-day pilot](/institutions/pilot) and the [technical status table](/institutions/technical-evaluators#status-what-is-shipped-and-what-is-not).
 
 ## "Who uses it today?"

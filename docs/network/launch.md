@@ -92,7 +92,7 @@ sudo mkdir -p /opt/pulsevm/plugins
 sudo install -m 0755 pulsevm /opt/pulsevm/plugins/$VMID
 ```
 
-The node and the plugin must agree on the rpcchainvm protocol version. The v0.7.1 release speaks protocol 43, which matches metalgo 1.13.5. metalgo 1.14.2 needs protocol 45: a PulseVM build with v45 support is required for Granite networks. Watch [Updates](/network/updates) for that build. To build from source instead, follow the [PulseVM README](https://github.com/MetalBlockchain/pulsevm#build-from-source) (Rust, LLVM 22, protoc).
+The node and the plugin must agree on the rpcchainvm protocol version. The v0.7.1 release speaks protocol 43, which matches metalgo 1.13.5. metalgo 1.14.2 needs protocol 45, which is merged into PulseVM main and ships in the next release. Watch [Updates](/network/updates) for it. To build from source instead, follow the [PulseVM README](https://github.com/MetalBlockchain/pulsevm#build-from-source) (Rust, LLVM 22, protoc).
 
 Point metalgo at the plugin directory in its node config:
 
@@ -184,7 +184,7 @@ Put `owner` behind a weighted multisig of officers, keep `active` for operations
 ## Step 8: run the services around it
 
 - **Hyperion** for history. It indexes the node's state-history stream and serves a `/v2` API.
-- **A gateway** if your applications or exchanges expect Antelope `/v1/chain` REST. A nodeos-style `/v1/chain` API inside the node is in development.
+- **A gateway** if your applications or exchanges expect Antelope `/v1/chain` REST. A nodeos-style `/v1/chain` API inside the node is merged and ships in the next release, which makes the gateway optional.
 - **An explorer** pointed at the RPC and Hyperion.
 
 The [1:1 demo network](/network/one-to-one-demo) runs exactly this stack, so you can see it working before you build your own.

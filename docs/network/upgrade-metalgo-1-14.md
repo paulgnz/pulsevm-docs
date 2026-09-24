@@ -42,11 +42,11 @@ metalgo only loads a VM plugin that speaks its rpcchainvm protocol version:
 | 1.14.0, 1.14.1 | 44 |
 | 1.14.2 | 45 |
 
-The latest PulseVM release (v0.7.1) and current PulseVM main speak **protocol 43**. As of 2026-09-24, v45 support is in development and not yet in a release. **A PulseVM build with v45 support is required to run a PulseVM chain on metalgo 1.14.2. Watch [Updates](/network/updates).**
+The latest PulseVM release (v0.7.1) speaks **protocol 43**. Protocol 45 support is merged into PulseVM main (2026-09-24) and ships in the next release. **Run a PulseVM chain on metalgo 1.14.2 only with that release. Watch [Updates](/network/updates).**
 
 For operators of PulseVM validators on Tahoe, this means:
 
-- Upgrade metalgo and the PulseVM plugin **together**, in the same maintenance window, once the v45 build is available.
+- Upgrade metalgo and the PulseVM plugin **together**, in the same maintenance window, once the PulseVM release with protocol 45 is published.
 - Don't put the current plugin under metalgo 1.14.2. metalgo will refuse to start the chain because of the protocol mismatch.
 - Nodes that only serve the primary network (no PulseVM chain) can upgrade now.
 

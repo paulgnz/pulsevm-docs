@@ -48,8 +48,8 @@ PulseVM is at test-network stage. Here is where each piece stands.
 |---|---|---|---|
 | Execution | Antelope execution model in a Rust VM; about 180 Antelope host functions; WebAssembly contracts from C++, Rust and TypeScript | Whole-system operation on public test networks | `CRYPTO_PRIMITIVES` host functions (alt_bn128, mod_exp, blake2_f, sha3, k1_recover); BLS functions and `set_finalizers` |
 | Accounts and keys | Named accounts, permission trees, `linkauth`, weighted multisig, K1, R1 and WebAuthn keys | | |
-| Consensus | Snowman on metalgo; final when accepted, no reorganizations | | Support for metalgo 1.14.2 (RPC protocol v45) |
-| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway, as on the demo network | `/v1/chain` served inside the node |
+| Consensus | Snowman on metalgo; final when accepted, no reorganizations | | Support for metalgo 1.14.2 (merged; ships in the next release) |
+| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway, as on the demo network | `/v1/chain` inside the node (merged; ships in the next release) |
 | History | Hyperion indexing | Hyperion on the public demo network | |
 | Migration | Antelope snapshot import path | Public 1:1 demo network with imported XPR testnet state | A tagged release carrying the latest merges (latest tag: v0.7.1) |
 

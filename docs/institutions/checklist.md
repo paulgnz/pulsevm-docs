@@ -97,7 +97,7 @@ The questions risk, security and procurement ask, with straight answers. Copy th
 | Question | Answer |
 |---|---|
 | Is PulseVM in production? | No. PulseVM is at test-network stage. The account model it implements runs in production on XPR Network. |
-| What is in development? | A `/v1/chain` API inside the node (a gateway serves it today), newer cryptographic host functions, and support for the latest metalgo release. See the [status table](/institutions/technical-evaluators#status-what-is-shipped-and-what-is-not). |
+| What is in development? | Newer cryptographic host functions. Merged and shipping in the next release: a `/v1/chain` API inside the node (a gateway serves it today) and support for metalgo 1.14.2. See the [status table](/institutions/technical-evaluators#status-what-is-shipped-and-what-is-not). |
 | Which version should we run? | Tagged releases. The latest is v0.7.1; newer work is on the main branch. |
 | How do we get to production? | A [90-day pilot](/institutions/pilot) with Metallicus, then a scoped production plan. |
 
