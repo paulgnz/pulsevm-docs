@@ -15,7 +15,7 @@ A machine-oriented quickstart. Everything here is plain text and current as of 2
 
 ## What PulseVM is
 
-PulseVM runs the Antelope (formerly EOSIO) account and contract model as a virtual machine plugin for metalgo, the Metal Blockchain node, with Snowman consensus. Institutions and consortia run their own networks with their own validators. It is built by Metallicus. PulseVM is at test-network stage; the latest tagged release is v0.7.1 and the main branch is ahead of it. The same account model runs in production on XPR Network.
+PulseVM runs the Antelope (formerly EOSIO) account and contract model as a virtual machine plugin for metalgo, the Metal Blockchain node, with Snowman consensus. Institutions and consortia run their own networks with their own validators. It is built by Metallicus. PulseVM is at test-network stage; the latest tagged release is v1.0.0 (2026-10-13), which needs metalgo v1.14.2-tahoe (rpcchainvm protocol 45). The same account model runs in production on XPR Network.
 
 ## Endpoints
 

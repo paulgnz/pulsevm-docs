@@ -35,7 +35,7 @@ sudo mkdir -p /opt/pulsevm/plugins
 sudo install -m 0755 pulsevm /opt/pulsevm/plugins/$VMID
 ```
 
-Use the plugin version your network has pinned, and verify every download against a published SHA-256 before you install it. metalgo and the plugin must speak the same rpcchainvm protocol version: metalgo 1.13.5 uses 43, metalgo 1.14.2 uses 45. If they differ, metalgo will not load the chain. See [Upgrade to metalgo 1.14.2](/network/upgrade-metalgo-1-14) for the current status.
+Use the plugin version your network has pinned, and verify every download against a published SHA-256 before you install it. metalgo and the plugin must speak the same rpcchainvm protocol version: metalgo 1.13.5 uses 43, metalgo 1.14.2 uses 45, and PulseVM v1.0.0 needs 45 (metalgo v1.14.2-tahoe). If they differ, metalgo will not load the chain. See [Upgrade to metalgo 1.14.2](/network/upgrade-metalgo-1-14) for the current status.
 
 ## Configure the node
 

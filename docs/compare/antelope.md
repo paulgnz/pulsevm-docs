@@ -17,7 +17,7 @@ If you have shipped on an Antelope chain, these carry over directly:
 - **Your contract binaries** — the same `.wasm` built with the standard CDT (Rust or C++). No re-architecting.
 - **Your ABIs** — identical ABI format; the same `.abi` files describe your actions and tables.
 - **Accounts and permissions** — named accounts, hierarchical `owner`/`active`/custom permissions, `linkauth`, and **native multisig**, enforced by the same rules and refused with the same messages. See [Accounts and permissions](/guide/accounts-permissions).
-- **Your tooling** — CDT for builds, and client libraries that follow Antelope conventions. The node speaks JSON-RPC today; a nodeos-style `/v1/chain` API inside the node is merged and ships in the next release, and today a small gateway serves `/v1/chain` for eosjs and @proton/js. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
+- **Your tooling** — CDT for builds, and client libraries that follow Antelope conventions. The node speaks JSON-RPC and, since v1.0.0, a nodeos-style `/v1/chain` API for eosjs and @proton/js. See [Host Functions](/build/intrinsics) and [RPC & REST API](/build/api).
 - **Your chain state** — PulseVM boots directly from an Antelope **portable chainstate snapshot** (the nodeos `.bin` format), importing accounts, permissions, contract code, and tables byte-exact. Proven at full scale: PulseVM has replayed all 401,005,383 XPR Network mainnet blocks.
 
 ## Host-function surface
@@ -38,7 +38,7 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 | **Authority key types** | <span class="ck y" role="img" aria-label="supported"></span> | K1 (secp256k1), R1 (secp256r1) and WebAuthn, all verified by the chain |
 | **Resource limits** | <span class="ck y" role="img" aria-label="supported"></span> | `get_resource_limits` / `set_resource_limits` |
 | **Chain parameters** | <span class="ck y" role="img" aria-label="supported"></span> | `set_blockchain_parameters_packed` and read |
-| **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover` — zk / EVM-bridge use cases. Also not yet served: `bls_*` and `set_finalizers` (Spring/Savanna) |
+| **Advanced crypto primitives** | <span class="ck p" role="img" aria-label="in progress"></span><span class="q">in progress</span> | `alt_bn128_*` and `mod_exp` served since v1.0.0 (gated on `CRYPTO_PRIMITIVES`); `blake2_f`, `sha3`, `k1_recover` still landing — zk / EVM-bridge use cases. Also not yet served: `bls_*` and `set_finalizers` (Spring/Savanna) |
 | **Protocol-feature framework** | <span class="ck y" role="img" aria-label="supported"></span> | `is_feature_activated` / `preactivate_feature`, served in PulseVM main |
 | **Key-value database** (`kv_*`) | <span class="ck n" role="img" aria-label="not applicable"></span><span class="q">n/a</span> | never activated on EOS / XPR — not part of the standard contract surface |
 | **Deferred transactions** | <span class="ck y" role="img" aria-label="supported"></span> | `send_deferred` / `cancel_deferred` served; deprecated in Antelope — prefer inline actions in new code |
@@ -49,7 +49,7 @@ Antelope contracts call the chain through host functions (intrinsics). PulseVM i
 
 For the overwhelming majority of XPR Network, EOS and WAX contracts — **token contracts, marketplaces, DeFi, DAOs, system-style governance contracts** — the answer is **yes**, because they use only the classic host-function surface above.
 
-A contract needs review before it will run if it imports one of the **in-progress** primitives — i.e. it uses **zk / pairing crypto** (`alt_bn128`, `mod_exp`, `blake2_f`, `sha3`, `k1_recover`). Those are uncommon outside EVM-bridge and specialized cryptographic contracts; an audit of every contract deployed on XPR Network testnet found none that import them.
+A contract needs review before it will run if it imports one of the **in-progress** primitives — i.e. `blake2_f`, `sha3` or `k1_recover`. Those are uncommon outside EVM-bridge and specialized cryptographic contracts; an audit of every contract deployed on XPR Network testnet found none that import them.
 
 The fastest way to know: build with the standard CDT and deploy to the testnet ([endpoints](/network/endpoints)). If it instantiates, the host-function surface is satisfied.
 

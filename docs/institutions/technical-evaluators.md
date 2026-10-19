@@ -46,12 +46,12 @@ PulseVM is at test-network stage. Here is where each piece stands.
 
 | Area | In PulseVM today | At test-network stage | In development |
 |---|---|---|---|
-| Execution | Antelope execution model in a Rust VM; about 180 Antelope host functions; WebAssembly contracts from C++, Rust and TypeScript | Whole-system operation on public test networks | `CRYPTO_PRIMITIVES` host functions (alt_bn128, mod_exp, blake2_f, sha3, k1_recover); BLS functions and `set_finalizers` |
+| Execution | Antelope execution model in a Rust VM; about 180 Antelope host functions; WebAssembly contracts from C++, Rust and TypeScript | Whole-system operation on public test networks | Remaining `CRYPTO_PRIMITIVES` host functions (blake2_f, sha3, k1_recover); BLS functions and `set_finalizers` |
 | Accounts and keys | Named accounts, permission trees, `linkauth`, weighted multisig, K1, R1 and WebAuthn keys | | |
-| Consensus | Snowman on metalgo; final when accepted, no reorganizations | | Support for metalgo 1.14.2 (merged; ships in the next release) |
-| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway | `/v1/chain` inside the node (merged; ships in the next release) |
+| Consensus | Snowman on metalgo; final when accepted, no reorganizations; v1.0.0 runs on metalgo v1.14.2-tahoe | | |
+| API | Native JSON-RPC (`pulsevm.*`) and nodeos-style `/v1/chain` inside the node (v1.0.0) | | |
 | History | Hyperion indexing | Hyperion on test networks | |
-| Migration | Antelope snapshot import path | Multi-producer cutover rehearsals on imported XPR state | A tagged release carrying the latest merges (latest tag: v0.7.1) |
+| Migration | Antelope snapshot import path | Multi-producer cutover rehearsals on imported XPR state | Production cutover tooling and governance (latest tag: v1.0.0) |
 
 Maturity in one line: the full XPR Network mainnet history has been replayed on PulseVM. See [Migrating an Antelope chain](/guide/migrate-antelope-chain).
 

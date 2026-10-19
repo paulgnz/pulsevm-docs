@@ -52,7 +52,7 @@ The migration imports chain **state**: accounts, permissions, contract code, tab
 ## Reading the numbers
 
 - **Finality** is head minus last-irreversible block as reported by the nodes. Around 330 blocks is classic DPoS finality, about 165 s at 0.5 s blocks; 2 blocks is Savanna.
-- **Features** is the count from `get_activated_protocol_features`. One of XPR's, `CRYPTO_PRIMITIVES`, is activated on XPR and WAX but its host functions are not yet served by PulseVM; an audit of every contract deployed on XPR testnet found none that import them, and serving them is tracked work. (`GET_BLOCK_NUM` is served.)
+- **Features** is the count from `get_activated_protocol_features`. One of XPR's, `CRYPTO_PRIMITIVES`, is activated on XPR and WAX; PulseVM v1.0.0 serves its `alt_bn128_*` and `mod_exp` functions, and `blake2_f`, `sha3` and `k1_recover` are tracked work. (`GET_BLOCK_NUM` is served.)
 - **Node software** mixes are normal on a live network. A chain can run Spring-based nodes without activating Savanna, as WAX does today.
 
 ## Next step
