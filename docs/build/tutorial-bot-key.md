@@ -24,11 +24,11 @@ This is the pattern behind trading vaults running on XPR Network mainnet today. 
 ## What you need
 
 - `pulse-ts` installed and pointed at a network ([Get started](/build/get-started), steps 2 to 4).
-- An account you control, called `yourname1` below. On the [1:1 demo network](/network/one-to-one-demo) that is your XPR Network testnet account.
+- An account you control, called `yourname1` below.
 - About 120 KB of free RAM on that account. The chain bills ten times the WebAssembly size for code, and this contract is about 11 KB.
 - Rust with the `wasm32-unknown-unknown` target, and a clone of [pulse-cdt-rust](https://github.com/MetalBlockchain/pulse-cdt-rust).
 
-The commands use the demo network, where the system account is `eosio` and the token contract is `eosio.token` with the `XPR` symbol. On a Pulse-native chain such as Alpine, use `pulse`, `pulse.token` and `SYS`.
+The commands use a chain migrated from Antelope, where the system account is `eosio` and the token contract is `eosio.token` with the `XPR` symbol. On a Pulse-native chain such as Alpine, use `pulse`, `pulse.token` and `SYS`.
 
 ## 1. Create the contract
 

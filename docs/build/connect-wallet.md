@@ -8,17 +8,14 @@ The **Pulse Web SDK** lets a web app connect to the **PulseVM desktop wallet**, 
 
 Keys never touch the browser. The app hands an unsigned transaction to the wallet over the `pulsevm://` URL scheme; the wallet decodes it, signs with a Secure Enclave / imported key behind Touch ID, and returns the signature.
 
-<a href="/demo/" target="_blank" rel="noopener" class="pvm-button">PulseVM Wallet demo</a>
-<a href="/demo-pulse/" target="_blank" rel="noopener" class="pvm-button pvm-button-alt">PulseVM &amp; WebAuth demo</a>
-
-> macOS only for now. The PulseVM Wallet demo needs the **PulseVM desktop wallet** installed and launched once, so macOS registers the `pulsevm://` scheme.
+> macOS only for now. The **PulseVM desktop wallet** must be installed and launched once, so macOS registers the `pulsevm://` scheme.
 
 ## Two ways to connect
 
 | SDK | Wallets | When to use |
 |---|---|---|
-| **PulseVM Wallet** (`pulse-web-sdk`) | PulseVM desktop wallet | A tiny, zero-dependency connector — drops into a plain `.html` page. See the [PulseVM Wallet demo](/demo/). |
-| **PulseVM & WebAuth** (`proton-web-sdk` [Pulse Edition](https://github.com/paulgnz/proton-web-sdk-pulse)) | WebAuth (mobile/browser) **+** PulseVM desktop | The full wallet selector — WebAuth / Anchor over `achain` **plus** the native PulseVM desktop wallet over `pulsevm://`. See the [PulseVM &amp; WebAuth demo](/demo-pulse/). |
+| **PulseVM Wallet** (`pulse-web-sdk`) | PulseVM desktop wallet | A tiny, zero-dependency connector — drops into a plain `.html` page. |
+| **PulseVM & WebAuth** (`proton-web-sdk` [Pulse Edition](https://github.com/paulgnz/proton-web-sdk-pulse)) | WebAuth (mobile/browser) **+** PulseVM desktop | The full wallet selector — WebAuth / Anchor over `achain` **plus** the native PulseVM desktop wallet over `pulsevm://`. |
 
 The rest of this page covers the lightweight **PulseVM Wallet** SDK. For the WebAuth-capable edition, see its [README](https://github.com/paulgnz/proton-web-sdk-pulse/blob/master/PULSE-EDITION.md).
 
@@ -32,8 +29,7 @@ cd pulse-web-sdk && npm install && npm run build
 # then import from the built dist/, or `npm link` it into your app
 ```
 
-> Once published, this becomes `npm install @pulsevm/pulse-web-sdk`. The
-> [live demo](/demo/) inlines the same transport, so it needs no install.
+> Once published, this becomes `npm install @pulsevm/pulse-web-sdk`.
 
 ## Connect
 
@@ -42,8 +38,8 @@ import { ConnectWallet } from "@pulsevm/pulse-web-sdk"
 
 const { session } = await ConnectWallet({
   appName: "My PulseVM dapp",
-  chainId: "71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd", // your network's chain id (this one: the 1:1 demo network)
-  rpcEndpoint: "https://xpr-rpc-testnet.pulsevm.dev", // current values at /network/endpoints
+  chainId: "<your-network-chain-id>",          // from pulsevm.getInfo on your endpoint
+  rpcEndpoint: "https://<your-pulsevm-rpc>",  // public endpoints are listed at /network/endpoints
 })
 
 console.log(session.actor, session.permission)      // e.g. "protonnz" "active"
@@ -56,7 +52,7 @@ console.log(session.actor, session.permission)      // e.g. "protonnz" "active"
 ```ts
 const result = await session.transact({
   actions: [{
-    account: "eosio.token",          // the token contract on the 1:1 demo network
+    account: "eosio.token",          // the token contract on chains migrated from Antelope (pulse.token on Pulse-native chains)
     name: "transfer",
     authorization: [{ actor: session.actor, permission: session.permission }],
     data: { from: session.actor, to: "pulse", quantity: "0.0001 XPR", memo: "hello" },

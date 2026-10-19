@@ -119,7 +119,7 @@ export default withMermaid(defineConfig({
         items: [
           { text: 'Endpoints', link: '/network/endpoints' },
           { text: 'Updates', link: '/network/updates' },
-          { text: 'The 1:1 demo network', link: '/network/one-to-one-demo' },
+          { text: 'Cutover testing', link: '/network/one-to-one-demo' },
           { text: 'Launch your own', link: '/network/launch' },
           { text: 'Run a validator', link: '/network/validator' },
           { text: 'Upgrade to metalgo 1.14 (Granite)', link: '/network/upgrade-metalgo-1-14' },
@@ -227,7 +227,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Endpoints', link: '/network/endpoints' },
             { text: 'Updates', link: '/network/updates' },
-            { text: 'The 1:1 demo network', link: '/network/one-to-one-demo' },
+            { text: 'Cutover testing', link: '/network/one-to-one-demo' },
             { text: 'Launch your own network', link: '/network/launch' },
             { text: 'Run a validator', link: '/network/validator' },
             { text: 'Upgrade to metalgo 1.14 (Granite)', link: '/network/upgrade-metalgo-1-14' },

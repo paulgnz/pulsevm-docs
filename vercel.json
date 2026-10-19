@@ -4,6 +4,28 @@
   "outputDirectory": "docs/.vitepress/dist",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/demo",
+      "destination": "/build/connect-wallet",
+      "permanent": false
+    },
+    {
+      "source": "/demo/:path*",
+      "destination": "/build/connect-wallet",
+      "permanent": false
+    },
+    {
+      "source": "/demo-pulse",
+      "destination": "/build/connect-wallet",
+      "permanent": false
+    },
+    {
+      "source": "/demo-pulse/:path*",
+      "destination": "/build/connect-wallet",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

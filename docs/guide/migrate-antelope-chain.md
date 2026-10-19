@@ -13,7 +13,7 @@ head:
             "name": "Do users need new keys after migrating an Antelope chain to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. The migrated chain presents the source chain's chain_id, so every existing private key and every signature that was valid on the source chain is valid on PulseVM. This has been demonstrated live: on the 1:1 demo network, pre-existing XPR Network testnet keys sign PulseVM transactions with no re-registration. K1, R1 and WebAuthn passkey keys all verify: R1 and WebAuthn support merged upstream in PR 69 and signs on the demo network."
+              "text": "No. The migrated chain presents the source chain's chain_id, so every existing private key and every signature that was valid on the source chain is valid on PulseVM. This was demonstrated on the public 1:1 demo network (retired 2026-10-19), where pre-existing XPR Network testnet keys signed PulseVM transactions with no re-registration. K1, R1 and WebAuthn passkey keys all verify: R1 and WebAuthn support merged upstream in PR 69 and signed on the demo network."
             }
           },
           {
@@ -45,7 +45,7 @@ head:
             "name": "Is Antelope-to-PulseVM migration production-ready today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import runs live on the public 1:1 demo network, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. The core-team import path merged as PR 61 on 2026-09-14 after replaying every XPR Network mainnet block. Remaining: a tagged release carrying these merges and a multi-validator cutover rehearsal."
+              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import ran on a public 1:1 demo network until 2026-10-19, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. The core-team import path merged as PR 61 on 2026-09-14 after replaying every XPR Network mainnet block, and PulseVM v1.0.0 was tagged on 2026-10-13. Multi-producer cutover rehearsals on real XPR state are in progress."
             }
           }
         ]
@@ -64,9 +64,9 @@ The cutover ceremony described here is a **proposed migration flow**, built and 
 
 <ProofBand :items="[
   { figure: '401,005,383', text: 'XPR Network mainnet blocks replayed on PulseVM, genesis to tip, before the migration path was merged.', source: 'Where each piece stands', href: '#where-each-piece-stands' },
-  { figure: '822,887', text: 'table rows imported from one XPR snapshot by two independent implementations, with identical hashes.', source: 'Cross-verification', href: '#the-living-proof' },
+  { figure: '822,887', text: 'table rows imported from one XPR snapshot by two independent implementations, with identical hashes.', source: 'Cross-verification', href: '#the-public-import' },
   { figure: '0.75 s', text: 'to move live traffic from nodeos to PulseVM behind the same URL. Reads stayed 99.8% available across 22 rehearsals.', source: 'Rehearsal results', href: '#rehearsed-again-—-on-a-real-chain-s-state-from-the-operator-s-side' },
-  { figure: '1:1', text: 'A public network running an exact import of XPR testnet state. Existing keys sign and existing contracts run.', source: 'Demo network', href: '/network/one-to-one-demo' },
+  { figure: '1:1', text: 'A public network ran an exact import of XPR testnet state. Existing keys signed and existing contracts ran.', source: 'The public import', href: '#the-public-import' },
 ]" />
 
 ## The thesis
@@ -102,11 +102,11 @@ flowchart TB
 
 **History before the cut federates.** The new chain doesn't carry old blocks; it doesn't need to. Explorers and history APIs query the source chain's Hyperion for everything up to the snapshot block and the new chain's hyperion-rs for everything after, stitched into one timeline.
 
-## The living proof
+## The public import
 
-The **[XPR 1:1 demo network](/network/one-to-one-demo)** runs the full state of XPR Network testnet on PulseVM, live and public: **32,000+ accounts, ~600 deployed contracts, over two million table rows**, imported byte-exact from a production-scale Antelope chain.
+From August to 2026-10-19, the public XPR 1:1 demo network ran the full state of XPR Network testnet on PulseVM: **32,000+ accounts, ~600 deployed contracts, over two million table rows**, imported byte-exact from a production-scale Antelope chain.
 
-The part that matters most: the blocks after the import are **transactions signed with real, pre-existing XPR Network keys** — login, transfers, contract calls, with the same key material users held before the import, because the chain_id never changed. Browse it at [testnet.explorer.pulsevm.dev](https://testnet.explorer.pulsevm.dev), where pre-import XPR history and post-import PulseVM blocks appear on one seamless account timeline.
+The part that matters most: the blocks after the import were **transactions signed with real, pre-existing XPR Network keys** — login, transfers, contract calls, with the same key material users held before the import, because the chain_id never changed. Its explorer showed pre-import XPR history and post-import PulseVM blocks on one account timeline. The demo network is retired; the cutover is now being tested in [rehearsals](/network/one-to-one-demo).
 
 ## The cutover ceremony, rehearsed
 
@@ -206,16 +206,16 @@ the honest claim is repeatability and anatomy, not a universal constant.
 |---|---|
 | Snapshot reader (`pulsevm_snapshot`) | **In PulseVM** |
 | Core-team state import + multi-node boot | **In PulseVM** (Metallicus, 2026-09-14): chainbase→Arena migration, a 21-table verification gate (including the unexpired-transaction replay-protection set), and a five-node boot path. The same branch replayed **all 401,005,383 blocks of XPR Network mainnet** on PulseVM before merging — the strongest 1:1 execution proof to date. |
-| 1:1 demo network (full testnet state, live) | **Running** — [see it](/network/one-to-one-demo) |
+| 1:1 demo network (full testnet state) | **Demonstrated**, retired 2026-10-19 — cutover testing now runs in [rehearsals](/network/one-to-one-demo) |
 | Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
 | R1 / WebAuthn key verification | **In PulseVM** (2026-09-01) |
-| Multi-validator cutover ceremony | Next milestone — each validator snapshots and verifies independently |
+| Multi-validator cutover ceremony | **In rehearsal** — multi-producer runs on real XPR state |
 
 ## FAQ
 
 **Do users need new keys?**
-No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the demo network. K1, R1 and WebAuthn passkey keys are all supported.
+No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the 1:1 demo network. K1, R1 and WebAuthn passkey keys are all supported.
 
 **Do dapps need code changes?**
 The endpoint URL. That's the list. chain_id, keys, contracts, ABIs, and table shapes are unchanged; `/v1/chain` REST is served through a compatibility gateway so eosjs/WharfKit clients work as-is; hyperion-rs serves drop-in Hyperion v2 history shapes.
@@ -227,17 +227,17 @@ State migrates, history federates: pre-cut actions stay on the source chain's Hy
 Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: 15.0 s on the dev-chain rehearsal; on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling.
 
 **Do we need to upgrade to Antelope Spring first?**
-No. The migration imports chain **state** — accounts, permissions, contracts, tables, balances — from a nodeos portable snapshot. Consensus and finality are not imported; they come from the Avalanche Snowman engine the PulseVM chain runs on, where a block is final the moment it is accepted and the last-irreversible block always equals head. So the source chain's consensus software is a **snapshot-format question, not a prerequisite**: Leap 5.0.x snapshots (chainstate version 6) are the proven path, demonstrated on the [1:1 demo network](/network/one-to-one-demo). A chain on Leap 5.0 gains nothing on the migration by upgrading first.
+No. The migration imports chain **state** — accounts, permissions, contracts, tables, balances — from a nodeos portable snapshot. Consensus and finality are not imported; they come from the Avalanche Snowman engine the PulseVM chain runs on, where a block is final the moment it is accepted and the last-irreversible block always equals head. So the source chain's consensus software is a **snapshot-format question, not a prerequisite**: Leap 5.0.x snapshots (chainstate version 6) are the proven path, demonstrated on the 1:1 demo network. A chain on Leap 5.0 gains nothing on the migration by upgrading first.
 
 **Our chain already runs Spring with Savanna. Can it still migrate?**
 Yes — same path, same result. Savanna changed Antelope's *consensus* state (finalizer policies, finality core), and that is exactly the part the import discards; the *contract* state is the same chainbase rows. Three things are specific to a Savanna source and are tracked as roadmap work rather than demonstrated today: reading the Spring snapshot format (chainstate version 8), serving the `bls_*` host functions of `BLS_PRIMITIVES2` (they share the BLS12-381 code PulseVM's Warp support brings in), and serving the system contract's `set_finalizers` call, which has no consensus meaning on Snowman. `set_proposed_producers_ex` is already served for its supported formats. Deferred transactions are already disabled on Savanna chains, which makes that import simpler, not harder. Finality after the move is at least what Savanna provides: about a second, with no reversible window at all. Where each Antelope mainnet stands today is tabulated on [Antelope Chain Status](/compare/antelope-chains).
 
 **Is this production-ready today?**
-The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path (merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The demo network is live and the ceremony is rehearsed with automatic rollback. Not yet done: a tagged release carrying these merges (v0.7.1 predates them), and a multi-validator cutover rehearsal. This page will keep pace as each lands.
+The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path (merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The 1:1 demo network demonstrated the import until its retirement on 2026-10-19, the ceremony is rehearsed with automatic rollback, and PulseVM v1.0.0 was tagged on 2026-10-13. Multi-producer cutover rehearsals on real XPR state are in progress. This page will keep pace as each lands.
 
 ## Related
 
-- [The 1:1 Demo Network](/network/one-to-one-demo) — the migration capability, running live
+- [Cutover testing](/network/one-to-one-demo) — where the XPR→PulseVM cutover stands
 - [Antelope Compatibility](/compare/antelope) — the execution-layer surface that makes byte-exact import meaningful
 - [Updates](/network/updates) — the development timeline
 - [MetalBlockchain/pulsevm](https://github.com/MetalBlockchain/pulsevm) — the VM, and the PRs/issues linked above

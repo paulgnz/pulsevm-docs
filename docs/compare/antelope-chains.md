@@ -24,7 +24,7 @@ What each Antelope mainnet is running today, measured from its own public API no
 
 ## What the labels mean
 
-- **Demonstrated** — a real snapshot of that chain's state has been imported onto a PulseVM node and transacted against with the chain's existing keys. The [1:1 demo network](/network/one-to-one-demo) is a byte-exact import of XPR testnet state.
+- **Demonstrated** — a real snapshot of that chain's state has been imported onto a PulseVM node and transacted against with the chain's existing keys. XPR testnet state was imported byte-exact and ran as a public demo network until 2026-10-19.
 - **Same path as XPR** — the chain writes the same snapshot format (chainstate version 6, from any Leap 5.0.x node) and activates the same, or a subset of the same, protocol features as XPR. The demonstrated import applies without new reader or host-function work. Nobody has yet run the ceremony against that chain's state.
 - **Same path, roadmap items** — the contract state imports the same way, but the source runs Spring with Savanna, which adds three tracked items: reading chainstate snapshot version 8, serving the `bls_*` host functions of `BLS_PRIMITIVES2`, and serving the system contract's `set_finalizers` call, which has no consensus meaning on Snowman. (`set_proposed_producers_ex` is already served for its supported formats.) Savanna chains already have deferred transactions disabled, which removes an import step rather than adding one.
 - **Not assessed** — the chain runs a fork that diverges from the Leap/Spring line in ways this survey cannot classify from the outside.
@@ -57,10 +57,10 @@ The migration imports chain **state**: accounts, permissions, contract code, tab
 
 ## Next step
 
-If your chain is in the **Demonstrated** or **Same path as XPR** rows, the import path exists today: your accounts, keys, contracts and balances arrive intact on a network with finality in about a second. Read the [migration guide](/guide/migrate-antelope-chain), see the result live on the [1:1 demo network](/network/one-to-one-demo), or [talk to Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) about a rehearsal against your chain's state.
+If your chain is in the **Demonstrated** or **Same path as XPR** rows, the import path exists today: your accounts, keys, contracts and balances arrive intact on a network with finality in about a second. Read the [migration guide](/guide/migrate-antelope-chain), or [talk to Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) about a rehearsal against your chain's state.
 
 ## Related
 
 - [Migrating an Antelope Chain to PulseVM](/guide/migrate-antelope-chain) — the path, the rehearsed ceremony, and the FAQ
 - [Antelope compatibility](/compare/antelope) — host-function and tooling surface
-- [The 1:1 demo network](/network/one-to-one-demo) — the demonstrated import, live
+- [Cutover testing](/network/one-to-one-demo) — where the XPR→PulseVM cutover stands

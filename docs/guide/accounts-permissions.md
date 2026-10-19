@@ -47,7 +47,7 @@ That one mechanism is what lets you hand a trading bot, a payments processor, an
 
 ## Recipes
 
-These use [`pulse-ts`](https://github.com/paulgnz/pulse-cli-ts). The system account is `pulse` on Pulse-native chains such as Alpine and `eosio` on chains migrated from Antelope, such as the [1:1 demo network](/network/one-to-one-demo); substitute accordingly.
+These use [`pulse-ts`](https://github.com/paulgnz/pulse-cli-ts). The system account is `pulse` on Pulse-native chains such as Alpine and `eosio` on chains migrated from Antelope; substitute accordingly.
 
 **Add a permission with its own key.** `trader` sits under `active`, so `active` signs its creation:
 

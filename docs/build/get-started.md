@@ -10,11 +10,10 @@ On PulseVM your account is a readable name, and it carries its own permission tr
 
 | Network | Use it for | Accounts | Status |
 |:---|:---|:---|:---|
-| [1:1 demo network](/network/one-to-one-demo) | Trying real Antelope state on PulseVM | Every XPR Network testnet account that existed on 2026-09-02, with the same keys | Up. Serves JSON-RPC and `/v1/chain` |
-| [A-Chain Alpine](/network/endpoints#a-chain-alpine-testnet) | Metallicus' Pulse-native testnet (SYS token) | Created on request | Public RPC not answering as of 2026-09-24 |
+| [A-Chain Alpine](/network/endpoints#a-chain-alpine-testnet) | Metallicus' Pulse-native testnet (SYS token) | Created on request | Public RPC not answering as of 2026-10-19 |
 | Your own network | Anything you want to control | You hold the creator authority | See [Launch your own network](/network/launch) |
 
-If you already have an XPR Network testnet account, the demo network is the fastest start: your account and keys are already there.
+XPR→PulseVM cutover testing is in progress; public test endpoints will be listed on [Network Endpoints](/network/endpoints) when available.
 
 ## 2. Install the CLI
 
@@ -38,14 +37,13 @@ pulse-ts create-key          # prints a PUB_K1_… / PVT_K1_… pair. Save the p
 pulse-ts key:add             # import the private key into the local, encrypted keystore
 ```
 
-- **On the demo network**, import the key of an XPR Network testnet account you already own and skip the next step.
 - **On Alpine**, account creation is an authorized action. Ask in the [Telegram group](https://t.me/+N1mAvoUDbtVmNTBh) or [contact Metallicus](https://metallicus.com/contact-us?utm_source=pulsevm.dev&utm_medium=docs) with your public key. You get back a named account, such as `yourname1`, with `owner` and `active` set to your key and starter resources.
 - **On your own network**, you hold the creator authority and create accounts yourself.
 
 ## 4. Point the CLI at the network
 
 ```bash
-pulse-ts chain:set pulse-1to1                                   # 1:1 demo network: endpoint and chain ID
+pulse-ts endpoint:set https://<your-pulsevm-rpc>                # stores the endpoint and reads its chain ID
 pulse-ts chain:info                                            # prints head block and chain ID
 pulse-ts account yourname1                                     # your permissions and resources
 ```

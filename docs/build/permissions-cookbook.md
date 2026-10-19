@@ -6,7 +6,7 @@ description: "Copy-paste recipes for PulseVM account permissions: 2-of-3 treasur
 
 Every PulseVM account carries its own permission tree, and any permission can be bound to one contract action. These recipes cover what institutions and app builders set up most often. Each one gives the purpose, the command, the JSON and the error you get when it's misused.
 
-The commands use [`pulse-ts`](/build/cli) on the [1:1 demo network](/network/one-to-one-demo), where the system account is `eosio` and the token contract is `eosio.token`. On a Pulse-native chain such as Alpine, use `pulse` and `pulse.token`. The account in the examples is `yourname1`.
+The commands use [`pulse-ts`](/build/cli) on a chain migrated from Antelope, where the system account is `eosio` and the token contract is `eosio.token`. On a Pulse-native chain such as Alpine, use `pulse` and `pulse.token`. The account in the examples is `yourname1`.
 
 ## How the chain decides
 
@@ -215,7 +215,7 @@ updateauth action declares irrelevant authority 'yourname1@active'; minimum auth
 Add the code grant to `active` next to its key:
 
 ```bash
-# demo network and other chains migrated from Antelope
+# chains migrated from Antelope
 pulse-ts update-auth yourname1 active owner PUB_K1_…yourkey --code yourname1@eosio.code
 
 # Pulse-native chains (Alpine)

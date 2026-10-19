@@ -22,7 +22,7 @@ pulse-ts --help
 Then point it at a network and import a key:
 
 ```bash
-pulse-ts chain:set pulse-1to1                              # 1:1 demo network: endpoint and chain ID
+pulse-ts endpoint:set https://<your-pulsevm-rpc>           # stores the endpoint and reads its chain ID
 pulse-ts chain:info
 pulse-ts key:add                                            # stored in an encrypted local keystore
 ```
@@ -119,4 +119,4 @@ pulse-ts push-action pulse unlinkauth \
 pulse-ts push-action pulse deleteauth '{"account":"myacct","permission":"bot"}' -a myacct@active
 ```
 
-The system account is `pulse` on Pulse-native chains such as Alpine and `eosio` on chains migrated from Antelope, such as the [1:1 demo network](/network/one-to-one-demo). There the code permission is `eosio.code` rather than `pulse.code`. Recipes with the exact refusal messages are in the [Permissions cookbook](/build/permissions-cookbook), and the full walk-through is [Tutorial: a bot key that can only trade](/build/tutorial-bot-key).
+The system account is `pulse` on Pulse-native chains such as Alpine and `eosio` on chains migrated from Antelope. There the code permission is `eosio.code` rather than `pulse.code`. Recipes with the exact refusal messages are in the [Permissions cookbook](/build/permissions-cookbook), and the full walk-through is [Tutorial: a bot key that can only trade](/build/tutorial-bot-key).

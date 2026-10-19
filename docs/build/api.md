@@ -4,7 +4,7 @@ description: "PulseVM RPC reference: the native pulsevm.* JSON-RPC methods, the 
 
 # RPC and REST API
 
-PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API inside the node is merged and ships in the next PulseVM release; until then, a small gateway serves `/v1/chain` for eosjs and @proton/js, as on the [1:1 demo network](/network/one-to-one-demo). Full history comes from [Hyperion](https://github.com/MetalBlockchain/hyperion-rs).
+PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API inside the node is merged and ships in the next PulseVM release; until then, a small gateway can serve `/v1/chain` for eosjs and @proton/js. Full history comes from [Hyperion](https://github.com/MetalBlockchain/hyperion-rs).
 
 ::: warning The one difference that trips people up
 `issueTx` (and `push_transaction` through the gateway) returns the transaction id once the node accepts it into the pool, not an execution trace. The transaction executes when a block is built. Read the outcome back from Hyperion, or poll for the transaction, before treating it as done.
@@ -12,7 +12,7 @@ PulseVM nodes expose a native JSON-RPC API. A nodeos-style `/v1/chain` REST API 
 
 ## Native JSON-RPC
 
-`POST /ext/bc/<blockchainID>/rpc` with JSON-RPC 2.0 on a metalgo node. Some public endpoints serve it at the root instead, such as `https://xpr-rpc-testnet.pulsevm.dev`. Key methods:
+`POST /ext/bc/<blockchainID>/rpc` with JSON-RPC 2.0 on a metalgo node. Some public endpoints serve it at the root instead (`https://<your-pulsevm-rpc>`). Key methods:
 
 | Method | Purpose |
 |---|---|
@@ -43,7 +43,7 @@ curl -s -X POST https://<endpoint>/ext/bc/<chainID>/rpc \
 
 ## Antelope REST compatibility
 
-`/v1/chain/get_info`, `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, … — request/response parity targeted at nodeos clients, so [eosjs](https://github.com/EOSIO/eosjs)/@proton/js `transact()` works against PulseVM deployments. Live example: the [XPR 1:1 demo network](/network/one-to-one-demo) serves `/v1/chain` REST alongside the native JSON-RPC (`https://xpr-rpc-testnet.pulsevm.dev/v1/chain/get_info`).
+`/v1/chain/get_info`, `get_account`, `get_abi`, `get_block`, `get_table_rows`, `push_transaction`, … — request/response parity targeted at nodeos clients, so [eosjs](https://github.com/EOSIO/eosjs)/@proton/js `transact()` works against PulseVM deployments.
 
 ## Differences from nodeos that bite clients
 

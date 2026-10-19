@@ -38,7 +38,7 @@ Everything you need to evaluate and build on PulseVM is public. The VM is source
 
 | Repo | What it is |
 |---|---|
-| [pulse-explorer](https://github.com/paulgnz/pulse-explorer) | Block explorer for PulseVM chains — accounts, contracts, tokens, producers, wallet (community) — live at [testnet.explorer.pulsevm.dev](https://testnet.explorer.pulsevm.dev) |
+| [pulse-explorer](https://github.com/paulgnz/pulse-explorer) | Block explorer for PulseVM chains — accounts, contracts, tokens, producers, wallet (community) |
 | [pulse-cutover](https://github.com/paulgnz/pulse-cutover) | Antelope→PulseVM cutover agent — snapshot ceremony, byte-exact verification, API/history endpoint continuity (community) |
 | [metal-wallet](https://github.com/MetalBlockchain/metal-wallet) | Web wallet |
 | [metal-docs](https://github.com/MetalBlockchain/metal-docs) | Metal Blockchain documentation |

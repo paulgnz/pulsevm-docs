@@ -187,8 +187,6 @@ Put `owner` behind a weighted multisig of officers, keep `active` for operations
 - **A gateway** if your applications or exchanges expect Antelope `/v1/chain` REST. A nodeos-style `/v1/chain` API inside the node is merged and ships in the next release, which makes the gateway optional.
 - **An explorer** pointed at the RPC and Hyperion.
 
-The [1:1 demo network](/network/one-to-one-demo) runs exactly this stack, so you can see it working before you build your own.
-
 ## Moving an existing Antelope chain
 
 If you already run an Antelope chain, you don't need to start from an empty genesis. PulseVM can start from the chain's state, keeping its accounts, keys and contracts. See [Migrating an Antelope chain](/guide/migrate-antelope-chain).

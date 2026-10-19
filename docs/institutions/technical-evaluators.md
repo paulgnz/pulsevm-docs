@@ -36,7 +36,7 @@ flowchart LR
   hy --> core["Core, ERP, GL<br/>reconciliation and reporting"]
 ```
 
-- **Write and read path.** A native JSON-RPC API (`pulsevm.*` methods). `issueTx` returns a transaction id on admission; confirm execution from history. A small gateway serves the nodeos-style `/v1/chain` API for eosjs and `@proton/js` clients, as on the [1:1 demo network](/network/one-to-one-demo). See the [API reference](/build/api).
+- **Write and read path.** A native JSON-RPC API (`pulsevm.*` methods). `issueTx` returns a transaction id on admission; confirm execution from history. A small gateway serves the nodeos-style `/v1/chain` API for eosjs and `@proton/js` clients. See the [API reference](/build/api).
 - **History.** [Hyperion](https://github.com/MetalBlockchain/hyperion-rs) indexes every action into queryable, human-readable history. It is the natural feed for reconciliation and reporting. Reads are free, so analytics and audit add no cost or rate pressure.
 - **Business logic.** Contracts in [Rust](/build/quickstart-rust), C++ or [TypeScript](/build/quickstart-typescript), compiled to WebAssembly, that you write, version, review and deploy on your schedule.
 
@@ -49,9 +49,9 @@ PulseVM is at test-network stage. Here is where each piece stands.
 | Execution | Antelope execution model in a Rust VM; about 180 Antelope host functions; WebAssembly contracts from C++, Rust and TypeScript | Whole-system operation on public test networks | `CRYPTO_PRIMITIVES` host functions (alt_bn128, mod_exp, blake2_f, sha3, k1_recover); BLS functions and `set_finalizers` |
 | Accounts and keys | Named accounts, permission trees, `linkauth`, weighted multisig, K1, R1 and WebAuthn keys | | |
 | Consensus | Snowman on metalgo; final when accepted, no reorganizations | | Support for metalgo 1.14.2 (merged; ships in the next release) |
-| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway, as on the demo network | `/v1/chain` inside the node (merged; ships in the next release) |
-| History | Hyperion indexing | Hyperion on the public demo network | |
-| Migration | Antelope snapshot import path | Public 1:1 demo network with imported XPR testnet state | A tagged release carrying the latest merges (latest tag: v0.7.1) |
+| API | Native JSON-RPC (`pulsevm.*`) | `/v1/chain` through a gateway | `/v1/chain` inside the node (merged; ships in the next release) |
+| History | Hyperion indexing | Hyperion on test networks | |
+| Migration | Antelope snapshot import path | Multi-producer cutover rehearsals on imported XPR state | A tagged release carrying the latest merges (latest tag: v0.7.1) |
 
 Maturity in one line: the full XPR Network mainnet history has been replayed on PulseVM. See [Migrating an Antelope chain](/guide/migrate-antelope-chain).
 

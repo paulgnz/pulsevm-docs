@@ -1,10 +1,10 @@
 ---
-description: "Machine-readable ground truth about PulseVM for AI agents and tools: what it is, live endpoints, the JSON-RPC methods, the permission model with exact action shapes and error strings, and current status."
+description: "Machine-readable ground truth about PulseVM for AI agents and tools: what it is, endpoints, the JSON-RPC methods, the permission model with exact action shapes and error strings, and current status."
 ---
 
 # For AI agents and bots
 
-A machine-oriented quickstart. Everything here is plain text and current as of 2026-09-24.
+A machine-oriented quickstart. Everything here is plain text and current as of 2026-09-24; endpoint status checked 2026-10-19.
 
 ## Reading this site
 
@@ -17,17 +17,16 @@ A machine-oriented quickstart. Everything here is plain text and current as of 2
 
 PulseVM runs the Antelope (formerly EOSIO) account and contract model as a virtual machine plugin for metalgo, the Metal Blockchain node, with Snowman consensus. Institutions and consortia run their own networks with their own validators. It is built by Metallicus. PulseVM is at test-network stage; the latest tagged release is v0.7.1 and the main branch is ahead of it. The same account model runs in production on XPR Network.
 
-## Live endpoints
+## Endpoints
 
-| Network | JSON-RPC | Status (2026-09-24) |
+| Network | JSON-RPC | Status (2026-10-19) |
 |:---|:---|:---|
-| XPR 1:1 demo network (community-operated, imported XPR testnet state) | `https://xpr-rpc-testnet.pulsevm.dev` (also `/v1/chain/*` via a gateway) | Up |
 | A-Chain Alpine (Metallicus testnet, core token SYS) | `https://a-chain-alpine.metalblockchain.org/ext/bc/yQUjkpNYeiJZEn1daa7dQJbysxdXLtz1QhTTdu1mwaxoEJwiJ/rpc` | Returns 404 |
 
-Demo network: chain id `71ee83bcf52142d61019d95f9cc5427ba6a0d7ff8accd9e2088ae2abeaf3d3dd`, core token XPR (4 decimals), system account `eosio`, token contract `eosio.token`, history `https://xpr-hyperion-testnet.pulsevm.dev/v2/…`, explorer `https://testnet.explorer.pulsevm.dev`. Single validator; may be re-imported; K1, R1 and WebAuthn keys all sign.
+The XPR 1:1 demo network was retired on 2026-10-19 and its endpoints are offline. The XPR→PulseVM cutover is being tested in rehearsals; public test endpoints will be listed at [/network/endpoints.md](/network/endpoints.md) when available.
 
 ```bash
-RPC=https://xpr-rpc-testnet.pulsevm.dev
+RPC=https://<your-pulsevm-rpc>   # e.g. http://127.0.0.1:9650/ext/bc/<blockchainID>/rpc
 
 # chain info: chain id, head block, last irreversible block
 curl -s -X POST $RPC -H 'Content-Type: application/json' \
@@ -36,9 +35,6 @@ curl -s -X POST $RPC -H 'Content-Type: application/json' \
 # an account, its permissions and resources
 curl -s -X POST $RPC -H 'Content-Type: application/json' \
   -d '{"jsonrpc":"2.0","id":1,"method":"pulsevm.getAccount","params":{"account_name":"eosio"}}'
-
-# the same through the Antelope REST gateway
-curl -s -X POST $RPC/v1/chain/get_info
 ```
 
 ## JSON-RPC methods
@@ -55,7 +51,7 @@ curl -s -X POST $RPC/v1/chain/get_info
 - Delayed transactions are not supported, so time-wait factors in an authority cannot be satisfied.
 - Key types: K1 (secp256k1), R1 (secp256r1, HSMs and secure enclaves), WebAuthn (passkeys).
 
-Native actions on the system account (`eosio` on the demo network, `pulse` on Pulse-native chains):
+Native actions on the system account (`eosio` on chains migrated from Antelope, `pulse` on Pulse-native chains):
 
 ```json
 {"account":"acct","permission":"trader","parent":"active","auth":{"threshold":1,"keys":[{"key":"PUB_K1_…","weight":1}],"accounts":[],"waits":[]}}
