@@ -1,5 +1,5 @@
 ---
-description: "Migrate an Antelope chain to PulseVM: byte-exact EOSIO state import from a Leap 5.0.3 portable snapshot, preserved chain_id so existing keys and dapps work unchanged, federated history, and a rehearsed zero-downtime cutover with a 15-second write pause."
+description: "Migrate an Antelope chain to PulseVM: byte-exact EOSIO state import from a Leap 5.0.3 portable snapshot, the same accounts, keys and contracts on a new chain_id, federated history, and a rehearsed cutover with zero read downtime."
 head:
   - - script
     - type: application/ld+json
@@ -13,7 +13,7 @@ head:
             "name": "Do users need new keys after migrating an Antelope chain to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "No. The migrated chain presents the source chain's chain_id, so every existing private key and every signature that was valid on the source chain is valid on PulseVM. This was demonstrated on the public 1:1 demo network (retired 2026-10-19), where pre-existing XPR Network testnet keys signed PulseVM transactions with no re-registration. K1, R1 and WebAuthn passkey keys all verify: R1 and WebAuthn support merged upstream in PR 69 and signed on the demo network."
+              "text": "No. Every account and permission imports with its existing keys, so users sign with the keys they already hold. The migrated chain has a new chain_id, so wallets sign for the new chain after the cut, and a signature made for the source chain does not verify on the new one. Pre-existing XPR Network testnet keys signed PulseVM transactions with no re-registration on the public 1:1 demo network (retired 2026-10-19). K1, R1 and WebAuthn passkey keys all verify: R1 and WebAuthn support merged upstream in PR 69 and signed on the demo network."
             }
           },
           {
@@ -21,7 +21,7 @@ head:
             "name": "Do dapps and exchanges need code changes when a chain migrates to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The endpoint URL is the only change. The chain_id, keys, signatures, contracts, ABIs, and table shapes are all unchanged because state imports byte-exact. Antelope /v1/chain REST is served through a compatibility gateway, so eosjs and WharfKit clients work as-is, and hyperion-rs serves drop-in Hyperion v2 history API shapes."
+              "text": "Two things change: the endpoint URL and the chain_id. Wallets and signing libraries need the new chain_id, which is published at the cut. Keys, accounts, contracts, ABIs and table shapes are unchanged because state imports byte-exact. PulseVM serves the nodeos /v1/chain REST API, so eosjs and WharfKit clients work once pointed at the new endpoint and chain_id, and hyperion-rs serves drop-in Hyperion v2 history API shapes."
             }
           },
           {
@@ -37,7 +37,7 @@ head:
             "name": "How long is the downtime when migrating an Antelope chain to PulseVM?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Read downtime is zero: across 22 consecutive ceremonies against live XPR Network testnet state, external probes measured 99.8% availability with a 0.75-second traffic flip — smaller than ordinary internet jitter in the same trace. The write-side gap was 15.0 seconds on a dev-scale rehearsal; on full testnet state the freeze-to-live gap averaged 190 seconds, about 93% of which is the source chain finalizing its own cut block (a wait any snapshot-based migration pays) and about 13.6 seconds of which is the migration tooling itself."
+              "text": "Read downtime is zero: across 22 consecutive ceremonies against live XPR Network testnet state, external probes measured 99.8% availability with a 0.75-second traffic flip — smaller than ordinary internet jitter in the same trace. Those runs used an earlier design that kept the source chain_id. On full testnet state the freeze-to-live gap averaged 190 seconds, about 93% of which is the source chain finalizing its own cut block (a wait any snapshot-based migration pays) and about 13.6 seconds of which is the migration tooling itself. The current design adds a signed halt by the block producers, and its timing on a real network is still being rehearsed."
             }
           },
           {
@@ -45,7 +45,7 @@ head:
             "name": "Is Antelope-to-PulseVM migration production-ready today?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import ran on a public 1:1 demo network until 2026-10-19, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. The core-team import path merged as PR 61 on 2026-09-14 after replaying every XPR Network mainnet block, and PulseVM v1.0.0 was tagged on 2026-10-13. Multi-producer cutover rehearsals on real XPR state are in progress."
+              "text": "The capability is demonstrated, not yet productized. The snapshot reader is merged upstream, a full XPR Network testnet state import ran on a public 1:1 demo network until 2026-10-19, and the cutover ceremony has been rehearsed end-to-end with automatic rollback. The core-team import path merged as PR 61 on 2026-09-14 after replaying every XPR Network mainnet block, and PulseVM v1.0.0 was tagged on 2026-10-13. A signed-halt cutover ceremony is in review upstream (PR 129) and is being rehearsed against XPR mainnet state."
             }
           }
         ]
@@ -54,7 +54,7 @@ head:
 
 # Migrating an Antelope Chain to PulseVM
 
-Any Antelope chain on the **Leap 5.0.3 lineage** — a public network or a private enterprise deployment — can move its entire state onto PulseVM and **keep its identity**. Not a token bridge, not a contract-by-contract port, not a "genesis snapshot" airdrop: the chain itself continues, executing on a new VM.
+Any Antelope chain on the **Leap 5.0.3 lineage** — a public network or a private enterprise deployment — can move its entire state onto PulseVM and **keep its accounts, keys and contracts**. Not a token bridge, not a contract-by-contract port, not a "genesis snapshot" airdrop: the chain itself continues, executing on a new VM.
 
 This page describes the capability and the evidence behind it. It is a technical demonstration of what PulseVM can do — not an announcement about any production network's plans.
 
@@ -74,9 +74,9 @@ The cutover ceremony described here is a **proposed migration flow**, built and 
 Four properties make this a migration rather than a relaunch:
 
 - **State moves byte-exactly.** Every account, permission tree, contract (verified code hashes), table row, balance, and resource position imports from an Antelope portable chainstate snapshot — the same `.bin` files nodeos produces.
-- **Identity is continuous.** The migrated chain presents the **source chain_id**, so every existing key signs, every existing signature verifies, and every dapp's signing config is already correct. Block numbering continues from the cut — there is no "new chain" from a client's point of view.
+- **Accounts and keys carry over; the chain_id is new.** Every account keeps its permissions and keys, so users sign with the keys they already hold. The migrated chain has a **new chain_id**, published at the cut: wallets, exchanges and signing libraries switch to it, and a signature made for the source chain does not verify on the new one. A new chain_id means a transaction signed for one chain can never be replayed on the other.
 - **History federates.** Pre-cut history stays on the source chain's Hyperion archive; post-cut history is indexed by [hyperion-rs](https://github.com/MetalBlockchain/hyperion-rs). One continuous account timeline, no history-migration project.
-- **The switchover is measured.** In the dev-chain rehearsal the write pause was **15.0 seconds wall-clock** with **zero read downtime**. Against a real chain's full state (32,513 accounts, live XPR Network testnet), the API-provider ceremony has now been run **22 consecutive times without a failure**, with an externally measured **99.8% read availability** through the ceremony and a traffic flip smaller than ordinary internet jitter — and every step before the flip is abortable, with automatic rollback.
+- **The switchover is measured.** Against a real chain's full state (32,513 accounts, live XPR Network testnet), the API-provider ceremony ran **22 consecutive times without a failure**, with an externally measured **99.8% read availability** through the ceremony and a traffic flip smaller than ordinary internet jitter — and every step before the flip is abortable, with automatic rollback. Those runs used an earlier design that kept the source chain_id; the current signed-halt design is being rehearsed now (see [Where each piece stands](#where-each-piece-stands)).
 
 ## How it works
 
@@ -90,7 +90,7 @@ flowchart TB
   a["Source chain — nodeos, Leap 5.0.3"] -->|create_snapshot| b["Portable snapshot (.bin)"]
   b -->|snapshot_path| c["PulseVM node boots — genesis is the imported state"]
   c --> d{"state fingerprints match?"}
-  d -- yes --> e["Join consensus — same chain_id, blocks continue"]
+  d -- yes --> e["Join consensus — same accounts and keys, new chain_id"]
   d -- no --> f["Refuse — before ever joining the network"]
 ```
 
@@ -106,9 +106,13 @@ flowchart TB
 
 From August to 2026-10-19, the public XPR 1:1 demo network ran the full state of XPR Network testnet on PulseVM: **32,000+ accounts, ~600 deployed contracts, over two million table rows**, imported byte-exact from a production-scale Antelope chain.
 
-The part that matters most: the blocks after the import were **transactions signed with real, pre-existing XPR Network keys** — login, transfers, contract calls, with the same key material users held before the import, because the chain_id never changed. Its explorer showed pre-import XPR history and post-import PulseVM blocks on one account timeline. The demo network is retired; the cutover is now being tested in [rehearsals](/network/one-to-one-demo).
+The part that matters most: the blocks after the import were **transactions signed with real, pre-existing XPR Network keys** — login, transfers, contract calls, with the same key material users held before the import (the demo network kept the source chain_id; a real cutover uses a new one). Its explorer showed pre-import XPR history and post-import PulseVM blocks on one account timeline. The demo network is retired; the cutover is now being tested in [rehearsals](/network/one-to-one-demo).
 
 ## The cutover ceremony, rehearsed
+
+::: info Earlier design
+The rehearsals in this section and the next ran an earlier design, in which the new chain presented the source chain_id at the cut and one operator froze writes at the API edge. The current design, in review upstream as [PR #129](https://github.com/MetalBlockchain/pulsevm/pull/129), gives the new chain its own chain_id and halts the source chain by a signed vote of its block producers: each producer pauses at an agreed height, signs a confirmation of the final block and the converted state, and the new chain's nodes refuse to start without a quorum of those confirmations. The mechanics below (freeze, exact cut, independent verification, LIVE gate, rollback) carry over; the measured times are from the earlier design.
+:::
 
 Booting from a snapshot proves the *destination*. A live migration also needs the *transition*: freezing writes, cutting the snapshot at an exact block, verifying it, igniting the new chain, and flipping traffic — with a way back at every step. That sequence is run by a cutover agent: a single binary, driven by a journaled state machine:
 
@@ -210,21 +214,22 @@ the honest claim is repeatability and anatomy, not a universal constant.
 | Cutover agent (freeze → verify → ignite → flip) | **Open source: [pulse-cutover](https://github.com/paulgnz/pulse-cutover)** — three modes recorded (producer / API / history) on live-testnet state; 22/22 repeat runs; reproduce it yourself against a public snapshot |
 | Federated /v2 history router | **Recorded live** — one URL, pre-cut archive + post-cut hyperion-rs |
 | R1 / WebAuthn key verification | **In PulseVM** (2026-09-01) |
-| Multi-validator cutover ceremony | **In rehearsal** — multi-producer runs on real XPR state |
+| Signed-halt cutover ceremony (new chain_id, producer quorum, restore gate) | **In review upstream** ([PR #129](https://github.com/MetalBlockchain/pulsevm/pull/129)), rehearsed end to end on a single test server, including a state compare against an XPR mainnet snapshot |
+| Multi-validator cutover ceremony | **Next** — multi-host rehearsals follow the single-server rounds |
 
 ## FAQ
 
 **Do users need new keys?**
-No. The chain_id is preserved, so every existing key and signature works unchanged — demonstrated with real pre-existing keys on the 1:1 demo network. K1, R1 and WebAuthn passkey keys are all supported.
+No. Accounts import with their existing keys, so users keep signing with the keys they hold — demonstrated with real pre-existing keys on the 1:1 demo network. The chain_id is new, so wallets sign for the new chain after the cut. K1, R1 and WebAuthn passkey keys are all supported.
 
 **Do dapps need code changes?**
-The endpoint URL. That's the list. chain_id, keys, contracts, ABIs, and table shapes are unchanged; `/v1/chain` REST is served through a compatibility gateway so eosjs/WharfKit clients work as-is; hyperion-rs serves drop-in Hyperion v2 history shapes.
+The endpoint URL and the chain_id. Keys, contracts, ABIs and table shapes are unchanged; PulseVM serves the nodeos `/v1/chain` REST API, so eosjs/WharfKit clients work once pointed at the new endpoint and chain_id; hyperion-rs serves drop-in Hyperion v2 history shapes.
 
 **What happens to history?**
 State migrates, history federates: pre-cut actions stay on the source chain's Hyperion, post-cut actions index into hyperion-rs, and a federating router serves both through the same public /v2 URL as one account timeline — recorded live, with a post-cut transaction answering directly above thousands of pre-cut rows minutes after the cut.
 
 **How long is the pause?**
-Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: 15.0 s on the dev-chain rehearsal; on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling.
+Reads: zero downtime, measured externally at 99.8% availability through 22 live-testnet ceremonies with a 0.75 s flip. Writes: on real testnet state the freeze-to-LIVE gap averaged 190 s — of which ~93% is the source chain finalizing its own cut block (a wait any snapshot migration pays) and ~13.6 s is the tooling. Those figures are from the earlier same-chain_id design; the signed-halt design adds the producers' vote and confirmations, and its timing on a real network is still being rehearsed.
 
 **Do we need to upgrade to Antelope Spring first?**
 No. The migration imports chain **state** — accounts, permissions, contracts, tables, balances — from a nodeos portable snapshot. Consensus and finality are not imported; they come from the Avalanche Snowman engine the PulseVM chain runs on, where a block is final the moment it is accepted and the last-irreversible block always equals head. So the source chain's consensus software is a **snapshot-format question, not a prerequisite**: Leap 5.0.x snapshots (chainstate version 6) are the proven path, demonstrated on the 1:1 demo network. A chain on Leap 5.0 gains nothing on the migration by upgrading first.
@@ -233,7 +238,7 @@ No. The migration imports chain **state** — accounts, permissions, contracts, 
 Yes — same path, same result. Savanna changed Antelope's *consensus* state (finalizer policies, finality core), and that is exactly the part the import discards; the *contract* state is the same chainbase rows. Three things are specific to a Savanna source and are tracked as roadmap work rather than demonstrated today: reading the Spring snapshot format (chainstate version 8), serving the `bls_*` host functions of `BLS_PRIMITIVES2` (they share the BLS12-381 code PulseVM's Warp support brings in), and serving the system contract's `set_finalizers` call, which has no consensus meaning on Snowman. `set_proposed_producers_ex` is already served for its supported formats. Deferred transactions are already disabled on Savanna chains, which makes that import simpler, not harder. Finality after the move is at least what Savanna provides: about a second, with no reversible window at all. Where each Antelope mainnet stands today is tabulated on [Antelope Chain Status](/compare/antelope-chains).
 
 **Is this production-ready today?**
-The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path (merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The 1:1 demo network demonstrated the import until its retirement on 2026-10-19, the ceremony is rehearsed with automatic rollback, and PulseVM v1.0.0 was tagged on 2026-10-13. Multi-producer cutover rehearsals on real XPR state are in progress. This page will keep pace as each lands.
+The capability is demonstrated and the core pieces are now on `main`: the snapshot reader, the core-team import and multi-node boot path (merged 2026-09-14 after a full XPR mainnet replay), and R1/WebAuthn keys. The 1:1 demo network demonstrated the import until its retirement on 2026-10-19, the ceremony is rehearsed with automatic rollback, and PulseVM v1.0.0 was tagged on 2026-10-13. The signed-halt ceremony is in review upstream ([PR #129](https://github.com/MetalBlockchain/pulsevm/pull/129)) and is being rehearsed; multi-host rehearsals come next. This page will keep pace as each lands.
 
 ## Related
 

@@ -6,6 +6,18 @@ description: "PulseVM development and network updates — releases, testnet mile
 
 Development moves fast: `main` changes most weeks, and tagged [releases](https://github.com/MetalBlockchain/pulsevm/releases) follow. Newest first; current testnet endpoints always live at [Network Endpoints](/network/endpoints).
 
+## November 2026
+
+**2026-11-17 — Signed-halt cutover ceremony in review; the migrated chain gets a new chain_id.** The XPR→PulseVM handover is being built upstream as a signed halt ([#129](https://github.com/MetalBlockchain/pulsevm/pull/129), in review). The source chain's block producers vote on-chain for a halt height. Each producer's node pauses at an agreed height, and the producer signs a confirmation of the final block and the converted state. The new chain's nodes refuse to start without a quorum of those confirmations. The migrated chain has its own chain_id: accounts, keys and contracts carry over unchanged, and wallets, exchanges and signing libraries switch to the new chain_id at the cut. The ceremony is being rehearsed end to end on a test server, including the state conversion and a 21-table compare against an XPR mainnet snapshot. The [migration guide](/guide/migrate-antelope-chain) is updated to match: its earlier rehearsals used a design that kept the source chain_id.
+
+**2026-11-13 — Contract and RPC boundaries hardened; security scans on `main`.** Feeding every host function and decoder hostile input found two real bugs, both fixed ([#132](https://github.com/MetalBlockchain/pulsevm/pull/132)): a contract with no linear memory could crash a node by calling a database or crypto intrinsic, and `db_previous_i64` overflowed on `i32::MIN`, which gave different answers in debug and release builds. Both now fail the transaction instead. A new test builds a contract for every linked intrinsic and calls it with hostile arguments, so intrinsics added later are covered automatically. The same change:
+- makes `get_table_rows` read only the requested page instead of the whole table;
+- refuses oversized RPC request bodies before parsing them;
+- adds connection limits, a handshake timeout and a request size cap to state history;
+- refuses a compiled-module cache directory that other users could write to.
+
+`main` now runs secret, CVE and SBOM scans, with every CI action pinned to a commit. One gate was removed: the mainnet replay regression workflow, whose test corpus is no longer downloadable. It can still be run locally by anyone who has the archive. None of these changes alter the result of any accepted block.
+
 ## October 2026
 
 **2026-10-19 — Demo network retired; cutover testing in progress.** The XPR 1:1 demo network is retired and its endpoints are offline. Public test endpoints will be published on [Network Endpoints](/network/endpoints) when available. Multi-producer rehearsals of the XPR→PulseVM cutover are running on real XPR state across 8 servers in several regions, with the open-source cutover tool, now at [pulse-cutover v0.5.0-rc.32](https://github.com/paulgnz/pulse-cutover/releases/tag/v0.5.0-rc.32). This release locks transaction admission at the freeze, so nothing lands after the cutover height. It also recovers from a nodeos restart and from a crash of the tool itself, and its mission control keeps its record of refused aborts across restarts. A PulseVM performance issue found during the rehearsals is tracked upstream in [#128](https://github.com/MetalBlockchain/pulsevm/issues/128).
